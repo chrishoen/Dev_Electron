@@ -1,12 +1,13 @@
 {
-  "name": "Test",
+  "name": "myapp",
   "version": "1.0.0",
-  "description": "test program",
+  "description": "myapp",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
   "keywords": [],
-  "author": "chrishoen",
-  "license": "MIT"
+  "devDependencies": {
+    "electron": "^3.0.13"
+  }
 }
