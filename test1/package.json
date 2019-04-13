@@ -1,15 +1,12 @@
 {
-  "name": "IPC",
+  "name": "Test",
   "version": "1.0.0",
-  "description": "IPC communication between main and renderer process",
+  "description": "test program",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
   "keywords": [],
-  "author": "BrainBell.com",
-  "license": "ISC",
-  "devDependencies": {
-    "electron": "^3.0.9"
-  }
+  "author": "chrishoen",
+  "license": "MIT"
 }
