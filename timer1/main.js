@@ -5,7 +5,7 @@ BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 
 function createWindow () {
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({width: 800, height: 400, x:0, y:0})
   mainWindow.loadURL('file://'+__dirname+'/index.html')
   mainWindow.on('closed', function () {
     clearInterval(intervalId);
@@ -31,18 +31,18 @@ const ipc = require('electron').ipcMain;
 
 ipc.on('synMessage', (event, args) => {
   console.log(args);
-  event.returnValue = 'Main said I received your Sync message';
+  event.returnValue = 'Main: sync message received';
 })
 
 ipc.on('aSynMessage', (event, args) => {
   console.log(args);
-  event.sender.send('asynReply','Main said: Async message received')
+  event.sender.send('asynReply','Main: async message received')
 })
 
 var count = 0;
 function timerFunc() {
   console.log(`timer %d`,count);
-  mainWindow.send('timerUpdate','Main said: timer update ' + count);
+  mainWindow.send('timerUpdate','Main: timer update ' + count);
   count++;
 }
   
