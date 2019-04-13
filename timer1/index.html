@@ -11,12 +11,14 @@
 <input type="button" id="asyncBtn" value="Hello Async">
 
 <!-- <h1>Timer1</h1>  -->
+<div>
 Node <script>document.write(process.versions.node)</script>,
 Chrome <script>document.write(process.versions.chrome)</script>,
 Electron <script>document.write(process.versions.electron)</script>.
+</div>
 
-<div id="replyDiv" value="ipc message"></div> 
-<div id="timerDiv" value="timer count"></div> 
+<div id="replyDiv">ipc message</div> 
+<div id="timerDiv">timer count</div>
 
 <script>
    require('./renderer.js');
