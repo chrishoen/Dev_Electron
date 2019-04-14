@@ -1,6 +1,7 @@
-const electron = require('electron'),
-app = electron.app,
-BrowserWindow = electron.BrowserWindow;
+const electron = require('electron');
+const app = electron.app;
+const BrowserWindow = electron.BrowserWindow;
+const myaddon = require('C:\\MyTools\\MyLib\\node\\MyNodeAddOn.node');
 
 let mainWindow;
 
@@ -41,6 +42,7 @@ ipc.on('aSynMessage', (event, args) => {
 
 ipc.on('myaddonMessage', (event, args) => {
   console.log(args);
+  console.log(addon.hello());
 })
 
 var count = 0;
