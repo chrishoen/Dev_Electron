@@ -1,7 +1,8 @@
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
-//const myaddon = require('C:\\MyTools\\MyLib\\node\\MyNodeAddOn.node');
+
+var ffi = require('ffi');
 
 let mainWindow;
 
