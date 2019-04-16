@@ -3,7 +3,8 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
 var backend = require('bindings')('backend.node')
-console.log('This should be eight:', backend.add(3, 5))
+console.log('This should be eight:', backend.add(3, 5));
+console.log('getCount:            ', backend.getCount());
 
 let mainWindow;
 

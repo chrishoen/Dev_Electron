@@ -1,4 +1,10 @@
 #include <napi.h>
+#include "backendExports.h"
+
+//******************************************************************************
+//******************************************************************************
+//******************************************************************************
+// Function.
 
 Napi::Value Add(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
@@ -20,9 +26,29 @@ Napi::Value Add(const Napi::CallbackInfo& info) {
   return num;
 }
 
+//******************************************************************************
+//******************************************************************************
+//******************************************************************************
+// Function.
+
+Napi::Value getCount(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+
+  Napi::Number num = Napi::Number::New(env, 1001);
+
+  return num;
+}
+
+//******************************************************************************
+//******************************************************************************
+//******************************************************************************
+// Napi initialize.
+
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set(Napi::String::New(env, "add"),
               Napi::Function::New(env, Add));
+  exports.Set(Napi::String::New(env, "getCount"),
+              Napi::Function::New(env, getCount));
   return exports;
 }
 
