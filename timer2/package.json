@@ -5,8 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "rebuildwin": ".\\node_modules\\.bin\\electron-rebuild.cmd -f".
-    "rebuildlin": "$(npm bin)/electron-rebuild".
+    "rebuildwin": ".\\node_modules\\.bin\\electron-rebuild.cmd -f",
+    "rebuildlin": "$(npm bin)/electron-rebuild"
   },
   "keywords": [],
   "author": "chrishoen",
