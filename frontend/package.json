@@ -2,7 +2,7 @@
   "name": "FrontEnd",
   "version": "1.0.0",
   "description": "FrontEnd",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
     "start": "electron .",
     "rebuildwin": ".\\node_modules\\.bin\\electron-rebuild.cmd -f",
