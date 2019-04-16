@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="UTF-8">
+   <title>FrontEnd</title>
+   <link href="styles.css" rel="stylesheet">
+</head>
+
+<body>
+<input type="button" id="syncBtn" value="Hello Sync">
+<input type="button" id="asyncBtn" value="Hello Async">
+<input type="button" id="myaddonBtn" value="MyAddOn">
+
+<!-- <h1>FrontEnd</h1>  -->
+<div>
+Node <script>document.write(process.versions.node)</script>,
+Chrome <script>document.write(process.versions.chrome)</script>,
+Electron <script>document.write(process.versions.electron)</script>.
+</div>
+
+<div id="replyDiv">ipc message</div> 
+<div id="timerDiv">timer count</div>
+<div id="myaddonDiv">myaddon message</div>
+
+<script>
+   require('./renderer.js');
+</script>
+</body>
+</html>
+
+
