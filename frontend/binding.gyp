@@ -1,10 +1,10 @@
 {
   "targets": [
     {
-      "target_name": "addon",
+      "target_name": "backend",
       "cflags!": [ "-fno-exceptions" ],
       "cflags_cc!": [ "-fno-exceptions" ],
-      "sources": [ "addon/addon.cpp" ],
+      "sources": [ "addon/backend.cpp" ],
       "include_dirs": [
         "<!@(node -p \"require('node-addon-api').include\")"
       ],

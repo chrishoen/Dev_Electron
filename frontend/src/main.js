@@ -2,8 +2,8 @@ const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
-var addon = require('bindings')('addon.node')
-console.log('This should be eight:', addon.add(3, 5))
+var backend = require('bindings')('backend.node')
+console.log('This should be eight:', backend.add(3, 5))
 
 let mainWindow;
 
