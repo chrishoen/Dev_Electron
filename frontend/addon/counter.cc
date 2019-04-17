@@ -1,4 +1,5 @@
 #include <napi.h>
+#include "backend.h"
 #include "backendExports.h"
 
 //******************************************************************************

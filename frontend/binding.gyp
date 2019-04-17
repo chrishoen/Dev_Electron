@@ -3,7 +3,7 @@
     {
       "target_name": "backend",
       "sources": [
-        "addon/addon.cc",
+        "addon/backend.cc",
         "addon/counter.cc",
         "addon/timer.cc",
       ],
