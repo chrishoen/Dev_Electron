@@ -30,7 +30,7 @@
             ],
             'link_settings': {
               "libraries" : [
-                  "/opt/mylib/libBackEndLib.so"
+                  "/usr/local/lib/libBackEndLib.so"
               ]
             },      
           }]
