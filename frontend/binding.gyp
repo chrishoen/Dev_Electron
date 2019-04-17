@@ -2,8 +2,6 @@
   "targets": [
     {
       "target_name": "backend",
-      "cflags!": [ "-fno-exceptions" ],
-      "cflags_cc!": [ "-fno-exceptions" ],
       "sources": [ "addon/backend.cpp" ],
       "include_dirs": [
         "<!@(node -p \"require('node-addon-api').include\")"
@@ -28,6 +26,8 @@
               'WINDOWS_SPECIFIC_DEFINE',
             ],
           }, { # OS != "win",
+            "cflags!": [ "-fno-exceptions" ],
+            "cflags_cc!": [ "-fno-exceptions" ],
             'defines': [
               'NON_WINDOWS_DEFINE',
             ],
