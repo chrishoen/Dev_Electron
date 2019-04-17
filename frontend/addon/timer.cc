@@ -12,18 +12,17 @@ class EchoWorker : public Napi::AsyncWorker {
         ~EchoWorker() {}
     // This code will be executed on the worker thread
     void Execute() {
-      echo = std::string("echo string");
+      estimate = 99.91;
     }
 
     void OnOK() {
         printf("OnOk\n");
         Napi::HandleScope scope(Env());
-        Callback().Call({Env().Null(), Napi::String::New(Env(), "echo string")});
+        Callback().Call({Env().Undefined(), Napi::Number::New(Env(), estimate)});
     }
 
     private:
-        std::string echo;
-
+        double estimate;
 };
 
 //******************************************************************************
@@ -38,7 +37,14 @@ Napi::Value setTimerCallback(const Napi::CallbackInfo& info) {
     Napi::TypeError::New(env, "setTimerCallback Wrong number of arguments").ThrowAsJavaScriptException();
     return env.Null();
   }
-  
+
+#if 0
+  Napi::Function callback = info[0].As<Napi::Function>();
+//callback.MakeCallback(env.Global(), { Napi::String::New(env, "hello world from timer callback") });
+  callback.MakeCallback(env.Global(), { Napi::Number::New(env, 88.88)});
+  return env.Null();
+#endif  
+
   gTimerCallback = info[0].As<Napi::Function>();
 
   EchoWorker* worker = new EchoWorker(gTimerCallback);
