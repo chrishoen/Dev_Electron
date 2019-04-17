@@ -44,6 +44,25 @@ Napi::Value getCount(const Napi::CallbackInfo& info) {
 //******************************************************************************
 //******************************************************************************
 //******************************************************************************
+// Function.
+
+Napi::Value setCount(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+
+  if (info.Length() < 1) {
+    Napi::TypeError::New(env, "setCount Wrong number of arguments").ThrowAsJavaScriptException();
+    return env.Null();
+  }
+
+  int arg0 = info[0].As<Napi::Number>().Int32Value();
+  BackEnd::setCount(arg0);
+
+  return env.Null();
+}
+
+//******************************************************************************
+//******************************************************************************
+//******************************************************************************
 // Napi initialize.
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
@@ -51,6 +70,8 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
               Napi::Function::New(env, Add));
   exports.Set(Napi::String::New(env, "getCount"),
               Napi::Function::New(env, getCount));
+  exports.Set(Napi::String::New(env, "setCount"),
+              Napi::Function::New(env, setCount));
   BackEnd::initializeBackEnd();
   return exports;
 }
