@@ -74,7 +74,8 @@ Napi::Value callCallback(const Napi::CallbackInfo& info) {
   }
 
   Napi::Function callback = info[0].As<Napi::Function>();
-  callback.Call(env.Global(), { Napi::String::New(env, "hello world from callback") });
+//callback.Call(env.Global(), { Napi::String::New(env, "hello world from callback") });
+  callback.MakeCallback(env.Global(), { Napi::String::New(env, "hello world from callback") });
 
   return env.Null();
 }
