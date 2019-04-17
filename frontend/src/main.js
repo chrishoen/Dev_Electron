@@ -7,6 +7,12 @@ console.log('This should be eight:', backend.add(3, 5));
 console.log('setCount:            ', backend.setCount(800));
 console.log('getCount:            ', backend.getCount());
 
+function mycallback(x) {
+  console.log(`mycallback:           ` + x);
+}
+
+backend.callCallback(mycallback);
+
 let mainWindow;
 
 function createWindow () {
