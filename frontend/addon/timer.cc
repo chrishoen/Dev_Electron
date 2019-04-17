@@ -4,6 +4,28 @@
 
 Napi::Function gTimerCallback;
 
+class EchoWorker : public Napi::AsyncWorker {
+    public:
+        EchoWorker(Napi::Function& callback)
+        : AsyncWorker(callback) {}
+
+        ~EchoWorker() {}
+    // This code will be executed on the worker thread
+    void Execute() {
+      echo = std::string("echo string");
+    }
+
+    void OnOK() {
+        printf("OnOk\n");
+        Napi::HandleScope scope(Env());
+        Callback().Call({Env().Null(), Napi::String::New(Env(), "echo string")});
+    }
+
+    private:
+        std::string echo;
+
+};
+
 //******************************************************************************
 //******************************************************************************
 //******************************************************************************
@@ -19,6 +41,9 @@ Napi::Value setTimerCallback(const Napi::CallbackInfo& info) {
   
   gTimerCallback = info[0].As<Napi::Function>();
 
+  EchoWorker* worker = new EchoWorker(gTimerCallback);
+  worker->Queue();
+
   return env.Null();
 }
 
@@ -30,7 +55,6 @@ Napi::Value setTimerCallback(const Napi::CallbackInfo& info) {
 Napi::Value testTimerCallback(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
 
-//  gTimerCallback.MakeCallback(env.Global(), { Napi::String::New(env, "hello world from test timer callback") });
-
+  
   return env.Null();
 }
