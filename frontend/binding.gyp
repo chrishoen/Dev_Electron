@@ -22,18 +22,18 @@
                   "winmm"
               ]
             },      
-            'defines': [
-              'WINDOWS_SPECIFIC_DEFINE',
-            ],
           }, { # OS != "win",
             "cflags!": [ "-fno-exceptions" ],
             "cflags_cc!": [ "-fno-exceptions" ],
-            'defines': [
-              'NON_WINDOWS_DEFINE',
+            "include_dirs": [
+              "/opt/mylib"
             ],
+            'link_settings': {
+              "libraries" : [
+                  "/opt/mylib/libBackEndLib.so"
+              ]
+            },      
           }]
- 
-
 
       ],
       #end
