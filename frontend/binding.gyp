@@ -9,6 +9,10 @@
 
      'defines': [ 'NAPI_CPP_EXCEPTIONS' ],
 
+     'msvs_settings': {
+       'VCCLCompilerTool': { 'ExceptionHandling': 1 },
+      },
+
       #begin
       'conditions': [
 
@@ -23,7 +27,8 @@
                   "ws2_32",
                   "winmm"
               ]
-            },      
+            },  
+            'defines': [ '_HAS_EXCEPTIONS=1' ],
           }, { # OS != "win",
             "cflags!": [ "-fno-exceptions" ],
             "cflags_cc!": [ "-fno-exceptions" ],
