@@ -9,6 +9,14 @@
         "<!@(node -p \"require('node-addon-api').include\")",
         "C:\\MyTools\\MyLib\\node\\"
       ],
+      'link_settings': {
+        "libraries" : [
+            "C:\\MyTools\\MyLib\\node\\BackEndLib.lib",
+            "C:\\MyTools\\MyLib\\lib\\RisLib.lib",
+            "ws2_32",
+            "winmm"
+        ]
+      },      
       'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
     }
   ]

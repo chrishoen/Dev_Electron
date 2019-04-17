@@ -34,7 +34,9 @@ Napi::Value Add(const Napi::CallbackInfo& info) {
 Napi::Value getCount(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
 
-  Napi::Number num = Napi::Number::New(env, 1001);
+  int tCount = 1001;
+  tCount = BackEnd::getCount();  
+  Napi::Number num = Napi::Number::New(env, tCount);
 
   return num;
 }
@@ -49,6 +51,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
               Napi::Function::New(env, Add));
   exports.Set(Napi::String::New(env, "getCount"),
               Napi::Function::New(env, getCount));
+  BackEnd::initializeBackEnd();
   return exports;
 }
 
