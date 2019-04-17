@@ -17,6 +17,8 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
               Napi::Function::New(env, callCallback));
   exports.Set(Napi::String::New(env, "setTimerCallback"),
               Napi::Function::New(env, setTimerCallback));
+  exports.Set(Napi::String::New(env, "testTimerCallback"),
+              Napi::Function::New(env, testTimerCallback));
 
   BackEnd::initializeBackEnd();
   return exports;

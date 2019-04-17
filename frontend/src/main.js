@@ -18,6 +18,7 @@ function mytimercallback(x) {
 }
 
 backend.setTimerCallback(mytimercallback);
+backend.testTimerCallback();
 
 let mainWindow;
 
