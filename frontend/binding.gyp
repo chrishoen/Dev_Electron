@@ -6,8 +6,7 @@
       "cflags_cc!": [ "-fno-exceptions" ],
       "sources": [ "addon/backend.cpp" ],
       "include_dirs": [
-        "<!@(node -p \"require('node-addon-api').include\")",
-        "C:\\MyTools\\MyLib\\node\\"
+        "<!@(node -p \"require('node-addon-api').include\")"
       ],
       'link_settings': {
         "libraries" : [
@@ -18,6 +17,26 @@
         ]
       },      
       'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
+      #begin
+      'conditions': [
+
+          ['OS=="win"', {
+            "include_dirs": [
+              "C:\\MyTools\\MyLib\\node\\"
+            ],
+            'defines': [
+              'WINDOWS_SPECIFIC_DEFINE',
+            ],
+          }, { # OS != "win",
+            'defines': [
+              'NON_WINDOWS_DEFINE',
+            ],
+          }]
+ 
+
+
+      ],
+      #end
     }
   ]
 }
