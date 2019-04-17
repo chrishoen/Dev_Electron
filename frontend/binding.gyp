@@ -8,14 +8,6 @@
       "include_dirs": [
         "<!@(node -p \"require('node-addon-api').include\")"
       ],
-      'link_settings': {
-        "libraries" : [
-            "C:\\MyTools\\MyLib\\node\\BackEndLib.lib",
-            "C:\\MyTools\\MyLib\\lib\\RisLib.lib",
-            "ws2_32",
-            "winmm"
-        ]
-      },      
       'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
       #begin
       'conditions': [
@@ -24,6 +16,14 @@
             "include_dirs": [
               "C:\\MyTools\\MyLib\\node\\"
             ],
+            'link_settings': {
+              "libraries" : [
+                  "C:\\MyTools\\MyLib\\node\\BackEndLib.lib",
+                  "C:\\MyTools\\MyLib\\lib\\RisLib.lib",
+                  "ws2_32",
+                  "winmm"
+              ]
+            },      
             'defines': [
               'WINDOWS_SPECIFIC_DEFINE',
             ],
