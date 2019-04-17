@@ -2,7 +2,11 @@
   "targets": [
     {
       "target_name": "backend",
-      "sources": [ "addon/backend.cpp" ],
+      "sources": [
+        "addon/addon.cc",
+        "addon/counter.cc",
+        "addon/timer.cc",
+      ],
       "include_dirs": [
         "<!@(node -p \"require('node-addon-api').include\")"
       ],

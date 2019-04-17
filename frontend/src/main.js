@@ -13,6 +13,12 @@ function mycallback(x) {
 
 backend.callCallback(mycallback);
 
+function mytimercallback(x) {
+  console.log(`mytimercallback:      ` + x);
+}
+
+backend.setTimerCallback(mytimercallback);
+
 let mainWindow;
 
 function createWindow () {
