@@ -38,18 +38,11 @@ Napi::Value setTimerCallback(const Napi::CallbackInfo& info) {
     return env.Null();
   }
 
-#if 0
-  Napi::Function callback = info[0].As<Napi::Function>();
-//callback.MakeCallback(env.Global(), { Napi::String::New(env, "hello world from timer callback") });
-  callback.MakeCallback(env.Global(), { Napi::Number::New(env, 88.88)});
-  return env.Null();
-#endif  
-
   gTimerCallback = info[0].As<Napi::Function>();
 
   EchoWorker* worker = new EchoWorker(gTimerCallback);
   worker->Queue();
-
+  
   return env.Null();
 }
 
@@ -61,6 +54,5 @@ Napi::Value setTimerCallback(const Napi::CallbackInfo& info) {
 Napi::Value testTimerCallback(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
 
-  
   return env.Null();
 }

@@ -13,9 +13,8 @@ function mycallback(x) {
 
 backend.callCallback(mycallback);
 
-function mytimercallback(x,y) {
-  console.log(`mytimercallbackx:    `,x);
-  console.log(`mytimercallback:     `,y);
+function mytimercallback(err,result) {
+  console.log(`mytimercallback:     `,result);
 }
 
 backend.setTimerCallback(mytimercallback);
