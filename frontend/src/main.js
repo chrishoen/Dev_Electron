@@ -19,7 +19,6 @@ function mycallback2(result,x) {
 }
 
 backend.callCallback1(mycallback1);
-//backend.callCallback2(mycallback2);
 backend.callCallback3(mycallback1);
 
 backend.saveCallback(mycallback1);

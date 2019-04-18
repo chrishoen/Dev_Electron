@@ -67,7 +67,7 @@ Napi::Value callCallback3(const Napi::CallbackInfo& info) {
   }
   
   // Create a callback.
-  std::string tArg0 = "message from callback2";
+  std::string tArg0 = "message from callback3";
   auto tCallback = std::make_shared<ThreadSafeCallback>(info[0].As<Napi::Function>());
 
   // Call the callback.
@@ -87,7 +87,7 @@ Napi::Value callCallback3(const Napi::CallbackInfo& info) {
 //******************************************************************************
 // Save a callback function.
 
-static Napi::Function gSavedCallback;
+static Napi::Function gSavedFunction;
 
 Napi::Value saveCallback(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
@@ -99,7 +99,7 @@ Napi::Value saveCallback(const Napi::CallbackInfo& info) {
   }
 
   // Save the callback.  
-  gSavedCallback = info[0].As<Napi::Function>();
+  gSavedFunction = info[0].As<Napi::Function>();
 
   // Done.
   return env.Null();
@@ -115,15 +115,14 @@ Napi::Value callSavedCallback(const Napi::CallbackInfo& info) {
   
   // Create a callback.
   std::string tArg0 = "message from saved callback";
-  auto tCallback = std::make_shared<ThreadSafeCallback>(gSavedCallback);
+  auto tCallback = std::make_shared<ThreadSafeCallback>(gSavedFunction);
 
   // Call the callback.
   tCallback->call([tArg0](Napi::Env env, std::vector<napi_value>& args)
   {
-      // This will run in main thread and needs to construct the
-      // arguments for the call
-      args = { env.Undefined(), Napi::String::New(env, tArg0) };
-//    args = { Napi::String::New(env, tArg0) };
+    // This will run in main thread and needs to construct the
+    // arguments for the call
+    args = { Napi::String::New(env, tArg0) };
   });
 
   // Done.
