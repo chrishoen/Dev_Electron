@@ -7,7 +7,10 @@ Napi::Function gTimerCallback;
 class EchoWorker : public Napi::AsyncWorker {
     public:
         EchoWorker(Napi::Function& callback)
-        : AsyncWorker(callback) {}
+        : AsyncWorker(callback)
+        {
+          SuppressDestruct();
+        }
 
         ~EchoWorker() {}
     // This code will be executed on the worker thread
@@ -30,6 +33,8 @@ class EchoWorker : public Napi::AsyncWorker {
 //******************************************************************************
 // Function.
 
+EchoWorker* gWorker = 0;
+
 Napi::Value setTimerCallback(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
 
@@ -40,8 +45,8 @@ Napi::Value setTimerCallback(const Napi::CallbackInfo& info) {
 
   gTimerCallback = info[0].As<Napi::Function>();
 
-  EchoWorker* worker = new EchoWorker(gTimerCallback);
-  worker->Queue();
+  gWorker = new EchoWorker(gTimerCallback);
+  gWorker->SuppressDestruct();
   
   return env.Null();
 }
@@ -53,6 +58,8 @@ Napi::Value setTimerCallback(const Napi::CallbackInfo& info) {
 
 Napi::Value testTimerCallback(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
+
+  gWorker->Queue();
 
   return env.Null();
 }

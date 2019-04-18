@@ -59,7 +59,7 @@ ipc.on('aSynMessage', (event, args) => {
 
 ipc.on('myaddonMessage', (event, args) => {
   console.log(args);
-  //console.log(addon.hello());
+  backend.testTimerCallback();
 })
 
 var count = 0;
