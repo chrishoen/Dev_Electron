@@ -19,11 +19,9 @@ class TimerCallbackWorker : public Napi::AsyncWorker {
     // This code will be executed on the worker thread
     void Execute() {
       estimate = 99.91;
-//    BackEnd::sleep(2000);
     }
 
     void OnOK() {
-//      printf("OnOk\n");
         Napi::HandleScope scope(Env());
         Callback().Call({Env().Undefined(), Napi::Number::New(Env(), estimate)});
     }
@@ -42,8 +40,6 @@ TimerCallbackWorker* gTimerCallbackWorker = 0;
 
 void myTimerCallback(int aCount)
 {
-//printf("myTimerCallback %d\n",aCount);
-
   // Launch the async worker to call the JS timee callback function.
   gTimerCallbackWorker->Queue();
 }

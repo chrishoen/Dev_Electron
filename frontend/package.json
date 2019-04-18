@@ -5,7 +5,7 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
-    "buildwin": ".\\node_modules\\.bin\\electron-rebuild.cmd -f",
+    "buildwin": ".\\node_modules\\.bin\\electron-rebuild.cmd -f -p",
     "buildlin": "$(npm bin)/electron-rebuild -f"
   },
   "keywords": [],

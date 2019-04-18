@@ -6,6 +6,7 @@
 //******************************************************************************
 // Functions exported to nodejs.
 
+Napi::Value finalize(const Napi::CallbackInfo& info);
 Napi::Value Add(const Napi::CallbackInfo& info);
 Napi::Value getCount(const Napi::CallbackInfo& info);
 Napi::Value setCount(const Napi::CallbackInfo& info);

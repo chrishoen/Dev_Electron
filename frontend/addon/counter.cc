@@ -7,6 +7,20 @@
 //******************************************************************************
 // Function.
 
+Napi::Value finalize(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+
+  // Finalize the back end dll.  
+  BackEnd::finalizeBackEnd();
+
+  return env.Null();
+}
+
+//******************************************************************************
+//******************************************************************************
+//******************************************************************************
+// Function.
+
 Napi::Value Add(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
 

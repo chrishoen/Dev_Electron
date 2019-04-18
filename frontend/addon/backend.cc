@@ -7,6 +7,8 @@
 // Napi initialize.
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
+  exports.Set(Napi::String::New(env, "finalize"),
+              Napi::Function::New(env, finalize));
   exports.Set(Napi::String::New(env, "add"),
               Napi::Function::New(env, Add));
   exports.Set(Napi::String::New(env, "getCount"),
