@@ -80,7 +80,7 @@ Napi::Value setCount(const Napi::CallbackInfo& info) {
 //******************************************************************************
 // Function.
 
-Napi::Value callCallback(const Napi::CallbackInfo& info) {
+Napi::Value callCounterCallback(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
 
   if (info.Length() < 1) {

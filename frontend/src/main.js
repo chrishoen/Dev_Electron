@@ -2,23 +2,21 @@ const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
+//****************************************************************************
+// BackEnd dll tests.
+
 var backend = require('bindings')('backend.node')
-console.log('This should be eight:', backend.add(3, 5));
 console.log('setCount:            ', backend.setCount(800));
 console.log('getCount:            ', backend.getCount());
 
 function mycallback(x) {
-  console.log(`mycallback:           ` + x);
+  console.log(`mycallback:          `,x);
 }
 
-backend.callCallback(mycallback);
+backend.callCallback1(mycallback);
 
-function mytimercallback(err,result) {
-  console.log(`mytimercallback:     `,result);
-}
-
-backend.setTimerCallback(mytimercallback);
-backend.testTimerCallback();
+//****************************************************************************
+// Main window.
 
 let mainWindow;
 
@@ -46,6 +44,9 @@ app.on('activate', function () {
   }
 })
 
+//****************************************************************************
+// ipc communication from buttons.
+
 const ipc = require('electron').ipcMain;
 
 ipc.on('synMessage', (event, args) => {
@@ -60,8 +61,11 @@ ipc.on('aSynMessage', (event, args) => {
 
 ipc.on('myaddonMessage', (event, args) => {
   console.log(args);
-  backend.testTimerCallback();
+  backend.callCallback1(mycallback);
 })
+
+//****************************************************************************
+// Timer function.
 
 var count = 0;
 function timerFunc() {
