@@ -16,6 +16,7 @@ class EchoWorker : public Napi::AsyncWorker {
     // This code will be executed on the worker thread
     void Execute() {
       estimate = 99.91;
+      BackEnd::sleep(2000);
     }
 
     void OnOK() {
