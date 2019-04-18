@@ -2,25 +2,28 @@
 #include "backend.h"
 #include "backendExports.h"
 
-Napi::Function gTimerCallback;
+//******************************************************************************
+//******************************************************************************
+//******************************************************************************
+// Async worker class.
 
-class EchoWorker : public Napi::AsyncWorker {
+class TimerCallbackWorker : public Napi::AsyncWorker {
     public:
-        EchoWorker(Napi::Function& callback)
+        TimerCallbackWorker(Napi::Function& callback)
         : AsyncWorker(callback)
         {
           SuppressDestruct();
         }
 
-        ~EchoWorker() {}
+        ~TimerCallbackWorker() {}
     // This code will be executed on the worker thread
     void Execute() {
       estimate = 99.91;
-      BackEnd::sleep(2000);
+//    BackEnd::sleep(2000);
     }
 
     void OnOK() {
-        printf("OnOk\n");
+//      printf("OnOk\n");
         Napi::HandleScope scope(Env());
         Callback().Call({Env().Undefined(), Napi::Number::New(Env(), estimate)});
     }
@@ -29,26 +32,45 @@ class EchoWorker : public Napi::AsyncWorker {
         double estimate;
 };
 
+TimerCallbackWorker* gTimerCallbackWorker = 0;
+
+//******************************************************************************
+//******************************************************************************
+//******************************************************************************
+// Timer callback function that is called asynchronously by the 
+// backend library in the context of the interface thread timer.
+
+void myTimerCallback(int aCount)
+{
+//printf("myTimerCallback %d\n",aCount);
+
+  // Launch the async worker to call the JS timee callback function.
+  gTimerCallbackWorker->Queue();
+}
+
 //******************************************************************************
 //******************************************************************************
 //******************************************************************************
 // Function.
 
-EchoWorker* gWorker = 0;
-
 Napi::Value setTimerCallback(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
 
+  // Guard.
   if (info.Length() < 1) {
     Napi::TypeError::New(env, "setTimerCallback Wrong number of arguments").ThrowAsJavaScriptException();
     return env.Null();
   }
 
-  gTimerCallback = info[0].As<Napi::Function>();
+  // Create a global singular instance of the async worker.
+  Napi::Function tCallback = info[0].As<Napi::Function>();
+  gTimerCallbackWorker = new TimerCallbackWorker(tCallback);
+  gTimerCallbackWorker->SuppressDestruct();
 
-  gWorker = new EchoWorker(gTimerCallback);
-  gWorker->SuppressDestruct();
-  
+  // Register the callback to the backend interface thread timer.
+  BackEnd::setTimerCallback(myTimerCallback);
+
+  // Done.
   return env.Null();
 }
 
@@ -60,7 +82,7 @@ Napi::Value setTimerCallback(const Napi::CallbackInfo& info) {
 Napi::Value testTimerCallback(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
 
-  gWorker->Queue();
+  gTimerCallbackWorker->Queue();
 
   return env.Null();
 }
