@@ -64,7 +64,7 @@ Napi::Value setTimerCallback(const Napi::CallbackInfo& info) {
   gTimerCallbackWorker->SuppressDestruct();
 
   // Register the callback to the backend interface thread timer.
-  BackEnd::setTimerCallback(myTimerCallback);
+//BackEnd::setTimerCallback(myTimerCallback);
 
   // Done.
   return env.Null();

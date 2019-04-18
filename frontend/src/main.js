@@ -27,7 +27,7 @@ function createWindow () {
   mainWindow.loadURL('file://'+__dirname+'/index.html')
   mainWindow.on('closed', function () {
     backend.finalize();
-    clearInterval(intervalId);
+    if (intervalId != 0) clearInterval(intervalId);
     console.log(`closed`);
     mainWindow = null;
   })
@@ -70,4 +70,9 @@ function timerFunc() {
   count++;
 }
   
-var intervalId = setInterval(timerFunc, 1000);
+var intervalId = 0;
+app.on('browser-window-created', function () {
+  console.log(`setInterval`);
+  intervalId = setInterval(timerFunc, 1000);
+})
+

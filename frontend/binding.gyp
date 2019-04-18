@@ -26,7 +26,7 @@
             ],
             'link_settings': {
               "libraries" : [
-                  "C:\\MyTools\\MyLib\\node\\BackEndLib.lib",
+                  "C:\\MyTools\\MyLib\\node\\BackEndDLL.lib",
                   "C:\\MyTools\\MyLib\\lib\\RisLib.lib",
                   "ws2_32",
                   "winmm"
@@ -41,7 +41,7 @@
             ],
             'link_settings': {
               "libraries" : [
-                  "/usr/local/lib/libBackEndLib.so"
+                  "/usr/local/lib/libBackEndDLL.so"
               ]
             },      
           }]
