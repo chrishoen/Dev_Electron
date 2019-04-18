@@ -14,6 +14,7 @@ function mycallback(x) {
 }
 
 backend.callCallback1(mycallback);
+backend.callCallback2(mycallback);
 
 //****************************************************************************
 // Main window.
