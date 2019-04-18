@@ -81,3 +81,51 @@ Napi::Value callCallback3(const Napi::CallbackInfo& info) {
   // Done.
   return env.Null();
 }
+
+//******************************************************************************
+//******************************************************************************
+//******************************************************************************
+// Save a callback function.
+
+static Napi::Function gSavedCallback;
+
+Napi::Value saveCallback(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+
+  // Guard.
+  if (info.Length() < 1) {
+    Napi::TypeError::New(env, "saveCallback Wrong number of arguments").ThrowAsJavaScriptException();
+    return env.Null();
+  }
+
+  // Save the callback.  
+  gSavedCallback = info[0].As<Napi::Function>();
+
+  // Done.
+  return env.Null();
+}
+
+//******************************************************************************
+//******************************************************************************
+//******************************************************************************
+// Call the saved callback.
+
+Napi::Value callSavedCallback(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  
+  // Create a callback.
+  std::string tArg0 = "message from saved callback";
+  auto tCallback = std::make_shared<ThreadSafeCallback>(gSavedCallback);
+
+  // Call the callback.
+  tCallback->call([tArg0](Napi::Env env, std::vector<napi_value>& args)
+  {
+      // This will run in main thread and needs to construct the
+      // arguments for the call
+      args = { env.Undefined(), Napi::String::New(env, tArg0) };
+//    args = { Napi::String::New(env, tArg0) };
+  });
+
+  // Done.
+  return env.Null();
+}

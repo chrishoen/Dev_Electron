@@ -29,6 +29,10 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set(Napi::String::New(env, "callCallback3"),
               Napi::Function::New(env, callCallback3));
 
+  exports.Set(Napi::String::New(env, "saveCallback"),
+              Napi::Function::New(env, saveCallback));
+  exports.Set(Napi::String::New(env, "callSavedCallback"),
+              Napi::Function::New(env, callSavedCallback));
 
   BackEnd::initializeBackEnd();
   return exports;

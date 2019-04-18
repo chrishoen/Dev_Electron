@@ -17,3 +17,6 @@ Napi::Value testTimerCallback(const Napi::CallbackInfo& info);
 Napi::Value callCallback1(const Napi::CallbackInfo& info);
 Napi::Value callCallback2(const Napi::CallbackInfo& info);
 Napi::Value callCallback3(const Napi::CallbackInfo& info);
+
+Napi::Value saveCallback(const Napi::CallbackInfo& info);
+Napi::Value callSavedCallback(const Napi::CallbackInfo& info);
