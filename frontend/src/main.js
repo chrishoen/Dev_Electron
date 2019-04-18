@@ -9,12 +9,18 @@ var backend = require('bindings')('backend.node')
 console.log('setCount:            ', backend.setCount(800));
 console.log('getCount:            ', backend.getCount());
 
-function mycallback(x) {
-  console.log(`mycallback:          `,x);
+function mycallback1(x) {
+  console.log(`mycallback1:         `,x);
 }
 
-backend.callCallback1(mycallback);
-backend.callCallback2(mycallback);
+function mycallback2(result,x) {
+  console.log(`mycallback2:         `,result);
+  console.log(`mycallback2:         `,x);
+}
+
+backend.callCallback1(mycallback1);
+backend.callCallback2(mycallback2);
+backend.callCallback3(mycallback1);
 
 //****************************************************************************
 // Main window.
@@ -62,7 +68,7 @@ ipc.on('aSynMessage', (event, args) => {
 
 ipc.on('myaddonMessage', (event, args) => {
   console.log(args);
-  backend.callCallback1(mycallback);
+  backend.callCallback1(mycallback1);
 })
 
 //****************************************************************************
@@ -77,6 +83,7 @@ function timerFunc() {
   
 var intervalId = 0;
 app.on('browser-window-created', function () {
+  return;
   console.log(`setInterval`);
   intervalId = setInterval(timerFunc, 1000);
 })
