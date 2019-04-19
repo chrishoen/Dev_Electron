@@ -6,7 +6,7 @@ const BrowserWindow = electron.BrowserWindow;
 // Load BackEnd dll.
 
 var backend = require('bindings')('backend.node')
-console.log('setCount:            ', backend.setCount(800));
+backend.setCount(800);
 console.log('getCount:            ', backend.getCount());
 
 //****************************************************************************
@@ -56,7 +56,6 @@ ipc.on('aSynMessage', (event, args) => {
 ipc.on('myaddonMessage', (event, args) => {
   console.log(args);
   backend.callCallback1(mycallback1);
-  backend.callSavedCallback();
 })
 
 //****************************************************************************
@@ -86,20 +85,11 @@ app.on('browser-window-created', function () {
 
 function mycallback1(x) {
   console.log(`mycallback1:         `,x);
-}
-
-function mycallback2(x) {
-  console.log(`mycallback2:         `,x);
   mainWindow.send('timerUpdate','BackEnd: ' + x);
 }
 
 function initializeBackEnd() {
   console.log(`initializeBackEnd`);
-  backend.callCallback3(mycallback2);
-  backend.saveCallback(mycallback2);
-  backend.registerTimer();
-
-  backend.setString("set this string");
-  console.log(`backend.getString    `,backend.getString());
+  backend.setTimerCallback(mycallback1);
 }
 
