@@ -139,7 +139,8 @@ Napi::Value callSavedCallback(const Napi::CallbackInfo& info) {
 void myTimerCallback(int aCount)
 {
   // Create callback arguments.
-  std::string tArg0 = "message from saved callback";
+  char tArg0[100];
+  sprintf(tArg0,"message from saved callback %d",aCount);
 
   // Call the saved callback.
   gSavedCallback->call([tArg0](Napi::Env env, std::vector<napi_value>& args)
