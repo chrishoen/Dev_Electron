@@ -98,5 +98,8 @@ function initializeBackEnd() {
   backend.callCallback3(mycallback2);
   backend.saveCallback(mycallback2);
   backend.registerTimer();
+
+  backend.setString("set this string");
+  console.log(`backend.getString    `,backend.getString());
 }
 

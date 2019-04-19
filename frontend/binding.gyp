@@ -4,7 +4,7 @@
       "target_name": "backend",
       "sources": [
         "addon/backend.cc",
-        "addon/counter.cc",
+        "addon/simplecalls.cc",
         "addon/timer.cc",
         "addon/callback.cc",
       ],

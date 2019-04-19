@@ -9,12 +9,14 @@
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set(Napi::String::New(env, "finalize"),
               Napi::Function::New(env, finalize));
-  exports.Set(Napi::String::New(env, "add"),
-              Napi::Function::New(env, Add));
   exports.Set(Napi::String::New(env, "getCount"),
               Napi::Function::New(env, getCount));
   exports.Set(Napi::String::New(env, "setCount"),
               Napi::Function::New(env, setCount));
+  exports.Set(Napi::String::New(env, "getString"),
+              Napi::Function::New(env, getString));
+  exports.Set(Napi::String::New(env, "setString"),
+              Napi::Function::New(env, setString));
   exports.Set(Napi::String::New(env, "callCounterCallback"),
               Napi::Function::New(env, callCounterCallback));
   exports.Set(Napi::String::New(env, "setTimerCallback"),
