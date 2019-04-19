@@ -33,6 +33,8 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
               Napi::Function::New(env, saveCallback));
   exports.Set(Napi::String::New(env, "callSavedCallback"),
               Napi::Function::New(env, callSavedCallback));
+  exports.Set(Napi::String::New(env, "registerTimer"),
+              Napi::Function::New(env, registerTimer));
 
   BackEnd::initializeBackEnd();
   return exports;

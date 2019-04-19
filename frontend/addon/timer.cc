@@ -31,16 +31,6 @@ class TimerCallbackWorker : public Napi::AsyncWorker {
 //******************************************************************************
 //******************************************************************************
 //******************************************************************************
-// Timer callback function that is called asynchronously by the 
-// backend library in the context of the interface thread timer.
-
-void myTimerCallback(int aCount)
-{
-}
-
-//******************************************************************************
-//******************************************************************************
-//******************************************************************************
 // Function.
 
 Napi::Value setTimerCallback(const Napi::CallbackInfo& info) {

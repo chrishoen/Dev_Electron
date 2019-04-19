@@ -16,7 +16,8 @@ function mycallback1(x) {
 backend.callCallback3(mycallback1);
 
 backend.saveCallback(mycallback1);
-backend.callSavedCallback();
+//backend.callSavedCallback();
+backend.registerTimer();
 
 //****************************************************************************
 // Main window.

@@ -20,3 +20,4 @@ Napi::Value callCallback3(const Napi::CallbackInfo& info);
 
 Napi::Value saveCallback(const Napi::CallbackInfo& info);
 Napi::Value callSavedCallback(const Napi::CallbackInfo& info);
+Napi::Value registerTimer(const Napi::CallbackInfo& info);

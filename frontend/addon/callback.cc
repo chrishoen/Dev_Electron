@@ -114,10 +114,10 @@ Napi::Value saveCallback(const Napi::CallbackInfo& info) {
 Napi::Value callSavedCallback(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   
-  // Create a callback.
+  // Create callback arguments.
   std::string tArg0 = "message from saved callback";
 
-  // Call the callback.
+  // Call the saved callback.
   gSavedCallback->call([tArg0](Napi::Env env, std::vector<napi_value>& args)
   {
     // This will run in main thread and needs to construct the
@@ -128,3 +128,39 @@ Napi::Value callSavedCallback(const Napi::CallbackInfo& info) {
   // Done.
   return env.Null();
 }
+
+//******************************************************************************
+//******************************************************************************
+//******************************************************************************
+// Timer callback function that is called asynchronously by the 
+// backend library in the context of the interface thread timer.
+// This calls the saved callback.
+
+void myTimerCallback(int aCount)
+{
+  // Create callback arguments.
+  std::string tArg0 = "message from saved callback";
+
+  // Call the saved callback.
+  gSavedCallback->call([tArg0](Napi::Env env, std::vector<napi_value>& args)
+  {
+    // This will run in main thread and needs to construct the
+    // arguments for the call
+    args = { Napi::String::New(env, tArg0) };
+  });
+}
+
+//******************************************************************************
+//******************************************************************************
+//******************************************************************************
+// Register the timer callback.
+
+Napi::Value registerTimer(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+
+  // Register the timer callback to the backend dll.  
+  BackEnd::setTimerCallback(myTimerCallback);
+  // Done.
+  return env.Null();
+}
+
