@@ -13,10 +13,14 @@ function mycallback1(x) {
   console.log(`mycallback1:         `,x);
 }
 
-backend.callCallback3(mycallback1);
+function mycallback2(x) {
+  console.log(`mycallback2:         `,x);
+  mainWindow.send('timerUpdate','BackEnd: ' + x);
+}
 
-backend.saveCallback(mycallback1);
-//backend.callSavedCallback();
+backend.callCallback3(mycallback2);
+
+backend.saveCallback(mycallback2);
 backend.registerTimer();
 
 //****************************************************************************
@@ -81,8 +85,8 @@ function timerFunc() {
   
 var intervalId = 0;
 app.on('browser-window-created', function () {
+  console.log(`browser-window-created`);
   return;
-  console.log(`setInterval`);
   intervalId = setInterval(timerFunc, 1000);
 })
 
