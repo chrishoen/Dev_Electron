@@ -71,9 +71,9 @@ class ThreadSafeCallback
         
     protected:
         // Cannot be copied or assigned
-        ThreadSafeCallback(const ThreadSafeCallback&) = delete;
-        ThreadSafeCallback& operator=(const ThreadSafeCallback&) = delete;
-        ThreadSafeCallback& operator=(ThreadSafeCallback&&) = delete;
+//      ThreadSafeCallback(const ThreadSafeCallback&) = delete;
+//      ThreadSafeCallback& operator=(const ThreadSafeCallback&) = delete;
+//      ThreadSafeCallback& operator=(ThreadSafeCallback&&) = delete;
 
         class Impl;
         Impl* impl;

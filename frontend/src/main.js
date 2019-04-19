@@ -13,7 +13,10 @@ function mycallback1(x) {
   console.log(`mycallback1:         `,x);
 }
 
-backend.setTimerCallback(mycallback1);
+backend.callCallback3(mycallback1);
+
+backend.saveCallback(mycallback1);
+backend.callSavedCallback();
 
 //****************************************************************************
 // Main window.
@@ -62,6 +65,7 @@ ipc.on('aSynMessage', (event, args) => {
 ipc.on('myaddonMessage', (event, args) => {
   console.log(args);
   backend.callCallback1(mycallback1);
+  backend.callSavedCallback();
 })
 
 //****************************************************************************
