@@ -3,14 +3,14 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
 //****************************************************************************
-// BackEnd dll tests.
+// Load BackEnd dll.
 
 var backend = require('bindings')('backend.node')
 console.log('setCount:            ', backend.setCount(800));
 console.log('getCount:            ', backend.getCount());
 
 //****************************************************************************
-// Main window.
+// Create main window.
 
 let mainWindow;
 
@@ -39,7 +39,7 @@ app.on('activate', function () {
 })
 
 //****************************************************************************
-// ipc communication from buttons.
+// ipc communication from renderer.
 
 const ipc = require('electron').ipcMain;
 
@@ -70,7 +70,7 @@ function timerFunc() {
 }
   
 //****************************************************************************
-// Timer function.
+// Post window creation initialization.
 
 var intervalId = 0;
 app.on('browser-window-created', function () {
