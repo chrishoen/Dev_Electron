@@ -9,20 +9,6 @@ var backend = require('bindings')('backend.node')
 console.log('setCount:            ', backend.setCount(800));
 console.log('getCount:            ', backend.getCount());
 
-function mycallback1(x) {
-  console.log(`mycallback1:         `,x);
-}
-
-function mycallback2(x) {
-  console.log(`mycallback2:         `,x);
-  mainWindow.send('timerUpdate','BackEnd: ' + x);
-}
-
-backend.callCallback3(mycallback2);
-
-backend.saveCallback(mycallback2);
-backend.registerTimer();
-
 //****************************************************************************
 // Main window.
 
@@ -83,10 +69,34 @@ function timerFunc() {
   count++;
 }
   
+//****************************************************************************
+// Timer function.
+
 var intervalId = 0;
 app.on('browser-window-created', function () {
   console.log(`browser-window-created`);
+  initializeBackEnd();
   return;
   intervalId = setInterval(timerFunc, 1000);
 })
+
+
+//****************************************************************************
+// BackEnd dll tests.
+
+function mycallback1(x) {
+  console.log(`mycallback1:         `,x);
+}
+
+function mycallback2(x) {
+  console.log(`mycallback2:         `,x);
+  mainWindow.send('timerUpdate','BackEnd: ' + x);
+}
+
+function initializeBackEnd() {
+  console.log(`initializeBackEnd`);
+  backend.callCallback3(mycallback2);
+  backend.saveCallback(mycallback2);
+  backend.registerTimer();
+}
 
