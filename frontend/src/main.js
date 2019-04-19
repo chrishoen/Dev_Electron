@@ -13,16 +13,7 @@ function mycallback1(x) {
   console.log(`mycallback1:         `,x);
 }
 
-function mycallback2(result,x) {
-  console.log(`mycallback2:         `,result);
-  console.log(`mycallback2:         `,x);
-}
-
-backend.callCallback1(mycallback1);
-backend.callCallback3(mycallback1);
-
-backend.saveCallback(mycallback1);
-//backend.callSavedCallback();
+backend.setTimerCallback(mycallback1);
 
 //****************************************************************************
 // Main window.
