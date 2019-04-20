@@ -50,12 +50,13 @@ ipc.on('command1Completion', (event, args) => {
 
 command2Btn.addEventListener('click', () => {
   command2Div.innerHTML = 'sending command2';
-  progress2Div.innerHTML = 'none';
+  progress2Div.innerHTML = 'command2 progress:';
   ipc.send('command2')
 });
 
 ipc.on('command2Completion', (event, args) => {
   command2Div.innerHTML = args;
+  progress2Div.innerHTML = "command2 progress:";
 });
 
 ipc.on('command2Progress', (event, args) => {
