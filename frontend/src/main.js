@@ -91,7 +91,7 @@ ipc.on('command2', (event, args) => {
 
 app.on('browser-window-created', function () {
   console.log(`browser-window-created`);
-  initializeBackEnd();
+  startBackEnd();
   return;
 })
 
@@ -100,12 +100,12 @@ app.on('browser-window-created', function () {
 // BackEnd dll tests.
 
 function myTimerCallback(x) {
-  console.log(`myTimerCallback:         `,x);
+  //console.log(`myTimerCallback:         `,x);
   mainWindow.send('timerUpdate','backend timer: ' + x);
 }
 
-function initializeBackEnd() {
-  console.log(`initializeBackEnd`);
+function startBackEnd() {
+  console.log(`startBackEnd`);
   backend.setTimerCallback(myTimerCallback);
 }
 
