@@ -7,6 +7,7 @@
         "addon/simplecalls.cc",
         "addon/timer.cc",
         "addon/callback.cc",
+        "addon/command1.cc",
       ],
       "include_dirs": [
         "<!@(node -p \"require('node-addon-api').include\")"

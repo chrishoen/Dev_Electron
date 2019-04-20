@@ -22,3 +22,4 @@ Napi::Value callSavedCallback(const Napi::CallbackInfo& info);
 
 Napi::Value setTimerCallback(const Napi::CallbackInfo& info);
 
+Napi::Value command1(const Napi::CallbackInfo& info);

@@ -1,11 +1,11 @@
 const ipc = require('electron').ipcRenderer;
 const syncBtn  = document.querySelector('#syncBtn');
 const asyncBtn = document.querySelector('#asyncBtn');
-const myaddonBtn = document.querySelector('#myaddonBtn');
+const command1Btn = document.querySelector('#command1Btn');
 
 let replyDiv = document.querySelector('#replyDiv');
 let timerDiv = document.querySelector('#timerDiv');
-let myaddonDiv = document.querySelector('#myaddonDiv');
+let command1Div = document.querySelector('#command1Div');
 
 syncBtn.addEventListener('click', () => {
   let reply = ipc.sendSync('synMessage','A sync message to main');
@@ -24,8 +24,12 @@ ipc.on('timerUpdate', (event, args) => {
   timerDiv.innerHTML = args;
 });
    
-myaddonBtn.addEventListener('click', () => {
-  myaddonDiv.innerHTML = 'my addon click';
-  ipc.send('myaddonMessage','my addon message to main')
+command1Btn.addEventListener('click', () => {
+  command1Div.innerHTML = 'sending command1';
+  ipc.send('command1')
 });
 
+ipc.on('command1Response', (event, args) => {
+  command1Div.innerHTML = args;
+});
+   

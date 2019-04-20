@@ -7,6 +7,8 @@
 // Napi initialize.
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
+
+  // Setup the exported functions.
   exports.Set(Napi::String::New(env,  "finalize"),
               Napi::Function::New(env, finalize));
 
@@ -34,7 +36,13 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set(Napi::String::New(env,  "setTimerCallback"),
               Napi::Function::New(env, setTimerCallback));
 
+  exports.Set(Napi::String::New(env,  "command1"),
+              Napi::Function::New(env, command1));
+
+  // Initialize the backend dll.
   BackEnd::initializeBackEnd();
+
+  // Done.
   return exports;
 }
 

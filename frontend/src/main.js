@@ -53,9 +53,15 @@ ipc.on('aSynMessage', (event, args) => {
   event.sender.send('asynReply','Main: async message received')
 })
 
-ipc.on('myaddonMessage', (event, args) => {
-  console.log(args);
-  backend.callCallback1(mycallback1);
+function myCommand1Callback(code,message) {
+  console.log(`myCommand1Callback:  `,code,message);
+  let temp = 'command1 response:' + " " + code + " " + message;
+  mainWindow.send('command1Response',temp);
+}
+
+ipc.on('command1', (event, args) => {
+  console.log(`calling backend command1`);
+  backend.command1("myarg0",myCommand1Callback);
 })
 
 //****************************************************************************
@@ -83,13 +89,13 @@ app.on('browser-window-created', function () {
 //****************************************************************************
 // BackEnd dll tests.
 
-function mycallback1(x) {
-  console.log(`mycallback1:         `,x);
+function myTimerCallback(x) {
+  console.log(`myTimerCallback:         `,x);
   mainWindow.send('timerUpdate','BackEnd: ' + x);
 }
 
 function initializeBackEnd() {
   console.log(`initializeBackEnd`);
-  backend.setTimerCallback(mycallback1);
+  backend.setTimerCallback(myTimerCallback);
 }
 
