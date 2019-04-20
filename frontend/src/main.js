@@ -1,11 +1,12 @@
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+const ipc = require('electron').ipcMain;
+var backend = require('bindings')('backend.node')
 
 //****************************************************************************
 // Load backend dll.
 
-var backend = require('bindings')('backend.node')
 backend.setCount(800);
 console.log('backend getCount:            ', backend.getCount());
 
@@ -43,21 +44,6 @@ app.on('activate', function () {
   if (mainWindow === null) {
     createWindow()
   }
-})
-
-//****************************************************************************
-// ipc communication from renderer.
-
-const ipc = require('electron').ipcMain;
-
-ipc.on('synMessage', (event, args) => {
-  console.log(args);
-  event.returnValue = 'Main: sync message received';
-})
-
-ipc.on('aSynMessage', (event, args) => {
-  console.log(args);
-  event.sender.send('asynReply','Main: async message received')
 })
 
 //****************************************************************************
@@ -102,7 +88,6 @@ app.on('browser-window-created', function () {
   startBackEnd();
   return;
 })
-
 
 //****************************************************************************
 // BackEnd dll tests.
