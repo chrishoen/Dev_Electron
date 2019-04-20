@@ -52,6 +52,9 @@ ipc.on('aSynMessage', (event, args) => {
   event.sender.send('asynReply','Main: async message received')
 })
 
+//****************************************************************************
+// command1.
+
 function myCommand1Callback(code,message) {
   console.log(`myCommand1Callback:  `,code,message);
   let temp = 'command1 response:    ' + " " + code + " " + message;
@@ -61,6 +64,26 @@ function myCommand1Callback(code,message) {
 ipc.on('command1', (event, args) => {
   console.log(`calling backend command1`);
   backend.command1("myarg0",myCommand1Callback);
+})
+
+//****************************************************************************
+// command2.
+
+function myCommand2CompletionCallback(code,message) {
+  console.log(`myCommand2CompletionCallback:  `,code,message);
+  let temp = 'command2 response:    ' + " " + code + " " + message;
+  mainWindow.send('command2Response',temp);
+}
+
+function myCommand2ProgressCallback(message) {
+  console.log(`myCommand2ProgressCallback:  `,message);
+  let temp = 'command2 progress:    ' + " " + message;
+  mainWindow.send('command2Progress',temp);
+}
+
+ipc.on('command2', (event, args) => {
+  console.log(`calling backend command2`);
+  backend.command2("myarg0",myCommand2CompletionCallback,myCommand2ProgressCallback);
 })
 
 //****************************************************************************
