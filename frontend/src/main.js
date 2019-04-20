@@ -23,12 +23,16 @@ function createWindow () {
   })
 }
 
+app.on('ready', function () {
+  console.log(`ready`);
+  createWindow();
+})
+
 app.on('before-quit', function () {
   backend.finalize();
   console.log(`before-quit`);
 })
 
-app.on('ready', createWindow)
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
     app.quit()
