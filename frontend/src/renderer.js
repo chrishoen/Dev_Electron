@@ -41,7 +41,7 @@ command1Btn.addEventListener('click', () => {
   ipc.send('command1')
 });
 
-ipc.on('command1Response', (event, args) => {
+ipc.on('command1Completion', (event, args) => {
   command1Div.innerHTML = args;
 });
 
@@ -54,7 +54,7 @@ command2Btn.addEventListener('click', () => {
   ipc.send('command2')
 });
 
-ipc.on('command2Response', (event, args) => {
+ipc.on('command2Completion', (event, args) => {
   command2Div.innerHTML = args;
 });
 

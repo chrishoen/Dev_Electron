@@ -55,35 +55,35 @@ ipc.on('aSynMessage', (event, args) => {
 //****************************************************************************
 // command1.
 
-function myCommand1Callback(code,message) {
-  console.log(`myCommand1Callback:  `,code,message);
-  let temp = 'command1 response:    ' + " " + code + " " + message;
-  mainWindow.send('command1Response',temp);
+function myCommand1Completion(code,message) {
+  console.log(`myCommand1Completion:    `,code,message);
+  let temp = 'command1 completion:    ' + " " + code + " " + message;
+  mainWindow.send('command1Completion',temp);
 }
 
 ipc.on('command1', (event, args) => {
   console.log(`calling backend command1`);
-  backend.command1("myarg0",myCommand1Callback);
+  backend.command1("myarg0",myCommand1Completion);
 })
 
 //****************************************************************************
 // command2.
 
-function myCommand2CompletionCallback(code,message) {
-  console.log(`myCommand2CompletionCallback:  `,code,message);
-  let temp = 'command2 response:    ' + " " + code + " " + message;
-  mainWindow.send('command2Response',temp);
+function myCommand2Completion(code,message) {
+  console.log(`myCommand2Completion:    `,code,message);
+  let temp = 'command2 completion:    ' + " " + code + " " + message;
+  mainWindow.send('command2Completion',temp);
 }
 
-function myCommand2ProgressCallback(message) {
-  console.log(`myCommand2ProgressCallback:  `,message);
+function myCommand2Progress(message) {
+  console.log(`myCommand2Progress:      `,message);
   let temp = 'command2 progress:    ' + " " + message;
   mainWindow.send('command2Progress',temp);
 }
 
 ipc.on('command2', (event, args) => {
   console.log(`calling backend command2`);
-  backend.command2("myarg0",myCommand2CompletionCallback,myCommand2ProgressCallback);
+  backend.command2("myarg0",myCommand2Completion,myCommand2Progress);
 })
 
 //****************************************************************************
