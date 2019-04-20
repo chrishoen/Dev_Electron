@@ -18,11 +18,15 @@ function createWindow () {
   mainWindow = new BrowserWindow({width: 800, height: 440, x:0, y:0})
   mainWindow.loadURL('file://'+__dirname+'/index.html')
   mainWindow.on('closed', function () {
-    backend.finalize();
     console.log(`closed`);
     mainWindow = null;
   })
 }
+
+app.on('before-quit', function () {
+  backend.finalize();
+  console.log(`before-quit`);
+})
 
 app.on('ready', createWindow)
 app.on('window-all-closed', function () {
