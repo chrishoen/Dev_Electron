@@ -3,11 +3,11 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
 //****************************************************************************
-// Load BackEnd dll.
+// Load backend dll.
 
 var backend = require('bindings')('backend.node')
 backend.setCount(800);
-console.log('getCount:            ', backend.getCount());
+console.log('backend getCount:            ', backend.getCount());
 
 //****************************************************************************
 // Create main window.
@@ -19,7 +19,6 @@ function createWindow () {
   mainWindow.loadURL('file://'+__dirname+'/index.html')
   mainWindow.on('closed', function () {
     backend.finalize();
-    if (intervalId != 0) clearInterval(intervalId);
     console.log(`closed`);
     mainWindow = null;
   })
@@ -55,7 +54,7 @@ ipc.on('aSynMessage', (event, args) => {
 
 function myCommand1Callback(code,message) {
   console.log(`myCommand1Callback:  `,code,message);
-  let temp = 'command1 response:' + " " + code + " " + message;
+  let temp = 'command1 response:    ' + " " + code + " " + message;
   mainWindow.send('command1Response',temp);
 }
 
@@ -65,24 +64,12 @@ ipc.on('command1', (event, args) => {
 })
 
 //****************************************************************************
-// Timer function.
-
-var count = 0;
-function timerFunc() {
-  console.log(`timer %d`,count);
-  mainWindow.send('timerUpdate','Main: timer update ' + count);
-  count++;
-}
-  
-//****************************************************************************
 // Post window creation initialization.
 
-var intervalId = 0;
 app.on('browser-window-created', function () {
   console.log(`browser-window-created`);
   initializeBackEnd();
   return;
-  intervalId = setInterval(timerFunc, 1000);
 })
 
 
@@ -91,7 +78,7 @@ app.on('browser-window-created', function () {
 
 function myTimerCallback(x) {
   console.log(`myTimerCallback:         `,x);
-  mainWindow.send('timerUpdate','BackEnd: ' + x);
+  mainWindow.send('timerUpdate','backend timer: ' + x);
 }
 
 function initializeBackEnd() {
