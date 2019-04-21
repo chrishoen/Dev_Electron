@@ -5,8 +5,7 @@ const ipc = require('electron').ipcMain;
 var backendStatus = require('./backend_status.js');
 
 //****************************************************************************
-// Create main window.
-
+// Main window.
 
 var mainWindow = null;
 
@@ -81,7 +80,7 @@ ipc.on('Command2', (event, args) => {
 
 
 //****************************************************************************
-// BackEnd communications.
+// BackEnd interactions.
 
 function myStatusCallback(x) {
   //console.log(`myStatusCallback:         `,x);
