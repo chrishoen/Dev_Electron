@@ -64,11 +64,9 @@ exports.finalize = function() {
 //****************************************************************************
 // Exports. initialize.
 
-exports.sendCommand1 = function() {
-  const tCmd = Buffer.from('command1\0');
+exports.sendCommand1 = function(aArg0) {
+  const tCmd = Buffer.from('command1' + ' ' + aArg0);
 
-  mCommandInput.send(tCmd,56001,'localhost');
-  return;
   mCommandInput.send(tCmd,settings.mCommandInputPort,settings.mBackEndIpAddress);
 }
 

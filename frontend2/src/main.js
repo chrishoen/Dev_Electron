@@ -50,15 +50,15 @@ app.on('activate', function () {
 //****************************************************************************
 // command1.
 
-function myCommand1Completion(code,message) {
-  console.log(`myCommand1Completion:    `,code,message);
-  let temp = 'command1 completion:    ' + " " + code + " " + message;
+function myCommand1Completion(message) {
+  console.log(`myCommand1Completion:    ` + message);
+  let temp = 'command1 completion:    ' + message;
   mainWindow.send('Command1Completion',temp);
 }
 
 ipc.on('Command1', (event, args) => {
   console.log(`sending backend command1`);
-  backendCmd.sendCommand1();
+  backendCmd.sendCommand1('arg0');
 })
 
 //****************************************************************************
@@ -90,7 +90,7 @@ function myStatusCallback(x) {
 }
 
 function myCommandCompletionCallback(x) {
-  console.log(`myCommandCompletionCallback:         `,x);
+  console.log(`myCommandCompletionCallback:         ` + x);
   //mainWindow.send('StatusUpdate','backend status: ' + x);
 }
 
