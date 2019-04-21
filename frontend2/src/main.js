@@ -2,7 +2,7 @@ const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const ipc = require('electron').ipcMain;
-const dgram = require('dgram');
+var backend = require('./backend.js');
 
 //****************************************************************************
 // Create main window.
@@ -78,7 +78,7 @@ ipc.on('command2', (event, args) => {
 
 app.on('browser-window-created', function () {
   console.log(`browser-window-created`);
-  startBackEnd();
+  backend.init();
   return;
 })
 
@@ -86,39 +86,6 @@ app.on('browser-window-created', function () {
 // BackEnd dll tests.
 
 function myTimerCallback(x) {
-  //console.log(`myTimerCallback:         `,x);
+  console.log(`myTimerCallback:         `,x);
   mainWindow.send('timerUpdate','backend timer: ' + x);
 }
-
-function startBackEnd() {
-  console.log(`startBackEnd`);
-}
-
-
-//****************************************************************************
-// Status udp datagram.
-
-const statusudp = dgram.createSocket('udp4');
-
-statusudp.on('error', (err) => {
-  console.log(`statusudp error:\n${err.stack}`);
-  statusudp.close();
-});
-
-statusudp.on('listening', () => {
-  const address = statusudp.address();
-  console.log(`statusudp listening ${address.address}:${address.port}`);
-});
-
-statusudp.bind({
-  address: '127.0.0.1',
-  port: 56002,
-  exclusive: false
-});
-
-statusudp.on('message', (msg, rinfo) => {
-  console.log(`statusudp: ${msg} from ${rinfo.address}:${rinfo.port}`);
-  if (mainWindow == null) return;
-  mainWindow.send('timerUpdate','statusudp: ' + msg);
-});
-
