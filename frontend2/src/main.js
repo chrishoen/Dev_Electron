@@ -7,7 +7,8 @@ const dgram = require('dgram');
 //****************************************************************************
 // Create main window.
 
-let mainWindow;
+
+var mainWindow = null;
 
 function createWindow () {
   mainWindow = new BrowserWindow({width: 800, height: 440, x:0, y:0})
@@ -117,6 +118,7 @@ statusudp.bind({
 
 statusudp.on('message', (msg, rinfo) => {
   console.log(`statusudp: ${msg} from ${rinfo.address}:${rinfo.port}`);
+  if (mainWindow == null) return;
   mainWindow.send('timerUpdate','statusudp: ' + msg);
 });
 
