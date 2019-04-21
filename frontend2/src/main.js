@@ -2,7 +2,7 @@ const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const ipc = require('electron').ipcMain;
-var backend = require('./backend.js');
+var backendStatus = require('./backend_status.js');
 
 //****************************************************************************
 // Create main window.
@@ -24,9 +24,15 @@ app.on('ready', function () {
   createWindow();
 })
 
+app.on('browser-window-created', function () {
+  console.log(`browser-window-created`);
+  initializeBackEnd();
+  return;
+})
+
 app.on('before-quit', function () {
-  backend.finalize();
   console.log(`before-quit`);
+  finalizeBackEnd();
 })
 
 app.on('window-all-closed', function () {
@@ -73,15 +79,6 @@ ipc.on('command2', (event, args) => {
   console.log(`calling backend command2`);
 })
 
-//****************************************************************************
-// Post window creation initialization.
-
-app.on('browser-window-created', function () {
-  console.log(`browser-window-created`);
-  startBackEnd();
-  return;
-})
-
 
 //****************************************************************************
 // BackEnd communications.
@@ -91,9 +88,14 @@ function myStatusCallback(x) {
   mainWindow.send('timerUpdate','backend timer: ' + x);
 }
 
-function startBackEnd() {
-  console.log(`startBackEnd`);
-  backend.setStatusCallback(myStatusCallback);
-  backend.initialize();
+function initializeBackEnd() {
+  console.log(`initializeBackEnd`);
+  backendStatus.setStatusCallback(myStatusCallback);
+  backendStatus.initialize();
+}
+
+function finalizeBackEnd() {
+  console.log(`finalizeBackEnd`);
+  backendStatus.finalize();
 }
 
