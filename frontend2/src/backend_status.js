@@ -24,7 +24,7 @@ mStatusUdp.bind({
 
 mStatusUdp.on('message', (msg, rinfo) => {
 //console.log(`mStatusUdp: ${msg} from ${rinfo.address}:${rinfo.port}`);
-  console.log(`mStatusUdp: ${msg}`);
+//console.log(`mStatusUdp: ${msg}`);
   if (!mValid) return;
   mStatusCallback(msg);
 });

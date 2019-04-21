@@ -3,6 +3,7 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const ipc = require('electron').ipcMain;
 var backendStatus = require('./backend_status.js');
+var backendCmd = require('./backend_command.js');
 
 //****************************************************************************
 // Main window.
@@ -56,7 +57,8 @@ function myCommand1Completion(code,message) {
 }
 
 ipc.on('Command1', (event, args) => {
-  console.log(`calling backend command1`);
+  console.log(`sending backend command1`);
+  backendCmd.sendCommand1();
 })
 
 //****************************************************************************
@@ -87,8 +89,17 @@ function myStatusCallback(x) {
   mainWindow.send('StatusUpdate','backend status: ' + x);
 }
 
+function myCommandCompletionCallback(x) {
+  console.log(`myCommandCompletionCallback:         `,x);
+  //mainWindow.send('StatusUpdate','backend status: ' + x);
+}
+
 function initializeBackEnd() {
   console.log(`initializeBackEnd`);
+
+  backendCmd.setCompletionCallback(myCommandCompletionCallback);
+  backendCmd.initialize();
+
   backendStatus.setStatusCallback(myStatusCallback);
   backendStatus.initialize();
 }
