@@ -10,7 +10,7 @@ let progress2Div = document.querySelector('#progress2Div');
 //****************************************************************************
 // status.
 
-ipc.on('statusUpdate', (event, args) => {
+ipc.on('StatusUpdate', (event, args) => {
   statusDiv.innerHTML = args;
 });
    

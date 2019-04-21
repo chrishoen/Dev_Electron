@@ -85,7 +85,7 @@ ipc.on('Command2', (event, args) => {
 
 function myStatusCallback(x) {
   //console.log(`myStatusCallback:         `,x);
-  mainWindow.send('statusUpdate','backend status: ' + x);
+  mainWindow.send('StatusUpdate','backend status: ' + x);
 }
 
 function initializeBackEnd() {
