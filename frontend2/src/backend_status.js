@@ -1,4 +1,5 @@
 const dgram = require('dgram');
+const settings = require('./backend_settings.js');
 
 //****************************************************************************
 // Status udp datagram.
@@ -16,8 +17,8 @@ mStatusUdp.on('listening', () => {
 });
 
 mStatusUdp.bind({
-  address: '127.0.0.1',
-  port: 56002,
+  address: settings.mStatusIpAddress,
+  port: settings.mStatusPort,
   exclusive: false
 });
 
@@ -25,7 +26,7 @@ mStatusUdp.on('message', (msg, rinfo) => {
 //console.log(`mStatusUdp: ${msg} from ${rinfo.address}:${rinfo.port}`);
   console.log(`mStatusUdp: ${msg}`);
   if (!mValid) return;
-    mStatusCallback(msg);
+  mStatusCallback(msg);
 });
 
 //****************************************************************************
