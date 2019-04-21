@@ -22,9 +22,10 @@ statusudp.bind({
 });
 
 statusudp.on('message', (msg, rinfo) => {
-  console.log(`statusudp: ${msg} from ${rinfo.address}:${rinfo.port}`);
+//console.log(`statusudp: ${msg} from ${rinfo.address}:${rinfo.port}`);
+  console.log(`statusudp: ${msg}`);
   if (!valid) return;
-  cbstatus(msg);
+    cbstatus(msg);
 });
 
 //****************************************************************************
