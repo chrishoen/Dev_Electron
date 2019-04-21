@@ -23,13 +23,26 @@ statusudp.bind({
 
 statusudp.on('message', (msg, rinfo) => {
   console.log(`statusudp: ${msg} from ${rinfo.address}:${rinfo.port}`);
-//if (mainWindow == null) return;
-//mainWindow.send('timerUpdate','statusudp: ' + msg);
+  if (!valid) return;
+  cbstatus(msg);
 });
 
 //****************************************************************************
 // BackEnd initialization.
 
-exports.init = function() {
-  console.log(`backend init`);
+var cbstatus = null;
+exports.setStatusCallback = function(cb) {
+  cbstatus = cb;
+}
+
+var valid = false;
+exports.initialize = function() {
+  valid = true;
+  console.log('backend initialize');
+}
+
+exports.finalize = function() {
+  valid = false;
+  statusudp.close();
+  console.log('backend finalize');
 }

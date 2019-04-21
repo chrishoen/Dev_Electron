@@ -25,7 +25,7 @@ app.on('ready', function () {
 })
 
 app.on('before-quit', function () {
-  statusudp.close();
+  backend.finalize();
   console.log(`before-quit`);
 })
 
@@ -78,14 +78,22 @@ ipc.on('command2', (event, args) => {
 
 app.on('browser-window-created', function () {
   console.log(`browser-window-created`);
-  backend.init();
+  startBackEnd();
   return;
 })
 
-//****************************************************************************
-// BackEnd dll tests.
 
-function myTimerCallback(x) {
-  console.log(`myTimerCallback:         `,x);
+//****************************************************************************
+// BackEnd communications.
+
+function myStatusCallback(x) {
+  //console.log(`myTimerCallback:         `,x);
   mainWindow.send('timerUpdate','backend timer: ' + x);
 }
+
+function startBackEnd() {
+  console.log(`startBackEnd`);
+  backend.setStatusCallback(myStatusCallback);
+  backend.initialize();
+}
+
