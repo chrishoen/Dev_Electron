@@ -53,10 +53,10 @@ app.on('activate', function () {
 function myCommand1Completion(code,message) {
   console.log(`myCommand1Completion:    `,code,message);
   let temp = 'command1 completion:    ' + " " + code + " " + message;
-  mainWindow.send('command1Completion',temp);
+  mainWindow.send('Command1Completion',temp);
 }
 
-ipc.on('command1', (event, args) => {
+ipc.on('Command1', (event, args) => {
   console.log(`calling backend command1`);
 })
 
@@ -66,16 +66,16 @@ ipc.on('command1', (event, args) => {
 function myCommand2Completion(code,message) {
   console.log(`myCommand2Completion:    `,code,message);
   let temp = 'command2 completion:    ' + " " + code + " " + message;
-  mainWindow.send('command2Completion',temp);
+  mainWindow.send('Command2Completion',temp);
 }
 
 function myCommand2Progress(message) {
   console.log(`myCommand2Progress:      `,message);
   let temp = 'command2 progress:    ' + " " + message;
-  mainWindow.send('command2Progress',temp);
+  mainWindow.send('Command2Progress',temp);
 }
 
-ipc.on('command2', (event, args) => {
+ipc.on('Command2', (event, args) => {
   console.log(`calling backend command2`);
 })
 
@@ -84,8 +84,8 @@ ipc.on('command2', (event, args) => {
 // BackEnd communications.
 
 function myStatusCallback(x) {
-  //console.log(`myTimerCallback:         `,x);
-  mainWindow.send('timerUpdate','backend timer: ' + x);
+  //console.log(`myStatusCallback:         `,x);
+  mainWindow.send('statusUpdate','backend status: ' + x);
 }
 
 function initializeBackEnd() {
