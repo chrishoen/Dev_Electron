@@ -41,11 +41,13 @@ mCommandOutputUdp.bind({
 // Saved completion callbacks. These are set by the send command 
 // functions and called when messages are received.
 var mCommand1Completion = null;
+var mCommand2Completion = null;
+var mCommand2Progress = null;
 
 // Handle received messages. Call the saved message handler callbacks. 
 mCommandOutputUdp.on('message', (tBuffer, rinfo) => {
   if (!mValid) return;
-  console.log(`mCommandOutputUdp:      ${tBuffer}`);
+  //console.log(`mCommandOutputUdp:      ${tBuffer}`);
 
   // Convert the receive message  buffer to an array of string arguments.
   let tArgs = tBuffer.toString('utf8').split(': ');
@@ -56,7 +58,7 @@ mCommandOutputUdp.on('message', (tBuffer, rinfo) => {
     return;
   }  
 
-  // Process for command.
+  // Process for specific command completion.
   if (tArgs[0] == 'command1'){
     if (mCommand1Completion){
       mCommand1Completion(tArgs[1]);
@@ -64,7 +66,23 @@ mCommandOutputUdp.on('message', (tBuffer, rinfo) => {
     return;
   }  
 
-  // Call saved completion callback.
+  // Process for specific command completion.
+  if (tArgs[0] == 'command2'){
+    // Guard.
+    if (!mCommand2Completion) return;
+    // Handle a completion receive.
+    if (tArgs[1] != 'progress'){
+      // Call saved completion callback.
+      mCommand2Completion(tArgs[1]);
+    }
+    // Handle a progress receive.
+    else{
+      // Call saved progress callback.
+      mCommand2Progress(tArgs[2]);
+    }
+    return;
+  }  
+
 });
 
 //****************************************************************************
@@ -98,6 +116,21 @@ exports.sendCommand1 = function(aArg0,aCompletion) {
   mCommand1Completion = aCompletion;
   // Send command to backend.
   const tCmd = Buffer.from('command1' + ' ' + aArg0);
+  mCommandInputUdp.send(tCmd,settings.mCommandInputPort,settings.mBackEndIpAddress);
+}
+
+//****************************************************************************
+// Exports. Send command.
+
+// Send a command to the backend via the transmit socket.
+// Save the command completion message handler callback.
+exports.sendCommand2 = function(aArg0,aCompletion,aProgress) {
+  // Save the completion callback. This is called when a completion
+  // message is received.
+  mCommand2Completion = aCompletion;
+  mCommand2Progress = aProgress;
+  // Send command to backend.
+  const tCmd = Buffer.from('command2' + ' ' + aArg0);
   mCommandInputUdp.send(tCmd,settings.mCommandInputPort,settings.mBackEndIpAddress);
 }
 

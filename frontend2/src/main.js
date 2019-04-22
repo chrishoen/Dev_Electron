@@ -60,6 +60,26 @@ ipc.on('Command1', (event, args) => {
 })
 
 //****************************************************************************
+// Respond to the Command1 event received from the renderer ipc.
+
+ipc.on('Command2', (event, args) => {
+  // Send a command to the backend and handle a completion
+  // and a progress update.
+  backendCmd.sendCommand2(
+    'arg0', 
+    function(msg){
+      console.log(`Command2 completion:    ` + msg);
+      let temp = 'command2 completion: ' + msg;
+      mainWindow.send('Command2Completion',temp);
+    },
+    function(msg){
+      console.log(`Command2 progress:      ` + msg);
+      let temp = 'command2 progress: ' + msg;
+      mainWindow.send('Command2Progress',temp);
+    })
+})
+
+//****************************************************************************
 // Initialize the backend.
 
 // Handle received status messages
