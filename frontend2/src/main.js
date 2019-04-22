@@ -114,7 +114,7 @@ function finalizeBackEnd() {
 //****************************************************************************
 // Respond to a test event received from the renderer ipc.
 
-ipc.on('Test1', (event, args) => {
+ipc.on('Test22', (event, args) => {
   // Record class instance. 
   const tMyRecord = new MyRecord();
   console.log(`myrecord item1 ${tMyRecord.mItem1}`);
@@ -124,3 +124,32 @@ ipc.on('Test1', (event, args) => {
   mainWindow.send('Test1Response',tMsg);
 })
 
+//****************************************************************************
+// Respond to a test event received from the renderer ipc.
+
+ipc.on('Test23', (event, args) => {
+  // Send test response to the renderer ipc.
+  let tMsg = ['Command101','some test data'].join();
+  mainWindow.send('Test1Response',tMsg);
+})
+
+//****************************************************************************
+// Respond to a test event received from the renderer ipc.
+
+ipc.on('Test1', (event, args) => {
+  // Record class instance. 
+  const tMyRecord = new MyRecord();
+  tMyRecord.mItem1 = 'some_item1';
+  tMyRecord.mItem2 = 'some_item2';
+
+  showMyRecord(tMyRecord);
+
+  // Send test response to the renderer ipc.
+  mainWindow.send('Test1Response',tMyRecord.toBuffer());
+})
+
+
+
+function showMyRecord(aMyRecord){
+  console.log(`show MyRecord ${aMyRecord.mItem1},${aMyRecord.mItem2}`);
+}

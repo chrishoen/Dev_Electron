@@ -4,6 +4,8 @@
 "use strict"
 
 const ipc = require('electron').ipcRenderer;
+const MyRecord = require('./myrecord.js');
+
 const command1Btn = document.querySelector('#command1Btn');
 const command2Btn = document.querySelector('#command2Btn');
 
@@ -57,7 +59,30 @@ test1Btn.addEventListener('click', () => {
   ipc.send('Test1')
 });
 
-ipc.on('Test1Response', (event, args) => {
-  test1Div.innerHTML = args;
+ipc.on('Test1Response22', (event, tBuffer) => {
+
+  // Convert received buffer to string array.
+  let tArgs = tBuffer.toString('utf8').split(',');
+
+  // Guard.
+  if (tArgs.length <2 ){
+    console.log(`ERROR received message length ${tArgs.length}`);
+    return;
+  }  
+
+  // Show the string array.
+  test1Div.innerHTML = tArgs[0];
+  test2Div.innerHTML = tArgs[1];
+});
+
+ipc.on('Test1Response', (event, tBuffer) => {
+
+  // Convert received buffer to a record class instance.
+  let tMyRecord = new MyRecord();
+  tMyRecord.fromBuffer(tBuffer);
+
+  // Show the string array.
+  test1Div.innerHTML = tMyRecord.mItem1;
+  test2Div.innerHTML = tMyRecord.mItem2;
 });
 
