@@ -52,10 +52,10 @@ var mCommand2Progress = null;
 // Handle received messages. Call the saved message handler callbacks. 
 mCommandOutputUdp.on('message', (tBuffer, rinfo) => {
   if (!mValid) return;
-  //console.log(`mCommandOutputUdp:      ${tBuffer}`);
+  console.log(`mCommandOutputUdp:      ${tBuffer}`);
 
   // Convert the receive message  buffer to an array of string arguments.
-  let tArgs = tBuffer.toString('utf8').split(': ');
+  let tArgs = tBuffer.toString('utf8').split(',');
 
   // Guard.
   if (tArgs.length <2 ){
@@ -64,7 +64,7 @@ mCommandOutputUdp.on('message', (tBuffer, rinfo) => {
   }  
 
   // Process for specific command completion.
-  if (tArgs[0] == 'command1'){
+  if (tArgs[0] == 'Command1'){
     if (mCommand1Completion){
       mCommand1Completion(tArgs[1]);
     }
@@ -72,7 +72,7 @@ mCommandOutputUdp.on('message', (tBuffer, rinfo) => {
   }  
 
   // Process for specific command completion.
-  if (tArgs[0] == 'command2'){
+  if (tArgs[0] == 'Command2'){
     // Guard.
     if (!mCommand2Completion) return;
     // Handle a completion receive.
@@ -120,7 +120,7 @@ exports.sendCommand1 = function(aArg0,aCompletion) {
   // message is received.
   mCommand1Completion = aCompletion;
   // Send command to backend.
-  const tCmd = Buffer.from('command1' + ' ' + aArg0);
+  const tCmd = Buffer.from('Command1' + ',' + aArg0);
   mCommandInputUdp.send(tCmd,settings.mCommandInputPort,settings.mBackEndIpAddress);
 }
 
@@ -135,7 +135,7 @@ exports.sendCommand2 = function(aArg0,aCompletion,aProgress) {
   mCommand2Completion = aCompletion;
   mCommand2Progress = aProgress;
   // Send command to backend.
-  const tCmd = Buffer.from('command2' + ' ' + aArg0);
+  const tCmd = Buffer.from('Command2' + ',' + aArg0);
   mCommandInputUdp.send(tCmd,settings.mCommandInputPort,settings.mBackEndIpAddress);
 }
 
