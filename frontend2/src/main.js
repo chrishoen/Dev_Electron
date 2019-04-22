@@ -51,10 +51,9 @@ app.on('activate', function () {
 // Respond to the Command1 event received from the renderer ipc.
 
 ipc.on('Command1', (event, args) => {
-  console.log(`sending backend command1`);
   // Send a command to the backend and handle a completion.
   backendCmd.sendCommand1('arg0', function(msg){
-    console.log(`myCommand1Completion:    ` + msg);
+    console.log(`Command1 completion:    ` + msg);
     let temp = 'command1 completion:    ' + msg;
     mainWindow.send('Command1Completion',temp);
   });
