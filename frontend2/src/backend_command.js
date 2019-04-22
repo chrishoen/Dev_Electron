@@ -5,68 +5,74 @@ const settings = require('./backend_settings.js');
 // Command input udp datagram socket. Transmit socket.
 // This is input by the backend and output by the frontend.
 
-const mCommandInput = dgram.createSocket('udp4');
+const mCommandInputUdp = dgram.createSocket('udp4');
 
-mCommandInput.on('error', (err) => {
-  console.log(`mCommandInput error:\n${err.stack}`);
-  mCommandInput.close();
+mCommandInputUdp.on('error', (err) => {
+  console.log(`mCommandInputUdp error:\n${err.stack}`);
+  mCommandInputUdp.close();
 });
 
 //****************************************************************************
 // Command output udp datagram socket. Receive socket.
 // This is output by the backend and input by the frontend.
 
-const mCommandOutput = dgram.createSocket('udp4');
+const mCommandOutputUdp = dgram.createSocket('udp4');
 
-mCommandOutput.on('error', (err) => {
-  console.log(`mCommandOutput error:\n${err.stack}`);
-  mCommandOutput.close();
+mCommandOutputUdp.on('error', (err) => {
+  console.log(`mCommandOutputUdp error:\n${err.stack}`);
+  mCommandOutputUdp.close();
 });
 
-mCommandOutput.on('listening', () => {
-  const address = mCommandOutput.address();
-  console.log(`mCommandOutput listening ${address.address}:${address.port}`);
+mCommandOutputUdp.on('listening', () => {
+  const address = mCommandOutputUdp.address();
+  console.log(`mCommandOutputUdp listening ${address.address}:${address.port}`);
 });
 
-mCommandOutput.bind({
+mCommandOutputUdp.bind({
   address: settings.mFrontEndIpAddress,
   port: settings.mCommandOutputPort,
   exclusive: false
 });
 
-mCommandOutput.on('message', (msg, rinfo) => {
-//console.log(`mCommandOutput: ${msg} from ${rinfo.address}:${rinfo.port}`);
-  console.log(`mCommandOutput: ${msg}`);
+// Saved completion callbacks. These are set by the send command 
+// functions and called when messages are received
+var mCommand1Completion = null;
+
+// Handle received completion messages,
+mCommandOutputUdp.on('message', (msg, rinfo) => {
   if (!mValid) return;
-  mCompletionCallback(msg);
+  console.log(`mCommandOutputUdp: ${msg}`);
+
+  // Call saved completion callback.
+  if (mCommand1Completion){
+    mCommand1Completion(msg);
+  }
 });
 
 //****************************************************************************
 // Exports. initialize.
 
-var mCompletionCallback = null;
-exports.setCompletionCallback = function(aCallback) {
-  mCompletionCallback = aCallback;
-}
-
 var mValid = false;
 exports.initialize = function() {
   mValid = true;
-  console.log('backend status initialize');
+  console.log('backend command initialize');
 }
 
 exports.finalize = function() {
   mValid = false;
-  mCommandOutput.close();
-  console.log('backend status finalize');
+  mCommandInputUdp.close();
+  mCommandOutputUdp.close();
+  console.log('backend command finalize');
 }
 
 //****************************************************************************
-// Exports. initialize.
+// Exports. Send command.
 
-exports.sendCommand1 = function(aArg0) {
+exports.sendCommand1 = function(aArg0,aCompletion) {
+  // Save callback.
+  mCommand1Completion = aCompletion;
+  // Send command to backend.
   const tCmd = Buffer.from('command1' + ' ' + aArg0);
-
-  mCommandInput.send(tCmd,settings.mCommandInputPort,settings.mBackEndIpAddress);
+  mCommandInputUdp.send(tCmd,settings.mCommandInputPort,settings.mBackEndIpAddress);
 }
 

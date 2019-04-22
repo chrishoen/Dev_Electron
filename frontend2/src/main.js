@@ -6,7 +6,7 @@ var backendStatus = require('./backend_status.js');
 var backendCmd = require('./backend_command.js');
 
 //****************************************************************************
-// Main window.
+// Create the main window and assign handlers for the window events.
 
 var mainWindow = null;
 
@@ -48,64 +48,38 @@ app.on('activate', function () {
 })
 
 //****************************************************************************
-// command1.
-
-function myCommand1Completion(message) {
-  console.log(`myCommand1Completion:    ` + message);
-  let temp = 'command1 completion:    ' + message;
-  mainWindow.send('Command1Completion',temp);
-}
+// Respond to the Command1 event received from the renderer ipc.
 
 ipc.on('Command1', (event, args) => {
   console.log(`sending backend command1`);
-  backendCmd.sendCommand1('arg0');
+  // Send a command to the backend and handle a completion.
+  backendCmd.sendCommand1('arg0', function(msg){
+    console.log(`myCommand1Completion:    ` + msg);
+    let temp = 'command1 completion:    ' + msg;
+    mainWindow.send('Command1Completion',temp);
+  });
 })
 
 //****************************************************************************
-// command2.
+// Initialize the backend.
 
-function myCommand2Completion(code,message) {
-  console.log(`myCommand2Completion:    `,code,message);
-  let temp = 'command2 completion:    ' + " " + code + " " + message;
-  mainWindow.send('Command2Completion',temp);
-}
-
-function myCommand2Progress(message) {
-  console.log(`myCommand2Progress:      `,message);
-  let temp = 'command2 progress:    ' + " " + message;
-  mainWindow.send('Command2Progress',temp);
-}
-
-ipc.on('Command2', (event, args) => {
-  console.log(`calling backend command2`);
-})
-
-
-//****************************************************************************
-// BackEnd interactions.
-
-function myStatusCallback(x) {
-  //console.log(`myStatusCallback:         `,x);
-  mainWindow.send('StatusUpdate','backend status: ' + x);
-}
-
-function myCommandCompletionCallback(x) {
-  console.log(`myCommandCompletionCallback:         ` + x);
-  //mainWindow.send('StatusUpdate','backend status: ' + x);
+// Handle received status messages
+function myStatusCallback(msg) {
+  //console.log(`myStatusCallback:         `,msg);
+  mainWindow.send('StatusUpdate','backend status: ' + msg);
 }
 
 function initializeBackEnd() {
   console.log(`initializeBackEnd`);
 
-  backendCmd.setCompletionCallback(myCommandCompletionCallback);
-  backendCmd.initialize();
-
   backendStatus.setStatusCallback(myStatusCallback);
   backendStatus.initialize();
+  backendCmd.initialize();
 }
 
 function finalizeBackEnd() {
   console.log(`finalizeBackEnd`);
   backendStatus.finalize();
+  backendCmd.finalize();
 }
 
