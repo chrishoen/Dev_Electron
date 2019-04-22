@@ -1,12 +1,15 @@
 //****************************************************************************
 // This contains the main window processing.
 
+"use strict"
+
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const ipc = require('electron').ipcMain;
 var backendStatus = require('./backend_status.js');
 var backendCmd = require('./backend_command.js');
+const MyRecord = require('./myrecord.js');
 
 //****************************************************************************
 // Create the main window and assign handlers for the window events.
@@ -112,6 +115,10 @@ function finalizeBackEnd() {
 // Respond to a test event received from the renderer ipc.
 
 ipc.on('Test1', (event, args) => {
+  // Record class instance. 
+  const tMyRecord = new MyRecord();
+  console.log(`myrecord item1 ${tMyRecord.mItem1}`);
+
   // Send test response to the renderer ipc.
   let tMsg = 'some test data';
   mainWindow.send('Test1Response',tMsg);

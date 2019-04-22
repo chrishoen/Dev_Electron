@@ -1,6 +1,8 @@
 //****************************************************************************
 // This contains the renderer processing.
 
+"use strict"
+
 const ipc = require('electron').ipcRenderer;
 const command1Btn = document.querySelector('#command1Btn');
 const command2Btn = document.querySelector('#command2Btn');
