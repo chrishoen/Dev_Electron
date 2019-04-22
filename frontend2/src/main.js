@@ -1,3 +1,6 @@
+//****************************************************************************
+// This contains the main window processing.
+
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
@@ -52,10 +55,14 @@ app.on('activate', function () {
 
 ipc.on('Command1', (event, args) => {
   // Send a command to the backend and handle a completion.
-  backendCmd.sendCommand1('arg0', function(msg){
-    console.log(`Command1 completion:    ` + msg);
-    let temp = 'command1 completion:    ' + msg;
-    mainWindow.send('Command1Completion',temp);
+  backendCmd.sendCommand1(
+    // Command arguments.
+    'arg0', 
+    // Handle a completion. Send the received data to the renderer ipc.
+    function(msg){
+      console.log(`Command1 completion:    ` + msg);
+      let temp = 'command1 completion:    ' + msg;
+      mainWindow.send('Command1Completion',temp);
   });
 })
 
@@ -64,19 +71,22 @@ ipc.on('Command1', (event, args) => {
 
 ipc.on('Command2', (event, args) => {
   // Send a command to the backend and handle a completion
-  // and a progress update.
+  // and a progress update. 
   backendCmd.sendCommand2(
+    // Command arguments.
     'arg0', 
+    // Handle a completion. Send the received data to the renderer ipc.
     function(msg){
       console.log(`Command2 completion:    ` + msg);
       let temp = 'command2 completion: ' + msg;
       mainWindow.send('Command2Completion',temp);
     },
+    // Handle a progress update. Send the received data to the renderer.
     function(msg){
       console.log(`Command2 progress:      ` + msg);
       let temp = 'command2 progress: ' + msg;
       mainWindow.send('Command2Progress',temp);
-    })
+    });
 })
 
 //****************************************************************************

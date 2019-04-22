@@ -1,3 +1,8 @@
+//****************************************************************************
+// This contains the backend processing for command messages that are
+// sent to the backend and for completion and progess update message
+// that are received from the backend.
+
 const dgram = require('dgram');
 const settings = require('./backend_settings.js');
 

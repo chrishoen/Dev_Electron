@@ -1,3 +1,7 @@
+//****************************************************************************
+// This contains the backend processing for periodic status messages that are
+// received from the backend.
+
 const dgram = require('dgram');
 const settings = require('./backend_settings.js');
 
