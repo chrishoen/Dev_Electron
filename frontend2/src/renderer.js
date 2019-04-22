@@ -46,3 +46,16 @@ ipc.on('Command2Completion', (event, args) => {
 ipc.on('Command2Progress', (event, args) => {
   progress2Div.innerHTML = args;
 });
+
+//****************************************************************************
+// test1.
+
+test1Btn.addEventListener('click', () => {
+  test1Div.innerHTML = 'none';
+  ipc.send('Test1')
+});
+
+ipc.on('Test1Response', (event, args) => {
+  test1Div.innerHTML = args;
+});
+

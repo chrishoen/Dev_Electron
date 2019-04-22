@@ -1,9 +1,13 @@
+/************************************************ info */
+
 #infoDiv {
   position:fixed;
   bottom:0px;
   left:8px;
   width:400px;
 }
+
+/************************************************ status */
 
 #statusLbl {
   position:fixed;
@@ -19,6 +23,7 @@
   width:200px;
 }
 
+/************************************************ command1 */
 #command1Lbl {
   position:fixed;
   top:60px;
@@ -33,6 +38,7 @@
   width:200px;
 }
 
+/************************************************ command2 */
 #command2Lbl {
   position:fixed;
   top:100px;
@@ -62,6 +68,7 @@
 }
 
 
+/************************************************ test1 */
 #test1Btn {
   position:fixed;
   top:200px;

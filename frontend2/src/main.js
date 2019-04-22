@@ -108,3 +108,12 @@ function finalizeBackEnd() {
   backendCmd.finalize();
 }
 
+//****************************************************************************
+// Respond to a test event received from the renderer ipc.
+
+ipc.on('Test1', (event, args) => {
+  // Send test response to the renderer ipc.
+  let tMsg = 'some test data';
+  mainWindow.send('Test1Response',tMsg);
+})
+
