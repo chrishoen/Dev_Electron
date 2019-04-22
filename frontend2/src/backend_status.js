@@ -4,6 +4,7 @@ const settings = require('./backend_settings.js');
 //****************************************************************************
 // Status udp datagram.
 
+// Create and initialize the receive udp socket.
 const mStatusUdp = dgram.createSocket('udp4');
 
 mStatusUdp.on('error', (err) => {
@@ -22,6 +23,7 @@ mStatusUdp.bind({
   exclusive: false
 });
 
+// Handle received messages. Call the saved message handler callback. 
 mStatusUdp.on('message', (msg, rinfo) => {
 //console.log(`mStatusUdp: ${msg} from ${rinfo.address}:${rinfo.port}`);
 //console.log(`mStatusUdp: ${msg}`);
@@ -32,17 +34,22 @@ mStatusUdp.on('message', (msg, rinfo) => {
 //****************************************************************************
 // BackEnd initialization.
 
+// Saved message handler callback. This is  set by the initialize 
+// function and called when messages are received.
 var mStatusCallback = null;
-exports.setStatusCallback = function(cb) {
-  mStatusCallback = cb;
-}
 
+// True if the module is initialized.
 var mValid = false;
-exports.initialize = function() {
+
+// Initialize the module. Save the receive message handler callback.
+// Set the valid flag.
+exports.initialize = function(aStatusCallback) {
+  mStatusCallback = aStatusCallback;
   mValid = true;
   console.log('backend status initialize');
 }
 
+// Finalize the module. Reset the valid flag. Close the socket. 
 exports.finalize = function() {
   mValid = false;
   mStatusUdp.close();

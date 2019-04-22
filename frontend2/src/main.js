@@ -64,18 +64,16 @@ ipc.on('Command1', (event, args) => {
 
 // Handle received status messages
 function myStatusCallback(msg) {
-  //console.log(`myStatusCallback:         `,msg);
   mainWindow.send('StatusUpdate','backend status: ' + msg);
 }
 
+// Initialize the backend
 function initializeBackEnd() {
-  console.log(`initializeBackEnd`);
-
-  backendStatus.setStatusCallback(myStatusCallback);
-  backendStatus.initialize();
+  backendStatus.initialize(myStatusCallback);
   backendCmd.initialize();
 }
 
+// Finalize the backend
 function finalizeBackEnd() {
   console.log(`finalizeBackEnd`);
   backendStatus.finalize();

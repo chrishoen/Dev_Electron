@@ -16,6 +16,7 @@ mCommandInputUdp.on('error', (err) => {
 // Command output udp datagram socket. Receive socket.
 // This is output by the backend and input by the frontend.
 
+// Create and initialize the receive udp socket.
 const mCommandOutputUdp = dgram.createSocket('udp4');
 
 mCommandOutputUdp.on('error', (err) => {
@@ -35,13 +36,13 @@ mCommandOutputUdp.bind({
 });
 
 // Saved completion callbacks. These are set by the send command 
-// functions and called when messages are received
+// functions and called when messages are received.
 var mCommand1Completion = null;
 
-// Handle received completion messages,
+// Handle received messages. Call the saved message handler callbacks. 
 mCommandOutputUdp.on('message', (msg, rinfo) => {
   if (!mValid) return;
-  console.log(`mCommandOutputUdp: ${msg}`);
+  console.log(`mCommandOutputUdp:      ${msg}`);
 
   // Call saved completion callback.
   if (mCommand1Completion){
@@ -52,12 +53,16 @@ mCommandOutputUdp.on('message', (msg, rinfo) => {
 //****************************************************************************
 // Exports. initialize.
 
+// True if the module is initialized.
 var mValid = false;
+
+// Initialize the module. Set the valid flag.
 exports.initialize = function() {
   mValid = true;
   console.log('backend command initialize');
 }
 
+// Finalize the module. Reset the valid flag. Close the sockets. 
 exports.finalize = function() {
   mValid = false;
   mCommandInputUdp.close();
@@ -68,8 +73,11 @@ exports.finalize = function() {
 //****************************************************************************
 // Exports. Send command.
 
+// Send a command to the backend via the transmit socket.
+// Save the command completion message handler callback.
 exports.sendCommand1 = function(aArg0,aCompletion) {
-  // Save callback.
+  // Save the completion callback. This is called when a completion
+  // message is received.
   mCommand1Completion = aCompletion;
   // Send command to backend.
   const tCmd = Buffer.from('command1' + ' ' + aArg0);
