@@ -51,7 +51,7 @@ app.on('activate', function () {
 })
 
 //****************************************************************************
-// Respond to the Command1 event received from the renderer ipc.
+// Respond to a command event received from the renderer ipc.
 
 ipc.on('Command1', (event, args) => {
   // Send a command to the backend and handle a completion.
@@ -67,7 +67,7 @@ ipc.on('Command1', (event, args) => {
 })
 
 //****************************************************************************
-// Respond to the Command1 event received from the renderer ipc.
+// Respond to a command event received from the renderer ipc.
 
 ipc.on('Command2', (event, args) => {
   // Send a command to the backend and handle a completion
@@ -81,7 +81,7 @@ ipc.on('Command2', (event, args) => {
       let temp = 'command2 completion: ' + msg;
       mainWindow.send('Command2Completion',temp);
     },
-    // Handle a progress update. Send the received data to the renderer.
+    // Handle a progress update. Send the received data to the renderer ipc.
     function(msg){
       console.log(`Command2 progress:      ` + msg);
       let temp = 'command2 progress: ' + msg;
@@ -92,20 +92,21 @@ ipc.on('Command2', (event, args) => {
 //****************************************************************************
 // Initialize the backend.
 
-// Handle received status messages
+// Handle received status messages from the backend. This is called
+// periodically by the backend to update status.
 function myStatusCallback(msg) {
-  mainWindow.send('StatusUpdate','backend status: ' + msg);
+    // Send the received data to the renderer ipc.
+    mainWindow.send('StatusUpdate','backend status: ' + msg);
 }
 
-// Initialize the backend
+// Initialize the backend.
 function initializeBackEnd() {
   backendStatus.initialize(myStatusCallback);
   backendCmd.initialize();
 }
 
-// Finalize the backend
+// Finalize the backend.
 function finalizeBackEnd() {
-  console.log(`finalizeBackEnd`);
   backendStatus.finalize();
   backendCmd.finalize();
 }
