@@ -61,8 +61,7 @@ ipc.on('Command1', (event, args) => {
     // Handle a completion. Send the received data to the renderer ipc.
     function(msg){
       console.log(`Command1 completion:    ` + msg);
-      let temp = 'command1 completion:    ' + msg;
-      mainWindow.send('Command1Completion',temp);
+      mainWindow.send('Command1Completion',msg);
   });
 })
 
@@ -78,14 +77,12 @@ ipc.on('Command2', (event, args) => {
     // Handle a completion. Send the received data to the renderer ipc.
     function(msg){
       console.log(`Command2 completion:    ` + msg);
-      let temp = 'command2 completion: ' + msg;
-      mainWindow.send('Command2Completion',temp);
+      mainWindow.send('Command2Completion',msg);
     },
     // Handle a progress update. Send the received data to the renderer ipc.
     function(msg){
       console.log(`Command2 progress:      ` + msg);
-      let temp = 'command2 progress: ' + msg;
-      mainWindow.send('Command2Progress',temp);
+      mainWindow.send('Command2Progress',msg);
     });
 })
 
@@ -96,7 +93,7 @@ ipc.on('Command2', (event, args) => {
 // periodically by the backend to update status.
 function myStatusCallback(msg) {
     // Send the received data to the renderer ipc.
-    mainWindow.send('StatusUpdate','backend status: ' + msg);
+    mainWindow.send('StatusUpdate',msg);
 }
 
 // Initialize the backend.

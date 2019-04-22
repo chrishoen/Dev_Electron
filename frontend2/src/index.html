@@ -11,16 +11,23 @@
 <input type="button" id="command2Btn" value="Command2">
 
 <!-- <h1>FrontEnd11</h1>  -->
-<div>
+<div id="infoDiv">
 Node <script>document.write(process.versions.node)</script>,
 Chrome <script>document.write(process.versions.chrome)</script>,
 Electron <script>document.write(process.versions.electron)</script>.
 </div>
 
-<div id="statusDiv">status count</div>
-<div id="command1Div">command1 completion</div>
-<div id="command2Div">command2 completion</div>
-<div id="progress2Div">command2 progress</div>
+<div id="statusLbl">Backend Status:</div>
+<div id="statusDiv">none</div>
+
+<div id="command1Lbl">Command1 Completion:</div>
+<div id="command1Div">none</div>
+
+<div id="command2Lbl">Command2 Completion:</div>
+<div id="command2Div">none</div>
+
+<div id="progress2Lbl">Command2 Progress</div>
+<div id="progress2Div">none</div>
 
 <script>
    require('./renderer.js');

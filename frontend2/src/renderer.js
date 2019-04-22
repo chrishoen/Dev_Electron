@@ -21,7 +21,7 @@ ipc.on('StatusUpdate', (event, args) => {
 // command1.
 
 command1Btn.addEventListener('click', () => {
-  command1Div.innerHTML = 'sending command1';
+  command1Div.innerHTML = 'none';
   ipc.send('Command1')
 });
 
@@ -33,14 +33,14 @@ ipc.on('Command1Completion', (event, args) => {
 // command2.
 
 command2Btn.addEventListener('click', () => {
-  command2Div.innerHTML = 'sending command2';
-  progress2Div.innerHTML = 'command2 progress:';
+  command2Div.innerHTML = 'none';
+  progress2Div.innerHTML = 'none';
   ipc.send('Command2')
 });
 
 ipc.on('Command2Completion', (event, args) => {
   command2Div.innerHTML = args;
-  progress2Div.innerHTML = "command2 progress:";
+  progress2Div.innerHTML = "none";
 });
 
 ipc.on('Command2Progress', (event, args) => {

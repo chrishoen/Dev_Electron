@@ -1,3 +1,67 @@
-#statusDiv {
-  color: red;
+#infoDiv {
+  position:fixed;
+  bottom:0px;
+  left:8px;
+  width:400px;
 }
+
+#statusLbl {
+  position:fixed;
+  top:0px;
+  left:400px;
+  width:200px;
+}
+
+#statusDiv {
+  position:fixed;
+  top:0px;
+  left:600px;
+  width:200px;
+}
+
+#command1Lbl {
+  position:fixed;
+  top:60px;
+  left:8px;
+  width:200px;
+}
+
+#command1Div {
+  position:fixed;
+  top:60px;
+  left:200px;
+  width:200px;
+}
+
+#command2Lbl {
+  position:fixed;
+  top:100px;
+  left:8px;
+  width:200px;
+}
+
+#command2Div {
+  position:fixed;
+  top:100px;
+  left:200px;
+  width:200px;
+}
+
+#progress2Lbl {
+  position:fixed;
+  top:120px;
+  left:8px;
+  width:200px;
+}
+
+#progress2Div {
+  position:fixed;
+  top:120px;
+  left:200px;
+  width:200px;
+}
+
+
+
+
+
