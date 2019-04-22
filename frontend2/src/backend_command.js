@@ -35,19 +35,36 @@ mCommandOutputUdp.bind({
   exclusive: false
 });
 
+//****************************************************************************
+// Receive message handler.
+
 // Saved completion callbacks. These are set by the send command 
 // functions and called when messages are received.
 var mCommand1Completion = null;
 
 // Handle received messages. Call the saved message handler callbacks. 
-mCommandOutputUdp.on('message', (msg, rinfo) => {
+mCommandOutputUdp.on('message', (tBuffer, rinfo) => {
   if (!mValid) return;
-  console.log(`mCommandOutputUdp:      ${msg}`);
+  console.log(`mCommandOutputUdp:      ${tBuffer}`);
+
+  // Convert the receive message  buffer to an array of string arguments.
+  let tArgs = tBuffer.toString('utf8').split(': ');
+
+  // Guard.
+  if (tArgs.length <2 ){
+    console.log(`ERROR received message length ${tArgs.length}`);
+    return;
+  }  
+
+  // Process for command.
+  if (tArgs[0] == 'command1'){
+    if (mCommand1Completion){
+      mCommand1Completion(tArgs[1]);
+    }
+    return;
+  }  
 
   // Call saved completion callback.
-  if (mCommand1Completion){
-    mCommand1Completion(msg);
-  }
 });
 
 //****************************************************************************
