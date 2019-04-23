@@ -1,10 +1,23 @@
 //****************************************************************************
-// This defines some test record classes.
-"use strict";
+// This defines a backend command completion record class. It contains
+// string member variables that describe a command completion.
+//
+// A command completion is sent from the backend to the frontend during
+// and after command exection.
+//
+// It contains a method to pack the string member variables into a
+// buffer that contains a single csv string.
+// It contains a method to unpack the string member variables from a
+// buffer that contains a single csv string.
+//
+// The buffers are received via udp sockets from the backend program.
+// They are also sent from the main window to the renderer.
+
+"use strict"
 
 const internal = {};
 
-module.exports = internal.MyRecord = class{
+module.exports = internal.CompletionRecord = class{
 
   // Constructor.
   constructor(aBuffer){
@@ -27,7 +40,7 @@ module.exports = internal.MyRecord = class{
 
   // Convert from a buffer. The buffer has a csv string array format.
   fromBuffer(tBuffer){
-    // Convert buffer to string array.
+    // Convert the buffer to a string array.
     let tArgs = tBuffer.toString('utf8').split(',');
 
     // Guard.
@@ -35,7 +48,7 @@ module.exports = internal.MyRecord = class{
       return;
     }  
 
-    // Set member variables from string array.
+    // Set member variables from the string array.
     this.mValid = true;
     this.mCommand = tArgs[0];
     this.mResponse = tArgs[1];
@@ -47,6 +60,8 @@ module.exports = internal.MyRecord = class{
   // Convert to a buffer and return it. The buffer has a csv string
   // array format.
   toBuffer(){
+    // Create a single csv string from the member varaibles, create
+    // a buffer from the single csv string, and return it.
     return Buffer.from([
       this.mCommand,
       this.mResponse,
