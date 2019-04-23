@@ -7,8 +7,8 @@ const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const ipc = require('electron').ipcMain;
-var backendStatus = require('./backend_status.js');
-var backendCmd = require('./backend_command.js');
+const backendStatus = require('./backend_status.js');
+const backendCmd = require('./backend_command.js');
 const MyRecord = require('./myrecord.js');
 
 //****************************************************************************
