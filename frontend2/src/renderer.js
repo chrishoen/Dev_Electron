@@ -14,6 +14,9 @@ let command1Div = document.querySelector('#command1Div');
 let command2Div = document.querySelector('#command2Div');
 let progress2Div = document.querySelector('#progress2Div');
 
+var nodeConsole = require('console');
+var myConsole = new nodeConsole.Console(process.stdout, process.stderr);
+
 //****************************************************************************
 // status.
 
@@ -75,11 +78,9 @@ ipc.on('Test1Response22', (event, tBuffer) => {
   test2Div.innerHTML = tArgs[1];
 });
 
-ipc.on('Test1Response', (event, tBuffer) => {
-
+ipc.on('Test1Response', (event, aBuffer) => {
   // Convert received buffer to a record class instance.
-  let tMyRecord = new MyRecord();
-  tMyRecord.fromBuffer(tBuffer);
+  let tMyRecord = new MyRecord(aBuffer);
 
   // Show the string array.
   test1Div.innerHTML = tMyRecord.mItem1;

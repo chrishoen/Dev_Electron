@@ -11,6 +11,7 @@ syncBtn.addEventListener('click', () => {
 });
 
 asyncBtn.addEventListener('click', () => {
+  console.log('LINE101');
   ipc.send('aSynMessage','A async message to main')
 });
 
