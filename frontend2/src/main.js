@@ -18,7 +18,7 @@ const CompletionRecord = require('./record_completion.js');
 var mainWindow = null;
 
 function createWindow () {
-  mainWindow = new BrowserWindow({width: 800, height: 440, x:0, y:0})
+  mainWindow = new BrowserWindow({width: 800, height: 420, x:0, y:0})
   mainWindow.loadURL('file://'+__dirname+'/index.html')
   mainWindow.on('closed', function () {
     console.log(`closed`);
@@ -132,21 +132,3 @@ function finalizeBackEnd() {
   backendCmd.finalize();
 }
 
-//****************************************************************************
-// Respond to a test event received from the renderer ipc.
-
-ipc.on('Test1', (event, args) => {
-  // Record class instance. 
-  const tMyRecord = new MyRecord();
-  tMyRecord.mItem1 = 'some_item1';
-  tMyRecord.mItem2 = 'some_item2';
-
-  showMyRecord(tMyRecord);
-
-  // Send test response to the renderer ipc.
-  mainWindow.send('Test1Response',tMyRecord.toBuffer());
-})
-
-function showMyRecord(aMyRecord){
-  console.log(`show MyRecord ${aMyRecord.mItem1},${aMyRecord.mItem2}`);
-}

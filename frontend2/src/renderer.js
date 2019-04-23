@@ -98,21 +98,3 @@ ipc.on('Command2Completion', (event, aBuffer) => {
   }
 
 });
-
-//****************************************************************************
-// test1.
-
-test1Btn.addEventListener('click', () => {
-  test1Div.innerHTML = 'none';
-  ipc.send('Test1')
-});
-
-ipc.on('Test1Response', (event, aBuffer) => {
-  // Convert received buffer to a record class instance.
-  let tMyRecord = new MyRecord(aBuffer);
-
-  // Show the string array.
-  test1Div.innerHTML = tMyRecord.mItem1;
-  test2Div.innerHTML = tMyRecord.mItem2;
-});
-
