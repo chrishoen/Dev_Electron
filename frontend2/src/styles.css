@@ -27,28 +27,28 @@
   position:fixed;
   top:60px;
   left:10px;
-  width:180px;
+  width:200px;
 }
 
 #command1Div {
   position:fixed;
   top:60px;
   left:240px;
-  width:180px;
+  width:200px;
 }
 
 #message1Lbl {
   position:fixed;
   top:80px;
   left:10px;
-  width:180px;
+  width:200px;
 }
 
 #message1Div {
   position:fixed;
   top:80px;
   left:240px;
-  width:180px;
+  width:200px;
 }
 
 /************************************************ command2 */
@@ -56,42 +56,42 @@
   position:fixed;
   top:120px;
   left:10px;
-  width:180px;
+  width:200px;
 }
 
 #command2Div {
   position:fixed;
   top:120px;
   left:240px;
-  width:180px;
+  width:200px;
 }
 
 #message2Lbl {
   position:fixed;
   top:140px;
   left:10px;
-  width:180px;
+  width:200px;
 }
 
 #message2Div {
   position:fixed;
   top:140px;
   left:240px;
-  width:180px;
+  width:200px;
 }
 
 #progress2Lbl {
   position:fixed;
   top:160px;
   left:10px;
-  width:180px;
+  width:200px;
 }
 
 #progress2Div {
   position:fixed;
   top:160px;
   left:240px;
-  width:180px;
+  width:200px;
 }
 
 
