@@ -39,9 +39,24 @@ ipc.on('Command1Completion', (event, aBuffer) => {
   // Convert the receive message buffer to a completion record.
   let tCompletion = new CompletionRecord(aBuffer);
 
-  // Show the complletion record.
-  command1Div.innerHTML = tCompletion.mResponse;
-  message1Div.innerHTML = tCompletion.mMessage;
+  // Show the completion record.
+  if (tCompletion.mCode == 'ack'){
+    command1Div.innerHTML = tCompletion.mCode;
+    message1Div.innerHTML = tCompletion.mMessage;
+
+  } else if (tCompletion.mCode == 'nak'){
+    command1Div.innerHTML = tCompletion.mCode;
+    message1Div.innerHTML = tCompletion.mMessage;
+
+  } else if  (tCompletion.mCode == 'done'){
+    command1Div.innerHTML = tCompletion.mCode;
+    message1Div.innerHTML = tCompletion.mMessage;
+
+  } else {
+    command1Div.innerHTML = 'bad completion code';
+    message1Div.innerHTML = 'none';
+  }
+
 });
 
 //****************************************************************************
@@ -59,12 +74,29 @@ ipc.on('Command2Completion', (event, aBuffer) => {
   let tCompletion = new CompletionRecord(aBuffer);
 
   // Show the completion record.
-  if (tCompletion.mResponse != 'progress'){
-    command2Div.innerHTML = tCompletion.mResponse;
+  if (tCompletion.mCode == 'ack'){
+    command2Div.innerHTML = tCompletion.mCode;
     message2Div.innerHTML = tCompletion.mMessage;
-  } else {
+    progress2Div.innerHTML = 'none';
+
+  } else if (tCompletion.mCode == 'nak'){
+    command2Div.innerHTML = tCompletion.mCode;
+    message2Div.innerHTML = tCompletion.mMessage;
+
+  } else if  (tCompletion.mCode == 'done'){
+    command2Div.innerHTML = tCompletion.mCode;
+    message2Div.innerHTML = tCompletion.mMessage;
+    progress2Div.innerHTML = 'none';
+
+  } else if  (tCompletion.mCode == 'progress'){
     progress2Div.innerHTML = tCompletion.mMessage;
+
+  } else {
+    command2Div.innerHTML = 'bad completion code';
+    message2Div.innerHTML = 'none';
+    progress2Div.innerHTML = 'none';
   }
+
 });
 
 //****************************************************************************

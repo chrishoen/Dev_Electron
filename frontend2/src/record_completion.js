@@ -34,12 +34,15 @@ module.exports = internal.CompletionRecord = class{
   reset(){
     this.mValid = false;
     this.mCommand = "none";
-    this.mResponse = "none";
+    this.mCode = "none";
     this.mMessage = "none";
   }
 
   // Convert from a buffer. The buffer has a csv string array format.
   fromBuffer(tBuffer){
+    // Set defaults.
+    this.reset();
+
     // Convert the buffer to a string array.
     let tArgs = tBuffer.toString('utf8').split(',');
 
@@ -51,8 +54,8 @@ module.exports = internal.CompletionRecord = class{
     // Set member variables from the string array.
     this.mValid = true;
     this.mCommand = tArgs[0];
-    this.mResponse = tArgs[1];
-    if (tArgs.length == 3){
+    this.mCode = tArgs[1];
+    if (tArgs.length >= 3){
       this.mMessage = tArgs[2];
     }
   }
@@ -64,7 +67,7 @@ module.exports = internal.CompletionRecord = class{
     // a buffer from the single csv string, and return it.
     return Buffer.from([
       this.mCommand,
-      this.mResponse,
+      this.mCode,
       this.mMessage,
     ].join());
   }

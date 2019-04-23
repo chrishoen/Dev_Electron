@@ -44,50 +44,30 @@ mCommandOutputUdp.bind({
 //****************************************************************************
 // Receive message handler.
 
-// Saved completion callbacks. These are set by the send command 
-// functions and called when messages are received.
-var mCommand1Completion = null;
-var mCommand2Completion = null;
-
-// Handle received messages. Call the saved message handler callbacks. 
+// Handle received messages. Call the saved message handler callback. 
 mCommandOutputUdp.on('message', (aBuffer, rinfo) => {
   if (!mValid) return;
   console.log(`mCommandOutputUdp:      ${aBuffer}`);
 
-  // Convert the receive message buffer to a completion record.
-  let tCompletion = new CompletionRecord(aBuffer);
-
-  // Guard.
-  if (!tCompletion.mValid){
-    console.log(`ERROR received message ${tCompletion.mCommand}`);
-    return;
-  }  
-
-  // Process for specific command completion.
-  if (tCompletion.mCommand == 'Command1'){
-    if (mCommand1Completion){
-      mCommand1Completion(tCompletion);
-    }
-    return;
-  }  
-
-  // Process for specific command completion.
-  if (tCompletion.mCommand == 'Command2'){
-    if (mCommand2Completion){
-      mCommand2Completion(tCompletion);
-    }
-    return;
-  }  
+  // Call the saved completion callback, pass it the received message
+  // buffer.
+  mCompletionCallback(aBuffer);
 });
 
 //****************************************************************************
-// Exports. initialize.
+// BackEnd initialization.
+
+// Saved message handler callback. This is  set by the initialize 
+// function and called when messages are received.
+var mCompletionCallback = null;
 
 // True if the module is initialized.
 var mValid = false;
 
-// Initialize the module. Set the valid flag.
-exports.initialize = function() {
+// Initialize the module. Save the receive message handler callback.
+// Set the valid flag.
+exports.initialize = function(aCompletionCallback) {
+  mCompletionCallback = aCompletionCallback;
   mValid = true;
   console.log('backend command initialize');
 }
@@ -99,32 +79,17 @@ exports.finalize = function() {
   mCommandOutputUdp.close();
   console.log('backend command finalize');
 }
-
 //****************************************************************************
 // Exports. Send command.
 
-// Send a command to the backend via the transmit socket.
-// Save the command completion message handler callback.
-exports.sendCommand1 = function(aArg0,aCompletion) {
-  // Save the completion callback. This is called when a completion
-  // message is received.
-  mCommand1Completion = aCompletion;
-  // Send command to backend.
-  const tCmd = Buffer.from('Command1' + ',' + aArg0);
-  mCommandInputUdp.send(tCmd,settings.mCommandInputPort,settings.mBackEndIpAddress);
-}
-
-//****************************************************************************
-// Exports. Send command.
-
-// Send a command to the backend via the transmit socket.
-// Save the command completion message handler callback.
-exports.sendCommand2 = function(aArg0,aCompletion,aProgress) {
-  // Save the completion callback. This is called when a completion
-  // message is received.
-  mCommand2Completion = aCompletion;
-  // Send command to backend.
-  const tCmd = Buffer.from('Command2' + ',' + aArg0);
-  mCommandInputUdp.send(tCmd,settings.mCommandInputPort,settings.mBackEndIpAddress);
+// Send a command to the backend via the transmit socket. The input command
+// is a string array. Create a single csv string from the input string array, create
+// a buffer from the single csv string, and transmit it to the backend 
+// via the socket.
+exports.sendCommand = function(aStringArray) {
+  // Construct the csv buffer from the string array.
+  const tBuffer = Buffer.from(aStringArray.join());
+  // Transmit the buffer.
+  mCommandInputUdp.send(tBuffer,settings.mCommandInputPort,settings.mBackEndIpAddress);
 }
 

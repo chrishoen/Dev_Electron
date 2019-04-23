@@ -58,46 +58,72 @@ app.on('activate', function () {
 // Respond to a command event received from the renderer ipc.
 
 ipc.on('Command1', (event, args) => {
-  // Send a command to the backend and handle a completion.
-  backendCmd.sendCommand1(
-    // Command arguments.
-    'arg0', 
-    // Handle a completion. Send the received data to the renderer ipc.
-    function(aCompletion){
-      console.log(`Command1 completion:    ${aCompletion.mCommand}`);
-      mainWindow.send('Command1Completion',aCompletion.toBuffer());
-  });
+  // Send a command to the backend.
+  backendCmd.sendCommand(['Command1','arg0'])
 });
 
 //****************************************************************************
 // Respond to a command event received from the renderer ipc.
 
 ipc.on('Command2', (event, args) => {
-  // Send a command to the backend and handle a completion.
-  backendCmd.sendCommand2(
-    // Command arguments.
-    'arg0', 
-    // Handle a completion. Send the received data to the renderer ipc.
-    function(aCompletion){
-      console.log(`Command2 completion:    ${aCompletion.mCommand}`);
-      mainWindow.send('Command2Completion',aCompletion.toBuffer());
-  });
+  // Send a command to the backend.
+  backendCmd.sendCommand(['Command2','arg0'])
 });
+
+//****************************************************************************
+// Handle command completion messages received from the backend udp socket.
+// This is called by the backend when these messages are received. It
+// unpacks the received message buffer into a completion record. Based on
+// the record contents, it forwards the message buffer to the renderer via
+// the ipc.
+
+function handleRxCompletionMsg(aBuffer) {
+
+  // Convert the receive message buffer to a completion record.
+  let tCompletion = new CompletionRecord(aBuffer);
+
+  // Guard.
+  if (!tCompletion.mValid){
+    console.log(`ERROR received message ${tCompletion.mCommand}`);
+    return;
+  }  
+
+  // Process for the specific command that the completion message
+  // corresponds to.
+  if (tCompletion.mCommand == 'Command1'){
+    console.log(`Command1 completion:    ${tCompletion.mCode}`);
+    // Forward the message buffer to the renderer via the ipc.
+    mainWindow.send('Command1Completion',aBuffer);
+    return;
+  }  
+
+  // Process for the specific command that the completion message
+  // corresponds to.
+  if (tCompletion.mCommand == 'Command2'){
+    console.log(`Command2 completion:    ${tCompletion.mCode}`);
+    // Forward the message buffer to the renderer via the ipc.
+    mainWindow.send('Command2Completion',aBuffer);
+    return;
+  }  
+}
+
+//****************************************************************************
+// Handle received status messages from the backend. This is
+// called by the backend when these messages are received.
+// It forwards the messages to the renderer via the ipc.
+
+function handleRxStatusMsg(aBuffer) {
+  // Forward the message buffer to the renderer via the ipc.
+  mainWindow.send('StatusUpdate',aBuffer);
+}
 
 //****************************************************************************
 // Initialize the backend.
 
-// Handle received status messages from the backend. This is called
-// periodically by the backend to update status.
-function myStatusCallback(msg) {
-    // Send the received data to the renderer ipc.
-    mainWindow.send('StatusUpdate',msg);
-}
-
 // Initialize the backend.
 function initializeBackEnd() {
-  backendStatus.initialize(myStatusCallback);
-  backendCmd.initialize();
+  backendStatus.initialize(handleRxStatusMsg);
+  backendCmd.initialize(handleRxCompletionMsg);
 }
 
 // Finalize the backend.
