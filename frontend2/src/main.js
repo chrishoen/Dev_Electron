@@ -10,6 +10,7 @@ const ipc = require('electron').ipcMain;
 const backendStatus = require('./backend_status.js');
 const backendCmd = require('./backend_command.js');
 const MyRecord = require('./myrecord.js');
+const CompletionRecord = require('./record_completion.js');
 
 //****************************************************************************
 // Create the main window and assign handlers for the window events.
@@ -62,32 +63,26 @@ ipc.on('Command1', (event, args) => {
     // Command arguments.
     'arg0', 
     // Handle a completion. Send the received data to the renderer ipc.
-    function(msg){
-      console.log(`Command1 completion:    ` + msg);
-      mainWindow.send('Command1Completion',msg);
+    function(aCompletion){
+      console.log(`Command1 completion:    ${aCompletion.mCommand}`);
+      mainWindow.send('Command1Completion',aCompletion.toBuffer());
   });
-})
+});
 
 //****************************************************************************
 // Respond to a command event received from the renderer ipc.
 
 ipc.on('Command2', (event, args) => {
-  // Send a command to the backend and handle a completion
-  // and a progress update. 
+  // Send a command to the backend and handle a completion.
   backendCmd.sendCommand2(
     // Command arguments.
     'arg0', 
     // Handle a completion. Send the received data to the renderer ipc.
-    function(msg){
-      console.log(`Command2 completion:    ` + msg);
-      mainWindow.send('Command2Completion',msg);
-    },
-    // Handle a progress update. Send the received data to the renderer ipc.
-    function(msg){
-      console.log(`Command2 progress:      ` + msg);
-      mainWindow.send('Command2Progress',msg);
-    });
-})
+    function(aCompletion){
+      console.log(`Command2 completion:    ${aCompletion.mCommand}`);
+      mainWindow.send('Command2Completion',aCompletion.toBuffer());
+  });
+});
 
 //****************************************************************************
 // Initialize the backend.
@@ -114,28 +109,6 @@ function finalizeBackEnd() {
 //****************************************************************************
 // Respond to a test event received from the renderer ipc.
 
-ipc.on('Test22', (event, args) => {
-  // Record class instance. 
-  const tMyRecord = new MyRecord();
-  console.log(`myrecord item1 ${tMyRecord.mItem1}`);
-
-  // Send test response to the renderer ipc.
-  let tMsg = 'some test data';
-  mainWindow.send('Test1Response',tMsg);
-})
-
-//****************************************************************************
-// Respond to a test event received from the renderer ipc.
-
-ipc.on('Test23', (event, args) => {
-  // Send test response to the renderer ipc.
-  let tMsg = ['Command101','some test data'].join();
-  mainWindow.send('Test1Response',tMsg);
-})
-
-//****************************************************************************
-// Respond to a test event received from the renderer ipc.
-
 ipc.on('Test1', (event, args) => {
   // Record class instance. 
   const tMyRecord = new MyRecord();
@@ -147,8 +120,6 @@ ipc.on('Test1', (event, args) => {
   // Send test response to the renderer ipc.
   mainWindow.send('Test1Response',tMyRecord.toBuffer());
 })
-
-
 
 function showMyRecord(aMyRecord){
   console.log(`show MyRecord ${aMyRecord.mItem1},${aMyRecord.mItem2}`);

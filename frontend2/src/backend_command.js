@@ -5,6 +5,7 @@
 
 const dgram = require('dgram');
 const settings = require('./backend_settings.js');
+const CompletionRecord = require('./record_completion.js');
 
 //****************************************************************************
 // Command input udp datagram socket. Transmit socket.
@@ -47,47 +48,36 @@ mCommandOutputUdp.bind({
 // functions and called when messages are received.
 var mCommand1Completion = null;
 var mCommand2Completion = null;
-var mCommand2Progress = null;
 
 // Handle received messages. Call the saved message handler callbacks. 
-mCommandOutputUdp.on('message', (tBuffer, rinfo) => {
+mCommandOutputUdp.on('message', (aBuffer, rinfo) => {
   if (!mValid) return;
-  console.log(`mCommandOutputUdp:      ${tBuffer}`);
+  console.log(`mCommandOutputUdp:      ${aBuffer}`);
 
-  // Convert the receive message  buffer to an array of string arguments.
-  let tArgs = tBuffer.toString('utf8').split(',');
+  // Convert the receive message buffer to a completion record.
+  let tCompletion = new CompletionRecord(aBuffer);
 
   // Guard.
-  if (tArgs.length <2 ){
-    console.log(`ERROR received message length ${tArgs.length}`);
+  if (!tCompletion.mValid){
+    console.log(`ERROR received message ${tCompletion.mCommand}`);
     return;
   }  
 
   // Process for specific command completion.
-  if (tArgs[0] == 'Command1'){
+  if (tCompletion.mCommand == 'Command1'){
     if (mCommand1Completion){
-      mCommand1Completion(tArgs[1]);
+      mCommand1Completion(tCompletion);
     }
     return;
   }  
 
   // Process for specific command completion.
-  if (tArgs[0] == 'Command2'){
-    // Guard.
-    if (!mCommand2Completion) return;
-    // Handle a completion receive.
-    if (tArgs[1] != 'progress'){
-      // Call saved completion callback.
-      mCommand2Completion(tArgs[1]);
-    }
-    // Handle a progress receive.
-    else{
-      // Call saved progress callback.
-      mCommand2Progress(tArgs[2]);
+  if (tCompletion.mCommand == 'Command2'){
+    if (mCommand2Completion){
+      mCommand2Completion(tCompletion);
     }
     return;
   }  
-
 });
 
 //****************************************************************************
@@ -133,7 +123,6 @@ exports.sendCommand2 = function(aArg0,aCompletion,aProgress) {
   // Save the completion callback. This is called when a completion
   // message is received.
   mCommand2Completion = aCompletion;
-  mCommand2Progress = aProgress;
   // Send command to backend.
   const tCmd = Buffer.from('Command2' + ',' + aArg0);
   mCommandInputUdp.send(tCmd,settings.mCommandInputPort,settings.mBackEndIpAddress);

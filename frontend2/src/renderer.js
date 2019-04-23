@@ -5,6 +5,8 @@
 
 const ipc = require('electron').ipcRenderer;
 const MyRecord = require('./myrecord.js');
+const CompletionRecord = require('./record_completion.js');
+
 
 const command1Btn = document.querySelector('#command1Btn');
 const command2Btn = document.querySelector('#command2Btn');
@@ -32,8 +34,12 @@ command1Btn.addEventListener('click', () => {
   ipc.send('Command1')
 });
 
-ipc.on('Command1Completion', (event, args) => {
-  command1Div.innerHTML = args;
+ipc.on('Command1Completion', (event, aBuffer) => {
+  // Convert the receive message buffer to a completion record.
+  let tCompletion = new CompletionRecord(aBuffer);
+
+  // Show the complletion record.
+  command1Div.innerHTML = tCompletion.mResponse;
 });
 
 //****************************************************************************
@@ -45,13 +51,16 @@ command2Btn.addEventListener('click', () => {
   ipc.send('Command2')
 });
 
-ipc.on('Command2Completion', (event, args) => {
-  command2Div.innerHTML = args;
-  progress2Div.innerHTML = "none";
-});
+ipc.on('Command2Completion', (event, aBuffer) => {
+  // Convert the receive message buffer to a completion record.
+  let tCompletion = new CompletionRecord(aBuffer);
 
-ipc.on('Command2Progress', (event, args) => {
-  progress2Div.innerHTML = args;
+  // Show the completion record.
+  if (tCompletion.mResponse != 'progress'){
+    command2Div.innerHTML = tCompletion.mResponse;
+  } else {
+    progress2Div.innerHTML = tCompletion.mDescriptor;
+  }
 });
 
 //****************************************************************************
@@ -60,22 +69,6 @@ ipc.on('Command2Progress', (event, args) => {
 test1Btn.addEventListener('click', () => {
   test1Div.innerHTML = 'none';
   ipc.send('Test1')
-});
-
-ipc.on('Test1Response22', (event, tBuffer) => {
-
-  // Convert received buffer to string array.
-  let tArgs = tBuffer.toString('utf8').split(',');
-
-  // Guard.
-  if (tArgs.length <2 ){
-    console.log(`ERROR received message length ${tArgs.length}`);
-    return;
-  }  
-
-  // Show the string array.
-  test1Div.innerHTML = tArgs[0];
-  test2Div.innerHTML = tArgs[1];
 });
 
 ipc.on('Test1Response', (event, aBuffer) => {
