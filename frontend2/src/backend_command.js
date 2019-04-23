@@ -36,7 +36,8 @@ mCommandOutputUdp.on('listening', () => {
 });
 
 mCommandOutputUdp.bind({
-  address: settings.mFrontEndIpAddress,
+//address: settings.mFrontEndIpAddress,
+  address: "0.0.0.0",
   port: settings.mCommandOutputPort,
   exclusive: false
 });

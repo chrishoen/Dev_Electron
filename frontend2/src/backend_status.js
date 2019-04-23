@@ -22,7 +22,8 @@ mStatusUdp.on('listening', () => {
 });
 
 mStatusUdp.bind({
-  address: settings.mFrontEndIpAddress,
+//address: settings.mFrontEndIpAddress,
+  address: "0.0.0.0",
   port: settings.mStatusOutputPort,
   exclusive: false
 });
