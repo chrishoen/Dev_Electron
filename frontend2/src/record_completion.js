@@ -35,7 +35,7 @@ module.exports = internal.CompletionRecord = class{
     this.mValid = false;
     this.mCommand = "none";
     this.mResponse = "none";
-    this.mDescriptor = "none";
+    this.mMessage = "none";
   }
 
   // Convert from a buffer. The buffer has a csv string array format.
@@ -53,7 +53,7 @@ module.exports = internal.CompletionRecord = class{
     this.mCommand = tArgs[0];
     this.mResponse = tArgs[1];
     if (tArgs.length == 3){
-      this.mDescriptor = tArgs[2];
+      this.mMessage = tArgs[2];
     }
   }
 
@@ -65,7 +65,7 @@ module.exports = internal.CompletionRecord = class{
     return Buffer.from([
       this.mCommand,
       this.mResponse,
-      this.mDescriptor,
+      this.mMessage,
     ].join());
   }
 }

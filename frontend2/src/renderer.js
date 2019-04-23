@@ -31,6 +31,7 @@ ipc.on('StatusUpdate', (event, args) => {
 
 command1Btn.addEventListener('click', () => {
   command1Div.innerHTML = 'none';
+  message1Div.innerHTML = 'none';
   ipc.send('Command1')
 });
 
@@ -40,6 +41,7 @@ ipc.on('Command1Completion', (event, aBuffer) => {
 
   // Show the complletion record.
   command1Div.innerHTML = tCompletion.mResponse;
+  message1Div.innerHTML = tCompletion.mMessage;
 });
 
 //****************************************************************************
@@ -47,6 +49,7 @@ ipc.on('Command1Completion', (event, aBuffer) => {
 
 command2Btn.addEventListener('click', () => {
   command2Div.innerHTML = 'none';
+  message2Div.innerHTML = 'none';
   progress2Div.innerHTML = 'none';
   ipc.send('Command2')
 });
@@ -58,8 +61,9 @@ ipc.on('Command2Completion', (event, aBuffer) => {
   // Show the completion record.
   if (tCompletion.mResponse != 'progress'){
     command2Div.innerHTML = tCompletion.mResponse;
+    message2Div.innerHTML = tCompletion.mMessage;
   } else {
-    progress2Div.innerHTML = tCompletion.mDescriptor;
+    progress2Div.innerHTML = tCompletion.mMessage;
   }
 });
 

@@ -38,31 +38,59 @@
   width:200px;
 }
 
+#message1Lbl {
+  position:fixed;
+  top:80px;
+  left:8px;
+  width:200px;
+}
+
+#message1Div {
+  position:fixed;
+  top:80px;
+  left:200px;
+  width:200px;
+}
+
 /************************************************ command2 */
 #command2Lbl {
   position:fixed;
-  top:100px;
+  top:120px;
   left:8px;
   width:200px;
 }
 
 #command2Div {
   position:fixed;
-  top:100px;
+  top:120px;
+  left:200px;
+  width:200px;
+}
+
+#message2Lbl {
+  position:fixed;
+  top:140px;
+  left:8px;
+  width:200px;
+}
+
+#message2Div {
+  position:fixed;
+  top:140px;
   left:200px;
   width:200px;
 }
 
 #progress2Lbl {
   position:fixed;
-  top:120px;
+  top:160px;
   left:8px;
   width:200px;
 }
 
 #progress2Div {
   position:fixed;
-  top:120px;
+  top:160px;
   left:200px;
   width:200px;
 }
