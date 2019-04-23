@@ -1,7 +1,8 @@
 //****************************************************************************
 // This contains the backend processing for command messages that are
 // sent to the backend and for completion and progess update message
-// that are received from the backend.
+// that are received from the backend. The messages are transferred
+// via udp sockets.
 
 const dgram = require('dgram');
 const settings = require('./backend_settings.js');
@@ -36,7 +37,6 @@ mCommandOutputUdp.on('listening', () => {
 });
 
 mCommandOutputUdp.bind({
-//address: settings.mFrontEndIpAddress,
   address: "0.0.0.0",
   port: settings.mCommandOutputPort,
   exclusive: false
@@ -56,7 +56,7 @@ mCommandOutputUdp.on('message', (aBuffer, rinfo) => {
 });
 
 //****************************************************************************
-// BackEnd initialization.
+// Exports. Initialization.
 
 // Saved message handler callback. This is  set by the initialize 
 // function and called when messages are received.

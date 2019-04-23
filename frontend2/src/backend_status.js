@@ -1,6 +1,6 @@
 //****************************************************************************
 // This contains the backend processing for periodic status messages that are
-// received from the backend.
+// received from the backend via a udp socket.
 
 const dgram = require('dgram');
 const settings = require('./backend_settings.js');
@@ -22,7 +22,6 @@ mStatusUdp.on('listening', () => {
 });
 
 mStatusUdp.bind({
-//address: settings.mFrontEndIpAddress,
   address: "0.0.0.0",
   port: settings.mStatusOutputPort,
   exclusive: false
@@ -37,7 +36,7 @@ mStatusUdp.on('message', (msg, rinfo) => {
 });
 
 //****************************************************************************
-// BackEnd initialization.
+// Exports. Initialization.
 
 // Saved message handler callback. This is  set by the initialize 
 // function and called when messages are received.
