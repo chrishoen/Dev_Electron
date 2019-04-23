@@ -9,8 +9,8 @@ const settings = require('./backend_settings.js');
 const CompletionRecord = require('./record_completion.js');
 
 //****************************************************************************
-// Command input udp datagram socket. Transmit socket.
-// This is input by the backend and output by the frontend.
+// Command input udp datagram transmit socket. Messages are transmitted
+// the frontend and received by the backend.
 
 const mCommandInputUdp = dgram.createSocket('udp4');
 
@@ -20,8 +20,8 @@ mCommandInputUdp.on('error', (err) => {
 });
 
 //****************************************************************************
-// Command output udp datagram socket. Receive socket.
-// This is output by the backend and input by the frontend.
+// Command output udp datagram receive socket. Messages are transmitted
+// the backend and received by the frontend.
 
 // Create and initialize the receive udp socket.
 const mCommandOutputUdp = dgram.createSocket('udp4');
