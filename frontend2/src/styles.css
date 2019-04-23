@@ -3,7 +3,7 @@
 #infoDiv {
   position:fixed;
   bottom:0px;
-  left:8px;
+  left:10px;
 }
 
 /************************************************ status */
@@ -26,72 +26,72 @@
 #command1Lbl {
   position:fixed;
   top:60px;
-  left:8px;
-  width:190px;
+  left:10px;
+  width:180px;
 }
 
 #command1Div {
   position:fixed;
   top:60px;
-  left:220px;
+  left:200px;
   width:180px;
 }
 
 #message1Lbl {
   position:fixed;
   top:80px;
-  left:8px;
-  width:200px;
+  left:10px;
+  width:180px;
 }
 
 #message1Div {
   position:fixed;
   top:80px;
   left:200px;
-  width:200px;
+  width:180px;
 }
 
 /************************************************ command2 */
 #command2Lbl {
   position:fixed;
   top:120px;
-  left:8px;
-  width:200px;
+  left:10px;
+  width:180px;
 }
 
 #command2Div {
   position:fixed;
   top:120px;
   left:200px;
-  width:200px;
+  width:180px;
 }
 
 #message2Lbl {
   position:fixed;
   top:140px;
-  left:8px;
-  width:200px;
+  left:10px;
+  width:180px;
 }
 
 #message2Div {
   position:fixed;
   top:140px;
   left:200px;
-  width:200px;
+  width:180px;
 }
 
 #progress2Lbl {
   position:fixed;
   top:160px;
-  left:8px;
-  width:200px;
+  left:10px;
+  width:180px;
 }
 
 #progress2Div {
   position:fixed;
   top:160px;
   left:200px;
-  width:200px;
+  width:180px;
 }
 
 
