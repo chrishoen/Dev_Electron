@@ -22,6 +22,16 @@
   width:200px;
 }
 
+/************************************************ buttons */
+
+#command1Btn {
+  font-size: 18px;
+}
+
+#command2Btn {
+  font-size: 18px;
+}
+
 /************************************************ command1 */
 #command1Lbl {
   position:fixed;
