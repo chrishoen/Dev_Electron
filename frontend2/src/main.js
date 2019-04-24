@@ -20,8 +20,7 @@
 // receives user input events from the renderer and then sends commands
 // to the backend. The main window receives messages from the backend
 // and forwards them to the renderer. 
-
-
+//
 //****************************************************************************
 // This contains the main window processing.
 
