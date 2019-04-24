@@ -1,4 +1,28 @@
 //****************************************************************************
+// This is an electron script that manages a frontend main window that
+// exchanges udp datagram messages with a c++ backend program.
+//
+// This frontend script and the backend program are an example message
+// architecture.
+//
+// Each udp message contains a single csv formatted string that encapsulates
+// an array of strings. 
+//
+// The frontend sends command messages to the backend. The backend executes
+// the commands and sends command completion messages to the frontend. The
+// completion messages can ack or nak a command or can indicate when a 
+// command execution is done. Periodic progress messages are also sent
+// for some commands. 
+//
+// The backend periodically sends status messages to the frontend.
+// 
+// This script consists of a main window and a renderer. The main window
+// receives user input events from the renderer and then sends commands
+// to the backend. The main window receives messages from the backend
+// and forwards them to the renderer. 
+
+
+//****************************************************************************
 // This contains the main window processing.
 
 "use strict"
