@@ -7,8 +7,8 @@ const syncBtn  = document.querySelector('#syncBtn');
 const asyncBtn = document.querySelector('#asyncBtn');
 
 
-let myTabs = document.querySelector('#myTabs');
-let timerDiv = document.querySelector('#timerDiv');
+var myTabs = document.getElementById('myTabs');
+var timerDiv = document.querySelector('#timerDiv');
 
 if (myTabs == undefined){
    myconsole.log('myTabs undefined');
@@ -25,7 +25,7 @@ myTabs.addEventListener('click', () => {
   myconsole.log(`click`);
 });
 
-myTabs.addEventListener('shown.bs.tab', (event) => {
+myTabs.addEventListener('shown.bs.tab', function(event){
   myconsole.log(`shown.bs.tab`);
 });
 
