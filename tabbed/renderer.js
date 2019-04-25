@@ -7,13 +7,13 @@ const syncBtn  = document.querySelector('#syncBtn');
 const asyncBtn = document.querySelector('#asyncBtn');
 
 
-let replyDiv = document.querySelector('#replyDiv');
+let myTabs = document.querySelector('#myTabs');
 let timerDiv = document.querySelector('#timerDiv');
 
-if (timerDiv == undefined){
-   myconsole.log('timerDiv undefined');
+if (myTabs == undefined){
+   myconsole.log('myTabs undefined');
 } else {
-  myconsole.log('timerDiv defined');
+  myconsole.log('myTabs defined');
 }
 
 ipc.on('timerUpdate', (event, args) => {
@@ -21,3 +21,7 @@ ipc.on('timerUpdate', (event, args) => {
   timerDiv.innerHTML = args;
 });
    
+myTabs.addEventListener('shown.bs.tab', (event) => {
+  myconsole.log(`shown.bs.tab`);
+//myconsole.log(`shown.bs.tab ${event.text()}`);
+});
