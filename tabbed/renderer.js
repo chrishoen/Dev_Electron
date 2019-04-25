@@ -21,7 +21,11 @@ ipc.on('timerUpdate', (event, args) => {
   timerDiv.innerHTML = args;
 });
    
+myTabs.addEventListener('click', () => {
+  myconsole.log(`click`);
+});
+
 myTabs.addEventListener('shown.bs.tab', (event) => {
   myconsole.log(`shown.bs.tab`);
-//myconsole.log(`shown.bs.tab ${event.text()}`);
 });
+
