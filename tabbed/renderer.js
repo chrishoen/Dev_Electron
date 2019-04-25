@@ -1,31 +1,12 @@
+const path = require('path')
+const url = require('url')
 const ipc = require('electron').ipcRenderer;
-const nodeConsole = require('console');
-const myconsole = new nodeConsole.Console(process.stdout, process.stderr);
+const TabGroup = require("electron-tabs");
 
 
-const syncBtn  = document.querySelector('#syncBtn');
-const asyncBtn = document.querySelector('#asyncBtn');
-
-
-var myTabs = document.getElementById('myTabs');
-var timerDiv = document.querySelector('#timerDiv');
-
-if (myTabs == undefined){
-   myconsole.log('myTabs undefined');
-} else {
-  myconsole.log('myTabs defined');
-}
-
-ipc.on('timerUpdate', (event, args) => {
-  myconsole.log(`render timer ${args}`);
-  timerDiv.innerHTML = args;
+let tabGroup = new TabGroup();
+let tab = tabGroup.addTab({
+    title: "Electron",
+    src: "http://electron.atom.io",
+    visible: true
 });
-   
-myTabs.addEventListener('click', () => {
-  myconsole.log(`click`);
-});
-
-myTabs.addEventListener('shown.bs.tab', function(event){
-  myconsole.log(`shown.bs.tab`);
-});
-
