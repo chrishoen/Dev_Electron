@@ -1,4 +1,5 @@
-const { ipcRenderer } = require('electron');
+const ipc = require('electron').ipcRenderer;
+
 
 document.addEventListener('DOMContentLoaded', () => {
     setupClickHandler('test1Btn');
@@ -7,6 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function setupClickHandler(btnName) {
     var btn = document.getElementById(btnName);
     btn.onclick = () => {
-        ipcRenderer.send('EchoRequest', btn.innerText);
+        ipc.send('EchoRequest', btn.innerText);
     }
 }
