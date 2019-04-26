@@ -1,3 +1,18 @@
-#replyDiv {
+/************************************************ status */
+
+#myTabContainer {
+  position:fixed;
+  top:0px;
+  left:0px;
+}
+
+#test1Div {
+  position:fixed;
+  top:0px;
   color: red;
 }
+
+#timer1Div {
+  color: red;
+}
+
