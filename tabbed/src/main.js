@@ -42,7 +42,7 @@ ipc.on('aSynMessage', (event, args) => {
 var count = 0;
 function timerFunc() {
   //console.log(`timer %d`,count);
-  mainWindow.send('timerUpdate','Main: timer update ' + count);
+  mainWindow.send('timerUpdate','timer ' + count);
   count++;
 }
   
