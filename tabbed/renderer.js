@@ -53,5 +53,8 @@ var mTab2 = mTabGroup.addTab({
     }
 });
 
-
+ipc.on('EchoResponse', (event, msg) => {
+    myconsole.log('Rx EchoResponse');
+});
+  
 

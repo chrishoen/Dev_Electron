@@ -1,5 +1,5 @@
 const electron = require('electron');
-const ipcMain = require('electron').ipcMain;
+const ipc = require('electron').ipcMain;
 
 app = electron.app,
 BrowserWindow = electron.BrowserWindow;
@@ -29,9 +29,9 @@ app.on('activate', function () {
   }
 })
 
-
-ipcMain.on('EchoRequest', (event, msg) => {
+ipc.on('EchoRequest', (event, msg) => {
   console.log('Rx EchoRequest');
+  mainWindow.send('EchoResponse', 'data');
 });
 
   

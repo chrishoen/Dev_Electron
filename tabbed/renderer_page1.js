@@ -11,3 +11,6 @@ function setupClickHandler(btnName) {
         ipc.send('EchoRequest', btn.innerText);
     }
 }
+
+    
+  
