@@ -53,8 +53,21 @@ var mTab2 = mTabGroup.addTab({
     }
 });
 
-ipc.on('EchoResponse', (event, msg) => {
-    myconsole.log('Rx EchoResponse');
-});
+const EventEmitter = require('events');
+const myEE = new EventEmitter();
   
 
+ipc.on('EchoResponse', (event, msg) => {
+    myconsole.log('Rx EchoResponse');
+    mTab1.emit('EchoRelay');
+});
+    
+
+
+let test1Div = mTab1.webview.querySelector('#test1Div');
+
+if (test1Div == undefined){
+  myconsole.log('test1Div undefined');
+} else {
+  myconsole.log('test1Div defined');
+}

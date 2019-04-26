@@ -31,7 +31,7 @@ app.on('activate', function () {
 
 ipc.on('EchoRequest', (event, msg) => {
   console.log('Rx EchoRequest');
-  mainWindow.send('EchoResponse', 'data');
+  mainWindow.webContents.send('EchoResponse', 'data');
 });
 
   
