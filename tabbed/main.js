@@ -5,7 +5,8 @@ BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 
 function createWindow () {
-  mainWindow = new BrowserWindow({width: 800, height: 440, x:0, y:0})
+//mainWindow = new BrowserWindow({width: 800, height: 440, x:0, y:0})
+  mainWindow = new BrowserWindow()
   mainWindow.loadURL('file://'+__dirname+'/index.html')
   mainWindow.on('closed', function () {
     console.log(`closed`);
