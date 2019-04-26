@@ -7,6 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function setupClickHandler(btnName) {
     var btn = document.getElementById(btnName);
     btn.onclick = () => {
-        ipcRenderer.send('test1_msg', btn.innerText);
+        ipcRenderer.send('EchoRequest', btn.innerText);
     }
 }

@@ -30,8 +30,8 @@ app.on('activate', function () {
 })
 
 
-ipcMain.on('test1_msg', (event, msg) => {
-  console.log('ipcMain rx test1_msg');
+ipcMain.on('EchoRequest', (event, msg) => {
+  console.log('Rx EchoRequest');
 });
 
   
