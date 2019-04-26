@@ -1,44 +1,94 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <title>FrontEnd2</title>
-   <link href="styles.css" rel="stylesheet">
+  <title>FrontEnd</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="styles.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
-
 <body>
-<input type="button" id="command1Btn" value="Command1">
-<input type="button" id="command2Btn" value="Command2">
 
-<!-- <h1>FrontEnd11</h1>  -->
-<div id="infoDiv">
-Node <script>document.write(process.versions.node)</script>,
-Chrome <script>document.write(process.versions.chrome)</script>,
-Electron <script>document.write(process.versions.electron)</script>.
+<div id="myTabContainer" class="container-fluid mt-3">
+  <!-- Nav tabs -->
+  <ul id="myTabs" class="nav nav-tabs a">
+    <li class="nav-item">
+      <a class="nav-link active" href="#commandTab">Command</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#statusTab">Status</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#dataTab">Data</a>
+    </li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <!-- Tab Pane Command -->
+    <div id="commandTab" class="container tab-pane active"><br>
+      <input type="button" id="command1Btn" value="Command1">
+      <input type="button" id="command2Btn" value="Command2">
+      <br>
+
+      <div class="row">
+        <div class="col-3">Completion1</div>
+        <div class="col-3" id="command1Div">none</div>
+        <div class="col-3">Status</div>
+        <div class="col-3" id="statusDiv">none</div>
+      </div>
+      <div class="row">
+        <div class="col-3">Message1</div>
+        <div class="col-3" id="message1Div">none</div>
+        <div class="col-6"></div>
+      </div>
+      <br>
+
+      <div class="row">
+        <div class="col-3">Completion2</div>
+        <div class="col-3" id="command2Div">none</div>
+        <div class="col-6"></div>
+      </div>
+      <div class="row">
+        <div class="col-3">Message2</div>
+        <div class="col-3" id="message2Div">none</div>
+        <div class="col-6"></div>
+      </div>
+      <div class="row">
+        <div class="col-3">Progress2</div>
+        <div class="col-3" id="progress2Div">none</div>
+        <div class="col-6"></div>
+      </div>
+
+    </div>
+    <!-- Tab Status -->
+    <div id="statusTab" class="container tab-pane fade"><br>
+      <h3>Pane2</h3>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+    <!-- Tab Data -->
+    <div id="dataTab" class="container tab-pane fade"><br>
+      <h3>Pane3</h3>
+      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+    </div>
+  </div>
 </div>
 
-<div id="statusLbl">Backend Status:</div>
-<div id="statusDiv">none</div>
-
-<div id="command1Lbl">Command1 Completion:</div>
-<div id="command1Div">none</div>
-
-<div id="message1Lbl">Command1 Message:</div>
-<div id="message1Div">none</div>
-
-<div id="command2Lbl">Command2 Completion:</div>
-<div id="command2Div">none</div>
-
-<div id="message2Lbl">Command2 Message:</div>
-<div id="message2Div">none</div>
-
-<div id="progress2Lbl">Command2 Progress:</div>
-<div id="progress2Div">none</div>
+<script>
+$(document).ready(function(){
+  $(".nav-tabs a").click(function(){
+    $(this).tab('show');
+  });
+});
+</script>
 
 <script>
    require('./renderer.js');
 </script>
+
+
 </body>
 </html>
-
-

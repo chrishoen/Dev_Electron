@@ -1,25 +1,8 @@
-/************************************************ info */
+/************************************************ tab container */
 
-#infoDiv {
-  position:fixed;
-  bottom:0px;
-  left:10px;
-}
-
-/************************************************ status */
-
-#statusLbl {
+#myTabContainer {
   position:fixed;
   top:0px;
-  left:400px;
-  width:200px;
-}
-
-#statusDiv {
-  position:fixed;
-  top:0px;
-  left:600px;
-  width:200px;
 }
 
 /************************************************ buttons */
@@ -32,76 +15,11 @@
   font-size: 18px;
 }
 
-/************************************************ command1 */
-#command1Lbl {
+/************************************************ info */
+
+#infoDiv {
   position:fixed;
-  top:60px;
+  bottom:0px;
   left:10px;
-  width:200px;
 }
-
-#command1Div {
-  position:fixed;
-  top:60px;
-  left:240px;
-  width:200px;
-}
-
-#message1Lbl {
-  position:fixed;
-  top:80px;
-  left:10px;
-  width:200px;
-}
-
-#message1Div {
-  position:fixed;
-  top:80px;
-  left:240px;
-  width:200px;
-}
-
-/************************************************ command2 */
-#command2Lbl {
-  position:fixed;
-  top:120px;
-  left:10px;
-  width:200px;
-}
-
-#command2Div {
-  position:fixed;
-  top:120px;
-  left:240px;
-  width:200px;
-}
-
-#message2Lbl {
-  position:fixed;
-  top:140px;
-  left:10px;
-  width:200px;
-}
-
-#message2Div {
-  position:fixed;
-  top:140px;
-  left:240px;
-  width:200px;
-}
-
-#progress2Lbl {
-  position:fixed;
-  top:160px;
-  left:10px;
-  width:200px;
-}
-
-#progress2Div {
-  position:fixed;
-  top:160px;
-  left:240px;
-  width:200px;
-}
-
 

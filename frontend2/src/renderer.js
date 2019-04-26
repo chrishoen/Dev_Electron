@@ -6,16 +6,20 @@
 const ipc = require('electron').ipcRenderer;
 const CompletionRecord = require('./record_completion.js');
 
-const command1Btn = document.querySelector('#command1Btn');
-const command2Btn = document.querySelector('#command2Btn');
+const command1Btn = document.getElementById('command1Btn');
+const command2Btn = document.getElementById('command2Btn');
 
-let statusDiv = document.querySelector('#statusDiv');
-let command1Div = document.querySelector('#command1Div');
-let command2Div = document.querySelector('#command2Div');
-let progress2Div = document.querySelector('#progress2Div');
+const statusDiv = document.getElementById('statusDiv');
 
-var nodeConsole = require('console');
-var myconsole = new nodeConsole.Console(process.stdout, process.stderr);
+const command1Div = document.getElementById('command1Div');
+const message1Div = document.getElementById('message1Div');
+
+const command2Div = document.getElementById('command2Div');
+const message2Div = document.getElementById('message2Div');
+const progress2Div = document.getElementById('progress2Div');
+
+const nodeConsole = require('console');
+const myconsole = new nodeConsole.Console(process.stdout, process.stderr);
 
 //****************************************************************************
 // Handle a status update message received from the main window.
@@ -31,11 +35,18 @@ ipc.on('StatusUpdate', (event, args) => {
 // forwarded to the backend via the udp transmit socket. The command that
 // is sent to the main window is a buffer that contains a string array.
 
+if (progress2Div == undefined){
+  myconsole.log('command1 undefined');
+} else {
+  myconsole.log('command1 defined');
+}
+
 command1Btn.addEventListener('click', () => {
   // Update the page.
   command1Div.innerHTML = 'none';
   message1Div.innerHTML = 'none';
   // Send a command to the main window via the ipc.
+  myconsole.log('command1 clicked');
   ipc.send('SendCommand',['Command1','arg0'])
 });
 
