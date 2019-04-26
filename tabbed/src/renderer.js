@@ -9,10 +9,12 @@ const asyncBtn = document.querySelector('#asyncBtn');
 
 var myTabs = document.getElementById('myTabs');
 var timerDiv = document.getElementById('timerDiv');
+var testDiv = document.getElementById('testDiv');
 
 ipc.on('timerUpdate', (event, args) => {
   //myconsole.log(`render timer ${args}`);
   timerDiv.innerHTML = args;
+  testDiv.innerHTML = args;
 });
    
 myTabs.addEventListener('click', () => {
