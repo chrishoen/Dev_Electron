@@ -10,12 +10,17 @@ const myconsole = new nodeConsole.Console(process.stdout, process.stderr);
 
 myconsole.log('renderer start');
 
+//****************************************************************************
+// Create tab group.
 
 var mTabGroup = new TabGroup({
     ready: tabGroup => {
         myconsole.log('mTab ready');
     }
 });
+
+//****************************************************************************
+// Add tab.
 
 var mTab1 = mTabGroup.addTab({
     title: 'Page1',
@@ -30,6 +35,9 @@ var mTab1 = mTabGroup.addTab({
       myconsole.log('mTab1 ready');
     }
 });
+
+//****************************************************************************
+// Add tab.
 
 var mTab2 = mTabGroup.addTab({
     title: 'Page2',

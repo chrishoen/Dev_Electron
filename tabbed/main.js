@@ -1,4 +1,6 @@
-const electron = require('electron'),
+const electron = require('electron');
+const ipcMain = require('electron').ipcMain;
+
 app = electron.app,
 BrowserWindow = electron.BrowserWindow;
 
@@ -26,3 +28,10 @@ app.on('activate', function () {
     createWindow()
   }
 })
+
+
+ipcMain.on('test1_msg', (event, msg) => {
+  console.log('ipcMain rx test1_msg');
+});
+
+  
