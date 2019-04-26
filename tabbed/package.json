@@ -2,7 +2,7 @@
   "name": "myapp",
   "version": "1.0.0",
   "description": "myapp",
-  "main": "main.js",
+  "main": "./src/main.js",
   "scripts": {
     "start": "electron ."
   },
