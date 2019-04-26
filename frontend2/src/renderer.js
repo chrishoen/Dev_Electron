@@ -9,7 +9,8 @@ const CompletionRecord = require('./record_completion.js');
 const command1Btn = document.getElementById('command1Btn');
 const command2Btn = document.getElementById('command2Btn');
 
-const statusDiv = document.getElementById('statusDiv');
+const status1Div = document.getElementById('status1Div');
+const status2Div = document.getElementById('status2Div');
 
 const command1Div = document.getElementById('command1Div');
 const message1Div = document.getElementById('message1Div');
@@ -26,7 +27,8 @@ const myconsole = new nodeConsole.Console(process.stdout, process.stderr);
 
 ipc.on('StatusUpdate', (event, args) => {
   // Show the status.
-  statusDiv.innerHTML = args;
+  status1Div.innerHTML = args;
+  status2Div.innerHTML = args;
 });
    
 //****************************************************************************
