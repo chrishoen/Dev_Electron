@@ -8,7 +8,7 @@ const asyncBtn = document.querySelector('#asyncBtn');
 
 
 var myTabs = document.getElementById('myTabs');
-var timerDiv = document.querySelector('#timerDiv');
+var timerDiv = document.getElementById('timerDiv');
 
 ipc.on('timerUpdate', (event, args) => {
   //myconsole.log(`render timer ${args}`);
