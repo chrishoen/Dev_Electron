@@ -9,10 +9,9 @@
 }
 
 .profile-pane {
-  background-color: white;
+  background-color: red;
   position:fixed;
   left:10px;
-  width:100%;
 }
 
 /************************************************ buttons */
