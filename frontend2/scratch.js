@@ -5,11 +5,16 @@ const electron = require('electron');
 
 console.log(`start**************************`);
 
-let tString = 'Command,Command1,arg0';
-let tBuffer = Buffer.from(tString);
+let tString1 = 'Command,Command1,arg0ccccccccccccccccccccccccccccccccccx';
+let tBuffer = Buffer.from(tString1);
 
-let tTest = tBuffer.toString().startsWith('Command');
+let tString2 = tBuffer.toString('utf8',0,20);
 
-console.log(`tString     ${tString}`);
+let tTest = tBuffer.toString('utf8',0,20).startsWith('Command,');
+
+console.log(`tString1    ${tString1}`);
 console.log(`tBuffer     ${tBuffer}`);
+console.log(`tString2    ${tString2}`);
 console.log(`mTest       ${tTest}`);
+console.log(` `);
+
