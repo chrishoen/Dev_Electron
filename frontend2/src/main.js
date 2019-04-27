@@ -40,7 +40,10 @@ const CompletionRecord = require('./record_completion.js');
 var mainWindow = null;
 
 function createWindow () {
-  mainWindow = new BrowserWindow({width: 800, height: 428, x:0, y:0})
+  mainWindow = new BrowserWindow({
+    width: 800, height: 428, x:0, y:0,
+    resizable:false,autoHideMenuBar:true
+  })
   mainWindow.loadURL('file://'+__dirname+'/index.html')
   mainWindow.on('closed', function () {
     console.log(`closed`);
