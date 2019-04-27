@@ -1,0 +1,12 @@
+Command,RunZip,file
+Command,RunGCode,file
+Command,SendGCode,file
+
+Completion,RunZip,ack,file
+Completion,RunZip,nak,file,message
+Completion,RunZip,done
+Completion,RunZip,progress,message
+
+DataRequest,DirZip
+DataResponse,DirZip,list
+
