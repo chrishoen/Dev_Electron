@@ -37,12 +37,6 @@ ipc.on('StatusUpdate', (event, args) => {
 // forwarded to the backend via the udp transmit socket. The command that
 // is sent to the main window is a buffer that contains a string array.
 
-if (progress2Div == undefined){
-  myconsole.log('command1 undefined');
-} else {
-  myconsole.log('command1 defined');
-}
-
 command1Btn.addEventListener('click', () => {
   // Update the page.
   command1Div.innerHTML = 'none';
