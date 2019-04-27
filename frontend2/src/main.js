@@ -45,7 +45,7 @@ console.log(`linux ${os.type()=='Linux'}`);
 
 function createWindow () {
   mainWindow = new BrowserWindow({
-    width: 800, height: 440, x:0, y:0,
+    width: 800, height: 452, x:0, y:0,
     resizable:false,autoHideMenuBar:true,
     kiosk: os.type()=='Linux'
   })
