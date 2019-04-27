@@ -1,15 +1,15 @@
 /************************************************ tab container */
 
 .profile-nav {
-  background-color: red;
+  background-color22: red;
 }
 
 .profile-nav .nav-item {
-  background-color: blue;
+  background-color22: blue;
 }
 
 .profile-pane {
-  background-color: black;
+  background-color: white;
   position:fixed;
   left:10px;
   width:100%;
