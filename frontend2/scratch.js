@@ -2,6 +2,7 @@
 "use strict"
 
 const electron = require('electron');
+const os = require('os');
 
 console.log(`start**************************`);
 
@@ -17,4 +18,9 @@ console.log(`tBuffer     ${tBuffer}`);
 console.log(`tString2    ${tString2}`);
 console.log(`mTest       ${tTest}`);
 console.log(` `);
+
+
+console.log(`os.type     ${os.type()}`);
+console.log(` `);
+
 

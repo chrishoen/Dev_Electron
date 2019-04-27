@@ -30,6 +30,8 @@ const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const ipc = require('electron').ipcMain;
+const os = require('os');
+
 const backendStatus = require('./backend_status.js');
 const backendCmd = require('./backend_command.js');
 const CompletionRecord = require('./record_completion.js');
@@ -39,10 +41,13 @@ const CompletionRecord = require('./record_completion.js');
 
 var mainWindow = null;
 
+console.log(`linux ${os.type()=='Linux'}`);
+
 function createWindow () {
   mainWindow = new BrowserWindow({
     width: 800, height: 428, x:0, y:0,
-    resizable:false,autoHideMenuBar:true
+    resizable:false,autoHideMenuBar:true,
+    kiosk: os.type()=='Linux'
   })
   mainWindow.loadURL('file://'+__dirname+'/index.html')
   mainWindow.on('closed', function () {
