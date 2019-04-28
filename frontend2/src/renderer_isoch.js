@@ -14,21 +14,24 @@ const myconsole = new nodeConsole.Console(process.stdout, process.stderr);
 myconsole.log(`start renderer_isoch`);
 
 //****************************************************************************
-// Handle a control message received from the main window. The
+// Handle a osoch message received from the main window. The
 // backend receives messages via the udp datagram receive socket and 
 // forwards them to the main window. The main window forwards the 
 // received messages to the renderer via the ipc and they are handled 
 // here.
 // 
-// Unpack the message buffer into a completion record. Based on 
-// the completion command, call a corresponding message handler.
+// Unpack the message buffer into a some content items.
 
  ipc.on('handle-rx-isoch-msg', (event, aBuffer) => {
 
   myconsole.log(`handle-rx-isoch-msg       ${aBuffer}`);
 
+  // Convert the buffer to a string array.
+  let tArgs = aBuffer.toString('utf8').split(',');
+  let tCount = tArgs[1];
+  
   // Show the isoch.
-  isoch1Div.innerHTML = "isoch data";
-  isoch2Div.innerHTML = "isoch data";
+  isoch1Div.innerHTML = tCount;
+  isoch2Div.innerHTML = tCount;
 });
 
