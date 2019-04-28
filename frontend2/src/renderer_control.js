@@ -6,6 +6,10 @@
 const ipc = require('electron').ipcRenderer;
 const CompletionMsg = require('./msg_completion.js');
 const StatusMsg = require('./msg_status.js');
+const DataAMsg = require('./msg_data_a.js');
+const nodeConsole = require('console');
+const myconsole = new nodeConsole.Console(process.stdout, process.stderr);
+
 
 const command1Btn = document.getElementById('command1Btn');
 const command2Btn = document.getElementById('command2Btn');
@@ -20,8 +24,11 @@ const command2Div = document.getElementById('command2Div');
 const message2Div = document.getElementById('message2Div');
 const progress2Div = document.getElementById('progress2Div');
 
-const nodeConsole = require('console');
-const myconsole = new nodeConsole.Console(process.stdout, process.stderr);
+
+const dataItem0Div = document.getElementById('dataItem0Div');
+const dataItem1Div = document.getElementById('dataItem1Div');
+const dataItem2Div = document.getElementById('dataItem2Div');
+const dataItem3Div = document.getElementById('dataItem3Div');
 
 myconsole.log(`start renderer_control`);
 
@@ -117,6 +124,18 @@ function handleStatusMsg(aStatusMsg) {
 }
    
 //****************************************************************************
+// Handle a data response message received from the main window.
+
+function handleDataAMsg(aDataAMsg) {
+
+  // Show the data.
+  dataItem0Div.innerHTML = aDataAMsg.mItem0;
+  dataItem1Div.innerHTML = aDataAMsg.mItem1;
+  dataItem2Div.innerHTML = aDataAMsg.mItem2;
+  dataItem3Div.innerHTML = aDataAMsg.mItem3;
+}
+   
+//****************************************************************************
 // Handle a control message received from the main window. The
 // backend receives messages via the udp datagram receive socket and 
 // forwards them to the main window. The main window forwards the 
@@ -175,10 +194,24 @@ function handleStatusMsg(aStatusMsg) {
       return;
     }  
 
-    // Call the specific message handler for the command indicated by the
-    // completion record.
-      // Call the specific message handler.
+    // Call the specific message handler.
     handleStatusMsg(tStatusMsg);
+  }
+
+  // Test if the buffer contains a data response message.
+  else if (DataAMsg.isInBuffer(aBuffer)){
+  
+    // Convert the receive message buffer to a status message.
+    let tDataAMsg = new DataAMsg(aBuffer);
+
+    // Guard.
+    if (!tDataAMsg.mValid){
+      myconsole.log(`ERROR received bad status message`);
+      return;
+    }  
+
+    // Call the specific message handler.
+    handleDataAMsg(tDataAMsgMsg);
   }
 
   // Handle an unknown message.
