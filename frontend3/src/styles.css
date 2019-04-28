@@ -1,0 +1,34 @@
+/************************************************ tab container */
+
+.profile-nav {
+  background-color: white;
+}
+
+.profile-nav .nav-item {
+  background-color: white;
+}
+
+.profile-pane {
+  background-color: white;
+  position:fixed;
+  left:10px;
+}
+
+/************************************************ buttons */
+
+#command1Btn {
+  font-size: 18px;
+}
+
+#command2Btn {
+  font-size: 18px;
+}
+
+/************************************************ info */
+
+#infoDiv {
+  position:fixed;
+  bottom:0px;
+  left:10px;
+}
+

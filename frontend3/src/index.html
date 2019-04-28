@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>FrontEnd</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="styles.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container-fluid">
+  <!-- Nav tabs -->
+  <ul class="nav nav-pills profile-nav">
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="pill" href="#controlTab">Control</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="pill" href="#statusTab">Status</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="pill" href="#dataTab">Data</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="pill" href="#isochTab">Isoch</a>
+    </li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <!-- Tab Pane Control -->
+    <div id="controlTab" class="container-fluid tab-pane  profile-pane active"><br>
+      <input type="button" id="command1Btn" value="Command1">
+      <input type="button" id="command2Btn" value="Command2">
+      <br> <br>
+
+      <div class="row">
+        <div class="col-3">Completion1</div>
+        <div class="col-3" id="command1Div">none</div>
+        <div class="col-3">Status</div>
+        <div class="col-3" id="status1Div">none</div>
+      </div>
+      <div class="row">
+        <div class="col-3">Message1</div>
+        <div class="col-3" id="message1Div">none</div>
+        <div class="col-3">Isoch</div>
+        <div class="col-3" id="isoch1Div">none</div>
+      </div>
+      <br>
+
+      <div class="row">
+        <div class="col-3">Completion2</div>
+        <div class="col-3" id="command2Div">none</div>
+        <div class="col-6"></div>
+      </div>
+      <div class="row">
+        <div class="col-3">Message2</div>
+        <div class="col-3" id="message2Div">none</div>
+        <div class="col-6"></div>
+      </div>
+      <div class="row">
+        <div class="col-3">Progress2</div>
+        <div class="col-3" id="progress2Div">none</div>
+        <div class="col-6"></div>
+      </div>
+
+    </div>
+    <!-- Tab Pane Status -->
+    <div id="statusTab" class="container-fluid tab-pane profile-pane fade"><br>
+      <div class="row">
+        <div class="col-6"></div>
+        <div class="col-3">Status</div>
+        <div class="col-3" id="status2Div">none</div>
+      </div>
+      <div id="infoDiv">
+        Node <script>document.write(process.versions.node)</script>,
+        Chrome <script>document.write(process.versions.chrome)</script>,
+        Electron <script>document.write(process.versions.electron)</script>.
+      </div>
+    </div>
+    <!-- Tab Pane Data -->
+    <div id="dataTab" class="container-fluid tab-pane profile-pane fade"><br>
+      <input type="button" id="dataBtn" value="Request Data">
+      <br> <br>
+      <div class="row">
+        <div class="col-3">Item0</div>
+        <div class="col-9" id="dataItem0Div">none</div>
+      </div>
+      <div class="row">
+        <div class="col-3">Item1</div>
+        <div class="col-9" id="dataItem1Div">none</div>
+      </div>
+      <div class="row">
+        <div class="col-3">Item2</div>
+        <div class="col-9" id="dataItem2Div">none</div>
+      </div>
+      <div class="row">
+        <div class="col-3">Item3</div>
+        <div class="col-9" id="dataItem3Div">none</div>
+      </div>
+    </div>
+    <!-- Tab Pane Isoch -->
+    <div id="isochTab" class="container-fluid tab-pane profile-pane fade"><br>
+      <div class="row">
+        <div class="col-6"></div>
+        <div class="col-3">Isoch</div>
+        <div class="col-3" id="isoch2Div">none</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script> 
+  require('./renderer_control.js')
+  require('./renderer_isoch.js')
+</script>
+
+</body>
+</html>
