@@ -1,3 +1,31 @@
+//***********************************************
+BackEnd control port receives
+
+Command,Command1,arg0
+Command,Command2,arg0
+
+//***********************************************
+FrintEnd control port receives
+
+Status,Count
+
+Completion,Command1,ack,arg0
+Completion,Command1,nak,arg0
+
+Completion,Command2,ack,arg0
+Completion,Command2,progress,arg0
+
+
+//***********************************************
+FrintEnd isochronous port receives
+
+Signal,Count
+
+//***********************************************
+//***********************************************
+//***********************************************
+//***********************************************
+
 Command,RunZip,file
 Command,RunGCode,file
 Command,SendGCode,file
@@ -13,6 +41,9 @@ DataResponse,DirZip,list
 Status
 
 BackEnd
+
+
+
 
 
 backend-control-msg

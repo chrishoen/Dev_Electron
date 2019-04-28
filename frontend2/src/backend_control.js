@@ -6,17 +6,16 @@
 
 const dgram = require('dgram');
 const settings = require('./backend_settings.js');
-const CompletionRecord = require('./record_completion.js');
 
 //****************************************************************************
 // Command input udp datagram transmit socket. Messages are transmitted
 // the frontend and received by the backend.
 
-const mCommandInputUdp = dgram.createSocket('udp4');
+const mBackEndControlUdp = dgram.createSocket('udp4');
 
-mCommandInputUdp.on('error', (err) => {
-  console.log(`mCommandInputUdp error:\n${err.stack}`);
-  mCommandInputUdp.close();
+mBackEndControlUdp.on('error', (err) => {
+  console.log(`mBackEndControlUdp error:\n${err.stack}`);
+  mBackEndControlUdp.close();
 });
 
 //****************************************************************************
@@ -24,21 +23,21 @@ mCommandInputUdp.on('error', (err) => {
 // the backend and received by the frontend.
 
 // Create and initialize the receive udp socket.
-const mCommandOutputUdp = dgram.createSocket('udp4');
+const mFrontEndControlUdp = dgram.createSocket('udp4');
 
-mCommandOutputUdp.on('error', (err) => {
-  console.log(`mCommandOutputUdp error:\n${err.stack}`);
-  mCommandOutputUdp.close();
+mFrontEndControlUdp.on('error', (err) => {
+  console.log(`mFrontEndControlUdp error:\n${err.stack}`);
+  mFrontEndControlUdp.close();
 });
 
-mCommandOutputUdp.on('listening', () => {
-  const address = mCommandOutputUdp.address();
-  console.log(`mCommandOutputUdp listening ${address.address}:${address.port}`);
+mFrontEndControlUdp.on('listening', () => {
+  const address = mFrontEndControlUdp.address();
+  console.log(`mFrontEndControlUdp listening ${address.address}:${address.port}`);
 });
 
-mCommandOutputUdp.bind({
+mFrontEndControlUdp.bind({
   address: "0.0.0.0",
-  port: settings.mCommandOutputPort,
+  port: settings.mFrontEndControlPort,
   exclusive: false
 });
 
@@ -46,13 +45,13 @@ mCommandOutputUdp.bind({
 // Receive message handler.
 
 // Handle received messages. Call the saved message handler callback. 
-mCommandOutputUdp.on('message', (aBuffer, rinfo) => {
+mFrontEndControlUdp.on('message', (aBuffer, rinfo) => {
   if (!mValid) return;
-  console.log(`mCommandOutputUdp:      ${aBuffer}`);
+//console.log(`mFrontEndControlUdp:      ${aBuffer}`);
 
   // Call the saved completion callback, pass it the received message
   // buffer.
-  mCompletionCallback(aBuffer);
+  mFrontEndControlCallback(aBuffer);
 });
 
 //****************************************************************************
@@ -60,37 +59,37 @@ mCommandOutputUdp.on('message', (aBuffer, rinfo) => {
 
 // Saved message handler callback. This is  set by the initialize 
 // function and called when messages are received.
-var mCompletionCallback = null;
+var mFrontEndControlCallback = null;
 
 // True if the module is initialized.
 var mValid = false;
 
 // Initialize the module. Save the receive message handler callback.
 // Set the valid flag.
-exports.initialize = function(aCompletionCallback) {
-  mCompletionCallback = aCompletionCallback;
+exports.initialize = function(aFrontEndControlCallback) {
+  mFrontEndControlCallback = aFrontEndControlCallback;
   mValid = true;
-  console.log('backend command initialize');
+  console.log('backend control initialize');
 }
 
 // Finalize the module. Reset the valid flag. Close the sockets. 
 exports.finalize = function() {
   mValid = false;
-  mCommandInputUdp.close();
-  mCommandOutputUdp.close();
-  console.log('backend command finalize');
+  mBackEndControlUdp.close();
+  mFrontEndControlUdp.close();
+  console.log('backend control finalize');
 }
 //****************************************************************************
 // Exports. Send command.
 
-// Send a command to the backend via the transmit socket. The input command
-// is a string array. Create a single csv string from the input string array, create
-// a buffer from the single csv string, and transmit it to the backend 
-// via the socket.
-exports.sendCommand = function(aStringArray) {
+// Send a control message to the backend via the transmit socket. The input 
+// control message is a string array. Create a single csv string from the
+// input string array, create a buffer from the single csv string, and
+// transmit it to the backend via the socket.
+exports.sendMsg = function(aStringArray) {
   // Construct the csv buffer from the string array.
   const tBuffer = Buffer.from(aStringArray.join());
   // Transmit the buffer.
-  mCommandInputUdp.send(tBuffer,settings.mCommandInputPort,settings.mBackEndIpAddress);
+  mBackEndControlUdp.send(tBuffer,settings.mBackEndControlPort,settings.mBackEndIpAddress);
 }
 

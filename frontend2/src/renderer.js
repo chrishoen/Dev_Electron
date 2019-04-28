@@ -4,7 +4,8 @@
 "use strict"
 
 const ipc = require('electron').ipcRenderer;
-const CompletionRecord = require('./record_completion.js');
+const CompletionMsg = require('./msg_completion.js');
+const StatusMsg = require('./msg_status.js');
 
 const command1Btn = document.getElementById('command1Btn');
 const command2Btn = document.getElementById('command2Btn');
@@ -23,15 +24,6 @@ const nodeConsole = require('console');
 const myconsole = new nodeConsole.Console(process.stdout, process.stderr);
 
 //****************************************************************************
-// Handle a status update message received from the main window.
-
-ipc.on('StatusUpdate', (event, args) => {
-  // Show the status.
-  status1Div.innerHTML = args;
-  status2Div.innerHTML = args;
-});
-   
-//****************************************************************************
 // Handle a button user input event. Update relevant page fields and
 // send a command to the main window via the ipc. The command will then be
 // forwarded to the backend via the udp transmit socket. The command that
@@ -43,7 +35,7 @@ command1Btn.addEventListener('click', () => {
   message1Div.innerHTML = 'none';
   // Send a command to the main window via the ipc.
   myconsole.log('command1 clicked');
-  ipc.send('SendCommand',['Command1','arg0'])
+  ipc.send('send-control-msg',['Command','Command1','arg0'])
 });
 
 //****************************************************************************
@@ -55,13 +47,13 @@ command2Btn.addEventListener('click', () => {
   message2Div.innerHTML = 'none';
   progress2Div.innerHTML = 'none';
   // Send a command to the main window via the ipc.
-  ipc.send('SendCommand',['Command2','arg0'])
+  ipc.send('send-control-msg',['Command','Command2','arg0'])
 });
 
 //****************************************************************************
 // Handle a specific command completion record received from the main window.
 
-function handleCommand1Completion(aCompletion) {
+function handleCommand1CompletionMsg(aCompletion) {
 
   // Show the completion record in the relevant page fields.
   if (aCompletion.mCode == 'ack'){
@@ -85,7 +77,7 @@ function handleCommand1Completion(aCompletion) {
 //****************************************************************************
 // Handle a specific command completion record received from the main window.
 
-function handleCommand2Completion(aCompletion) {
+function handleCommand2CompletionMsg(aCompletion) {
 
   // Show the completion record in the relevant page fields.
   if (aCompletion.mCode == 'ack'){
@@ -113,7 +105,17 @@ function handleCommand2Completion(aCompletion) {
 }
 
 //****************************************************************************
-// Handle a command completion message received from the main window. The
+// Handle a status update message received from the main window.
+
+function handleStatusMsg(aStatusMsg) {
+
+  // Show the status.
+  status1Div.innerHTML = aStatusMsg.mCount;
+  status2Div.innerHTML = aStatusMsg.mCount;
+}
+   
+//****************************************************************************
+// Handle a control message received from the main window. The
 // backend receives messages via the udp datagram receive socket and 
 // forwards them to the main window. The main window forwards the 
 // received messages to the renderer via the ipc and they are handled 
@@ -122,36 +124,64 @@ function handleCommand2Completion(aCompletion) {
 // Unpack the message buffer into a completion record. Based on 
 // the completion command, call a corresponding message handler.
 
-ipc.on('CommandCompletion', (event, aBuffer) => {
+ ipc.on('handle-rx-control-msg', (event, aBuffer) => {
 
-  // Convert the receive message buffer to a completion record.
-  let tCompletion = new CompletionRecord(aBuffer);
+  // Test if the buffer contains a completion message.
+  if (CompletionMsg.isInBuffer(aBuffer)){
 
-  // Guard.
-  if (!tCompletion.mValid){
-    myconsole.log(`ERROR received message ${tCompletion.mCommand}`);
-    return;
+    myconsole.log(`handle-rx-control-msg     ${aBuffer}`);
+
+    // Convert the receive message buffer to a completion record.
+    let tCompletionMsg = new CompletionMsg(aBuffer);
+
+    //myconsole.log(`mCommand                  ${tCompletionMsg.mCommand}`);
+    //myconsole.log(`mCode                     ${tCompletionMsg.mCode}`);
+    //myconsole.log(`mMessage                  ${tCompletionMsg.mMessage}`);
+
+    // Guard.
+    if (!tCompletionMsg.mValid){
+      myconsole.log(`ERROR received bad completion message`);
+      return;
+    }  
+
+    // Call the specific message handler for the command indicated by the
+    // completion record.
+    if (tCompletionMsg.mCommand == 'Command1'){
+      myconsole.log(`Command1 completion:      ${tCompletionMsg.mCode}`);
+      // Call the specific message handler.
+      handleCommand1CompletionMsg(tCompletionMsg);
+    }  
+
+    // Call the specific message handler for the command indicated by the
+    // completion record.
+    else if (tCompletionMsg.mCommand == 'Command2'){
+      myconsole.log(`Command2 completion:      ${tCompletionMsg.mCode}`);
+      // Call the specific message handler.
+      handleCommand2CompletionMsg(tCompletionMsg);
+    }
   }  
 
-  // Call the specific message handler for the command indicated by the
-  // completion record.
-  if (tCompletion.mCommand == 'Command1'){
-    myconsole.log(`Command1 completion:    ${tCompletion.mCode}`);
-    // Call the specific message handler.
-    handleCommand1Completion(tCompletion);
-  }  
+  // Test if the buffer contains a status message.
+  else if (StatusMsg.isInBuffer(aBuffer)){
+  
+    // Convert the receive message buffer to a status message.
+    let tStatusMsg = new StatusMsg(aBuffer);
 
-  // Call the specific message handler for the command indicated by the
-  // completion record.
-  else if (tCompletion.mCommand == 'Command2'){
-    myconsole.log(`Command2 completion:    ${tCompletion.mCode}`);
-    // Call the specific message handler.
-    handleCommand2Completion(tCompletion);
-  }  
+    // Guard.
+    if (!tStatusMsg.mValid){
+      myconsole.log(`ERROR received bad status message`);
+      return;
+    }  
 
-  // Handle an unknown command completion message.
+    // Call the specific message handler for the command indicated by the
+    // completion record.
+      // Call the specific message handler.
+    handleStatusMsg(tStatusMsg);
+  }
+
+  // Handle an unknown message.
   else{
-    myconsole.log(`unknown completion message:    ${tCompletion.mCode}`);
+    myconsole.log(`ERROR received unknown message`);
   }  
 });
 

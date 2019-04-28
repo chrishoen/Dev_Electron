@@ -32,9 +32,8 @@ const BrowserWindow = electron.BrowserWindow;
 const ipc = require('electron').ipcMain;
 const os = require('os');
 
-const backendStatus = require('./backend_status.js');
-const backendCmd = require('./backend_command.js');
-const CompletionRecord = require('./record_completion.js');
+const backendControl = require('./backend_control.js');
+const backendIsoch = require('./backend_isoch.js');
 
 //****************************************************************************
 // Create the main window and assign handlers for the window events.
@@ -87,9 +86,9 @@ app.on('activate', function () {
 //****************************************************************************
 // Respond to a command event received from the renderer ipc.
 
-ipc.on('SendCommand', (event, aBuffer) => {
+ipc.on('send-control-msg', (event, aBuffer) => {
   // Send a command to the backend.
-  backendCmd.sendCommand(aBuffer)
+  backendControl.sendMsg(aBuffer)
 });
 
 //****************************************************************************
@@ -97,9 +96,9 @@ ipc.on('SendCommand', (event, aBuffer) => {
 // called by the backend when these messages are received.
 // It forwards the messages to the renderer via the ipc.
 
-function handleRxCompletionMsg(aBuffer) {
+function handleRxControlMsg(aBuffer) {
   // Forward the message buffer to the renderer via the ipc.
-  mainWindow.send('CommandCompletion',aBuffer);
+  mainWindow.send('handle-rx-control-msg',aBuffer);
 }
 
 //****************************************************************************
@@ -107,9 +106,9 @@ function handleRxCompletionMsg(aBuffer) {
 // called by the backend when these messages are received.
 // It forwards the messages to the renderer via the ipc.
 
-function handleRxStatusMsg(aBuffer) {
+function handleRxIsochMsg(aBuffer) {
   // Forward the message buffer to the renderer via the ipc.
-  mainWindow.send('StatusUpdate',aBuffer);
+  mainWindow.send('handle-rx-isoch-msg',aBuffer);
 }
 
 //****************************************************************************
@@ -117,13 +116,13 @@ function handleRxStatusMsg(aBuffer) {
 
 // Initialize the backend.
 function initializeBackEnd() {
-  backendStatus.initialize(handleRxStatusMsg);
-  backendCmd.initialize(handleRxCompletionMsg);
+  backendControl.initialize(handleRxControlMsg);
+  backendIsoch.initialize(handleRxIsochMsg);
 }
 
 // Finalize the backend.
 function finalizeBackEnd() {
-  backendStatus.finalize();
-  backendCmd.finalize();
+  backendControl.finalize();
+  backendIsoch.finalize();
 }
 

@@ -1,9 +1,8 @@
 //****************************************************************************
-// This defines a backend command completion record class. It contains
-// string member variables that describe a command completion.
+// This defines a backend status message class. It contains
+// string member variables that describe status.
 //
-// A command completion is sent from the backend to the frontend during
-// and after command exection.
+// Status messages are periodically sent from the backend to the frontend.
 //
 // It contains a method to pack the string member variables into a
 // buffer that contains a single csv string.
@@ -17,7 +16,7 @@
 
 const internal = {};
 
-module.exports = internal.CompletionRecord = class{
+module.exports = internal.StatusMsg = class{
 
   // Constructor.
   constructor(aBuffer){
@@ -33,9 +32,13 @@ module.exports = internal.CompletionRecord = class{
   // Reset member variables to defaults.
   reset(){
     this.mValid = false;
-    this.mCommand = "none";
-    this.mCode = "none";
+    this.mCount = "none";
     this.mMessage = "none";
+  }
+
+  // Return true if a buffer contains a message of this type.
+  static isInBuffer(aBuffer){
+    return aBuffer.toString('utf8',0,20).startsWith('Status,');
   }
 
   // Convert from a buffer. The buffer has a csv string array format.
@@ -47,15 +50,14 @@ module.exports = internal.CompletionRecord = class{
     let tArgs = tBuffer.toString('utf8').split(',');
 
     // Guard.
-    if (tArgs.length < 2){
+    if (tArgs.length < 1){
       return;
     }  
 
     // Set member variables from the string array.
     this.mValid = true;
-    this.mCommand = tArgs[0];
-    this.mCode = tArgs[1];
-    if (tArgs.length >= 3){
+    this.mCount = tArgs[1];
+    if (tArgs.length >= 2){
       this.mMessage = tArgs[2];
     }
   }
@@ -66,8 +68,8 @@ module.exports = internal.CompletionRecord = class{
     // Create a single csv string from the member varaibles, create
     // a buffer from the single csv string, and return it.
     return Buffer.from([
-      this.mCommand,
-      this.mCode,
+      "Status",
+      this.mCount,
       this.mMessage,
     ].join());
   }
