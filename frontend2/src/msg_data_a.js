@@ -59,10 +59,10 @@ module.exports = internal.DataAMsg = class{
 
     // Set member variables from the string array.
     this.mValid = true;
-    this.mItem0 = tArg[2];
-    this.mItem1 = tArg[3];
-    this.mItem2 = tArg[4];
-    this.mItem3 = tArg[5];
+    this.mItem0 = tArgs[2];
+    this.mItem1 = tArgs[3];
+    this.mItem2 = tArgs[4];
+    this.mItem3 = tArgs[5];
   }
 
   // Convert to a buffer and return it. The buffer has a csv string

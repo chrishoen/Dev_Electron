@@ -25,6 +25,7 @@ const message2Div = document.getElementById('message2Div');
 const progress2Div = document.getElementById('progress2Div');
 
 
+const dataBtn = document.getElementById('dataBtn');
 const dataItem0Div = document.getElementById('dataItem0Div');
 const dataItem1Div = document.getElementById('dataItem1Div');
 const dataItem2Div = document.getElementById('dataItem2Div');
@@ -59,6 +60,18 @@ command2Btn.addEventListener('click', () => {
   ipc.send('send-control-msg',['Command','Command2','arg0'])
 });
 
+//****************************************************************************
+// Handle another button user input event.
+
+dataBtn.addEventListener('click', () => {
+  // Update the page.
+  dataItem0Div.innerHTML = 'none';
+  dataItem1Div.innerHTML = 'none';
+  dataItem2Div.innerHTML = 'none';
+  dataItem3Div.innerHTML = 'none';
+  // Send a command to the main window via the ipc.
+  ipc.send('send-control-msg',['DataRequest','DataA','arg0'])
+});
 //****************************************************************************
 // Handle a specific command completion record received from the main window.
 
@@ -211,7 +224,7 @@ function handleDataAMsg(aDataAMsg) {
     }  
 
     // Call the specific message handler.
-    handleDataAMsg(tDataAMsgMsg);
+    handleDataAMsg(tDataAMsg);
   }
 
   // Handle an unknown message.
