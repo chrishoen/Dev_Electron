@@ -15,6 +15,9 @@ Completion,Command1,nak,arg0
 Completion,Command2,ack,arg0
 Completion,Command2,progress,arg0
 
+DataRequest,Data1
+DataResponse,Data1,item0,item1,item2,item3,
+
 
 //***********************************************
 FrintEnd isochronous port receives
