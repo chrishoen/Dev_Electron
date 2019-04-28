@@ -36,5 +36,6 @@ console.log(`tObj2.var2      ${tObj2.var2}`);
 console.log(` `);
 
 
+console.log(`tObj2           ${JSON.stringify(tObj2)}`);
 
 
