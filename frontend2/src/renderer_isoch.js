@@ -24,7 +24,7 @@ myconsole.log(`start renderer_isoch`);
 
  ipc.on('handle-rx-isoch-msg', (event, aBuffer) => {
 
-  myconsole.log(`handle-rx-isoch-msg       ${aBuffer}`);
+  //myconsole.log(`handle-rx-isoch-msg       ${aBuffer}`);
 
   // Convert the buffer to a string array.
   let tArgs = aBuffer.toString('utf8').split(',');
