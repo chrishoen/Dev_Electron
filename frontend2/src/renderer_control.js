@@ -23,6 +23,8 @@ const progress2Div = document.getElementById('progress2Div');
 const nodeConsole = require('console');
 const myconsole = new nodeConsole.Console(process.stdout, process.stderr);
 
+myconsole.log(`start renderer_control`);
+
 //****************************************************************************
 // Handle a button user input event. Update relevant page fields and
 // send a command to the main window via the ipc. The command will then be

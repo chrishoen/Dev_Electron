@@ -34,7 +34,7 @@ mFrontEndIsochUdp.bind({
 // Handle received messages. Call the saved message handler callback. 
 mFrontEndIsochUdp.on('message', (aBuffer, rinfo) => {
   if (!mValid) return;
-  console.log(`mFrontEndIsochUdp:        ${aBuffer}`);
+  //console.log(`mFrontEndIsochUdp:        ${aBuffer}`);
 
   // Call the saved completion callback, pass it the received message
   // buffer.
