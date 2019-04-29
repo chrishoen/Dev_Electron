@@ -65,9 +65,9 @@ command2Btn.addEventListener('click', () => {
   progress2Div.innerHTML = 'none';
 
   // Send a command to the backend via the main window ipc.
-  myconsole.log('command1 clicked');
+  myconsole.log('command2 clicked');
   var tMessage = JSON.stringify({
-    'MsgId' : 'Command1',
+    'MsgId' : 'Command2',
     'Arg0' : 'some_arg0',
   });
   ipc.send('send-control-msg',tMessage);
@@ -135,7 +135,7 @@ function handleCommand2CompletionMsg(aMsg) {
     progress2Div.innerHTML = 'none';
 
   } else if  (aMsg.Code == 'Progress'){
-    progress2Div.innerHTML = Completion.Message;
+    progress2Div.innerHTML = aMsg.Message;
 
   } else {
     command2Div.innerHTML = 'bad completion code';

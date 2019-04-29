@@ -88,7 +88,6 @@ app.on('activate', function () {
 
 ipc.on('send-control-msg', (event, aBuffer) => {
   // Send a command to the backend.
-  console.log(`LINE102 ${aBuffer}`);
   backendControl.sendMsg(aBuffer)
 });
 
