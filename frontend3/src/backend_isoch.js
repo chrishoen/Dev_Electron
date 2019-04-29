@@ -1,13 +1,14 @@
 //****************************************************************************
-// This contains the backend processing for isochronous messages that are
-// received from the backend. The messages are transferred via udp sockets.
+// This modeule contains the backend processing for isochronous messages
+// that are received from the backend. The messages are transferred via udp
+// datagram sockets.
 
 const dgram = require('dgram');
 const settings = require('./backend_settings.js');
 
 //****************************************************************************
-// Isochronous data udp datagram receive socket. Messages are transmitted by
-// the backend and received by the frontend.
+// Frontend isochronous udp datagram receive socket. Messages are received
+// by the frontend and transmitted by the backend.
 
 // Create and initialize the receive udp socket.
 const mFrontEndIsochUdp = dgram.createSocket('udp4');
@@ -34,10 +35,9 @@ mFrontEndIsochUdp.bind({
 // Handle received messages. Call the saved message handler callback. 
 mFrontEndIsochUdp.on('message', (aBuffer, rinfo) => {
   if (!mValid) return;
-  //console.log(`mFrontEndIsochUdp:        ${aBuffer}`);
+  //console.log(`mFrontEndControlUdp:      ${aBuffer}`);
 
-  // Call the saved completion callback, pass it the received message
-  // buffer.
+  // Call the saved callback, pass it the received message buffer.
   mFrontEndIsochCallback(aBuffer);
 });
 

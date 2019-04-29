@@ -1,16 +1,16 @@
 //****************************************************************************
-// This contains the backend processing for command messages that are
-// sent to the backend and for completion and progess update message
-// that are received from the backend. The messages are transferred
-// via udp sockets.
+// This module contains the backend processing for control message traffic
+// between the frontend and the backend. The messages are transferred
+// via udp datagram sockets.
 
 const dgram = require('dgram');
 const settings = require('./backend_settings.js');
 
 //****************************************************************************
-// Command input udp datagram transmit socket. Messages are transmitted
-// the frontend and received by the backend.
+// Backend control udp datagram transmit socket. Messages are received by 
+// the backend and transmitted by the frontend.
 
+// Create and initialize the transmit udp socket.
 const mBackEndControlUdp = dgram.createSocket('udp4');
 
 mBackEndControlUdp.on('error', (err) => {
@@ -19,8 +19,8 @@ mBackEndControlUdp.on('error', (err) => {
 });
 
 //****************************************************************************
-// Command output udp datagram receive socket. Messages are transmitted
-// the backend and received by the frontend.
+// Frontend control udp datagram receive socket. Messages are received by 
+// the frontend and transmitted by the backend.
 
 // Create and initialize the receive udp socket.
 const mFrontEndControlUdp = dgram.createSocket('udp4');
@@ -47,10 +47,9 @@ mFrontEndControlUdp.bind({
 // Handle received messages. Call the saved message handler callback. 
 mFrontEndControlUdp.on('message', (aBuffer, rinfo) => {
   if (!mValid) return;
-//console.log(`mFrontEndControlUdp:      ${aBuffer}`);
+  //console.log(`mFrontEndControlUdp:      ${aBuffer}`);
 
-  // Call the saved completion callback, pass it the received message
-  // buffer.
+  // Call the saved callback, pass it the received message buffer.
   mFrontEndControlCallback(aBuffer);
 });
 
@@ -64,8 +63,8 @@ var mFrontEndControlCallback = null;
 // True if the module is initialized.
 var mValid = false;
 
-// Initialize the module. Save the receive message handler callback.
-// Set the valid flag.
+// Initialize the module. Save the receive message handler callback and
+// set the valid flag.
 exports.initialize = function(aFrontEndControlCallback) {
   mFrontEndControlCallback = aFrontEndControlCallback;
   mValid = true;
@@ -80,7 +79,7 @@ exports.finalize = function() {
   console.log('backend control finalize');
 }
 //****************************************************************************
-// Exports. Send command.
+// Exports. Send control.
 
 // Send a control message to the backend via the transmit socket. The input 
 // control message is a buffer. Transmit it to the backend via the socket.
