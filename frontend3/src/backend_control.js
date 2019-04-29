@@ -83,13 +83,9 @@ exports.finalize = function() {
 // Exports. Send command.
 
 // Send a control message to the backend via the transmit socket. The input 
-// control message is a string array. Create a single csv string from the
-// input string array, create a buffer from the single csv string, and
-// transmit it to the backend via the socket.
-exports.sendMsg = function(aStringArray) {
-  // Construct the csv buffer from the string array.
-  const tBuffer = Buffer.from(aStringArray.join());
+// control message is a buffer. Transmit it to the backend via the socket.
+exports.sendMsg = function(aBuffer) {
   // Transmit the buffer.
-  mBackEndControlUdp.send(tBuffer,settings.mBackEndControlPort,settings.mBackEndIpAddress);
+  mBackEndControlUdp.send(aBuffer,settings.mBackEndControlPort,settings.mBackEndIpAddress);
 }
 

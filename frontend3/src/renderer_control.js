@@ -3,13 +3,16 @@
 
 "use strict"
 
+//****************************************************************************
+// Imports. 
+
 const ipc = require('electron').ipcRenderer;
-const CompletionMsg = require('./msg_completion.js');
-const StatusMsg = require('./msg_status.js');
-const DataAMsg = require('./msg_data_a.js');
 const nodeConsole = require('console');
 const myconsole = new nodeConsole.Console(process.stdout, process.stderr);
 
+
+//****************************************************************************
+// Page elements. 
 
 const command1Btn = document.getElementById('command1Btn');
 const command2Btn = document.getElementById('command2Btn');
@@ -23,7 +26,6 @@ const message1Div = document.getElementById('message1Div');
 const command2Div = document.getElementById('command2Div');
 const message2Div = document.getElementById('message2Div');
 const progress2Div = document.getElementById('progress2Div');
-
 
 const dataBtn = document.getElementById('dataBtn');
 const dataItem0Div = document.getElementById('dataItem0Div');
@@ -43,9 +45,14 @@ command1Btn.addEventListener('click', () => {
   // Update the page.
   command1Div.innerHTML = 'none';
   message1Div.innerHTML = 'none';
-  // Send a command to the main window via the ipc.
+
+  // Send a command to the backend via the main window ipc.
   myconsole.log('command1 clicked');
-  ipc.send('send-control-msg',['Command','Command1','arg0'])
+  var tMessage = JSON.stringify({
+    'MsgId' : 'Command1',
+    'Arg0' : 'some_arg0',
+  });
+  ipc.send('send-control-msg',tMessage);
 });
 
 //****************************************************************************
@@ -56,8 +63,14 @@ command2Btn.addEventListener('click', () => {
   command2Div.innerHTML = 'none';
   message2Div.innerHTML = 'none';
   progress2Div.innerHTML = 'none';
-  // Send a command to the main window via the ipc.
-  ipc.send('send-control-msg',['Command','Command2','arg0'])
+
+  // Send a command to the backend via the main window ipc.
+  myconsole.log('command1 clicked');
+  var tMessage = JSON.stringify({
+    'MsgId' : 'Command1',
+    'Arg0' : 'some_arg0',
+  });
+  ipc.send('send-control-msg',tMessage);
 });
 
 //****************************************************************************
@@ -69,26 +82,31 @@ dataBtn.addEventListener('click', () => {
   dataItem1Div.innerHTML = 'none';
   dataItem2Div.innerHTML = 'none';
   dataItem3Div.innerHTML = 'none';
-  // Send a command to the main window via the ipc.
-  ipc.send('send-control-msg',['DataRequest','DataA','arg0'])
+
+  // Send a command to the backend via the main window ipc.
+  var tMessage = JSON.stringify({
+    'MsgId' : 'DataRequest',
+    'DataType' : 'DataAmber',
+  });
+  ipc.send('send-control-msg',tMessage);
 });
 //****************************************************************************
 // Handle a specific command completion record received from the main window.
 
-function handleCommand1CompletionMsg(aCompletion) {
+function handleCommand1CompletionMsg(aMsg) {
 
   // Show the completion record in the relevant page fields.
-  if (aCompletion.mCode == 'ack'){
-    command1Div.innerHTML = aCompletion.mCode;
-    message1Div.innerHTML = aCompletion.mMessage;
+  if (aMsg.Code == 'Ack'){
+    command1Div.innerHTML = aMsg.Code;
+    message1Div.innerHTML = aMsg.Message;
 
-  } else if (aCompletion.mCode == 'nak'){
-    command1Div.innerHTML = aCompletion.mCode;
-    message1Div.innerHTML = aCompletion.mMessage;
+  } else if (aMsg.Code == 'Nak'){
+    command1Div.innerHTML = aMsg.Code;
+    message1Div.innerHTML = aMsg.Message;
 
-  } else if  (aCompletion.mCode == 'done'){
-    command1Div.innerHTML = aCompletion.mCode;
-    message1Div.innerHTML = aCompletion.mMessage;
+  } else if  (aMsg.Code == 'Done'){
+    command1Div.innerHTML = aMsg.Code;
+    message1Div.innerHTML = aMsg.Message;
 
   } else {
     command1Div.innerHTML = 'bad completion code';
@@ -99,25 +117,25 @@ function handleCommand1CompletionMsg(aCompletion) {
 //****************************************************************************
 // Handle a specific command completion record received from the main window.
 
-function handleCommand2CompletionMsg(aCompletion) {
+function handleCommand2CompletionMsg(aMsg) {
 
   // Show the completion record in the relevant page fields.
-  if (aCompletion.mCode == 'ack'){
-    command2Div.innerHTML = aCompletion.mCode;
-    message2Div.innerHTML = aCompletion.mMessage;
+  if (aMsg.Code == 'Ack'){
+    command2Div.innerHTML = aMsg.Code;
+    message2Div.innerHTML = aMsg.Message;
     progress2Div.innerHTML = 'none';
 
-  } else if (aCompletion.mCode == 'nak'){
-    command2Div.innerHTML = aCompletion.mCode;
-    message2Div.innerHTML = aCompletion.mMessage;
+  } else if (aMsg.Code == 'Nak'){
+    command2Div.innerHTML = aMsg.Code;
+    message2Div.innerHTML = aMsg.Message;
 
-  } else if  (aCompletion.mCode == 'done'){
-    command2Div.innerHTML = aCompletion.mCode;
-    message2Div.innerHTML = aCompletion.mMessage;
+  } else if  (aMsg.Code == 'Done'){
+    command2Div.innerHTML = aMsg.Code;
+    message2Div.innerHTML = aMsg.Message;
     progress2Div.innerHTML = 'none';
 
-  } else if  (aCompletion.mCode == 'progress'){
-    progress2Div.innerHTML = aCompletion.mMessage;
+  } else if  (aMsg.Code == 'Progress'){
+    progress2Div.innerHTML = Completion.Message;
 
   } else {
     command2Div.innerHTML = 'bad completion code';
@@ -129,23 +147,23 @@ function handleCommand2CompletionMsg(aCompletion) {
 //****************************************************************************
 // Handle a status update message received from the main window.
 
-function handleStatusMsg(aStatusMsg) {
+function handleStatusMsg(aMsg) {
 
   // Show the status.
-  status1Div.innerHTML = aStatusMsg.mCount;
-  status2Div.innerHTML = aStatusMsg.mCount;
+  status1Div.innerHTML = aMsg.Count;
+  status2Div.innerHTML = aMsg.Count;
 }
    
 //****************************************************************************
 // Handle a data response message received from the main window.
 
-function handleDataAMsg(aDataAMsg) {
+function handleDataResponseMsg(aMsg) {
 
   // Show the data.
-  dataItem0Div.innerHTML = aDataAMsg.mItem0;
-  dataItem1Div.innerHTML = aDataAMsg.mItem1;
-  dataItem2Div.innerHTML = aDataAMsg.mItem2;
-  dataItem3Div.innerHTML = aDataAMsg.mItem3;
+  dataItem0Div.innerHTML = aMsg.Item0;
+  dataItem1Div.innerHTML = aMsg.Item1;
+  dataItem2Div.innerHTML = aMsg.Item2;
+  dataItem3Div.innerHTML = aMsg.Item3;
 }
    
 //****************************************************************************
@@ -160,71 +178,46 @@ function handleDataAMsg(aDataAMsg) {
 
  ipc.on('handle-rx-control-msg', (event, aBuffer) => {
 
-  // Test if the buffer contains a completion message.
-  if (CompletionMsg.isInBuffer(aBuffer)){
+  // Parse the buffer into a received message.
+  var tMessage = JSON.parse(aBuffer);
+
+  // Test if the received message is a completion message.
+  if (tMessage.MsgId == 'Completion'){
 
     myconsole.log(`handle-rx-control-msg     ${aBuffer}`);
 
-    // Convert the receive message buffer to a completion record.
-    let tCompletionMsg = new CompletionMsg(aBuffer);
-
-    //myconsole.log(`mCommand                  ${tCompletionMsg.mCommand}`);
-    //myconsole.log(`mCode                     ${tCompletionMsg.mCode}`);
-    //myconsole.log(`mMessage                  ${tCompletionMsg.mMessage}`);
-
-    // Guard.
-    if (!tCompletionMsg.mValid){
-      myconsole.log(`ERROR received bad completion message`);
-      return;
+    // Call the specific message handler for the command indicated by the
+    // completion record.
+    if (tMessage.Command == 'Command1'){
+      myconsole.log(`Command1 completion:      ${tMessage.Code}`);
+      // Call the specific message handler.
+      handleCommand1CompletionMsg(tMessage);
     }  
 
     // Call the specific message handler for the command indicated by the
     // completion record.
-    if (tCompletionMsg.mCommand == 'Command1'){
-      myconsole.log(`Command1 completion:      ${tCompletionMsg.mCode}`);
+    else if (tMessage.Command == 'Command2'){
+      myconsole.log(`Command2 completion:      ${tMessage.Code}`);
       // Call the specific message handler.
-      handleCommand1CompletionMsg(tCompletionMsg);
+      handleCommand2CompletionMsg(tMessage);
     }  
-
-    // Call the specific message handler for the command indicated by the
-    // completion record.
-    else if (tCompletionMsg.mCommand == 'Command2'){
-      myconsole.log(`Command2 completion:      ${tCompletionMsg.mCode}`);
-      // Call the specific message handler.
-      handleCommand2CompletionMsg(tCompletionMsg);
-    }
   }  
 
-  // Test if the buffer contains a status message.
-  else if (StatusMsg.isInBuffer(aBuffer)){
+  // Test if the received message is a status message.
+  else if (tMessage.Command == 'Status'){
   
     // Convert the receive message buffer to a status message.
     let tStatusMsg = new StatusMsg(aBuffer);
 
-    // Guard.
-    if (!tStatusMsg.mValid){
-      myconsole.log(`ERROR received bad status message`);
-      return;
-    }  
-
     // Call the specific message handler.
-    handleStatusMsg(tStatusMsg);
+    handleStatusMsg(tMessage);
   }
 
-  // Test if the buffer contains a data response message.
-  else if (DataAMsg.isInBuffer(aBuffer)){
-  
-    // Convert the receive message buffer to a status message.
-    let tDataAMsg = new DataAMsg(aBuffer);
-
-    // Guard.
-    if (!tDataAMsg.mValid){
-      myconsole.log(`ERROR received bad status message`);
-      return;
-    }  
+  // Test if the received message is a data response message.
+  else if (tMessage.Command == 'DataResponse'){
 
     // Call the specific message handler.
-    handleDataAMsg(tDataAMsg);
+    handleDataResponseMsg(tMessage);
   }
 
   // Handle an unknown message.
