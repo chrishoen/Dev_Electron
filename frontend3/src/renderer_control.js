@@ -1,5 +1,6 @@
 //****************************************************************************
-// This contains the renderer processing. 
+// This module contains the renderer processing for the control, status,
+// and data pages and the control messages. 
 
 "use strict"
 
@@ -39,7 +40,8 @@ myconsole.log(`start renderer_control`);
 // Handle a button user input event. Update relevant page fields and
 // send a command to the main window via the ipc. The command will then be
 // forwarded to the backend via the udp transmit socket. The command that
-// is sent to the main window is a buffer that contains a string array.
+// is sent to the main window is a buffer that contains a jason message
+// that is to be sent to the backend.
 
 command1Btn.addEventListener('click', () => {
   // Update the page.
@@ -90,8 +92,11 @@ dataBtn.addEventListener('click', () => {
   });
   ipc.send('send-control-msg',tMessage);
 });
+
 //****************************************************************************
-// Handle a specific command completion record received from the main window.
+// Handle a specific command completion message received from the main
+// window via the ipc. The message is a buffer that contains a json
+// formatted message that was received on a udp datagram receive socket.
 
 function handleCommand1CompletionMsg(aMsg) {
 
@@ -115,7 +120,7 @@ function handleCommand1CompletionMsg(aMsg) {
 }
 
 //****************************************************************************
-// Handle a specific command completion record received from the main window.
+// Handle another specific command completion message.
 
 function handleCommand2CompletionMsg(aMsg) {
 
@@ -145,7 +150,7 @@ function handleCommand2CompletionMsg(aMsg) {
 }
 
 //****************************************************************************
-// Handle a status update message received from the main window.
+// Handle a specific status message.
 
 function handleStatusMsg(aMsg) {
 
@@ -171,31 +176,32 @@ function handleDataResponseMsg(aMsg) {
 // backend receives messages via the udp datagram receive socket and 
 // forwards them to the main window. The main window forwards the 
 // received messages to the renderer via the ipc and they are handled 
-// here.
+// here. The messages are buffers that contain json formatted messages
+// that werer sent by the backend.
 // 
-// Unpack the message buffer into a completion record. Based on 
-// the completion command, call a corresponding message handler.
+// Parse the received buffer into a json formatted message and based
+// on the message identifier, call a corresponding message handler.
 
  ipc.on('handle-rx-control-msg', (event, aBuffer) => {
 
   // Parse the buffer into a received message.
   var tMessage = JSON.parse(aBuffer);
 
-  // Test if the received message is a completion message.
+  // Test if the received message is a command completion message.
   if (tMessage.MsgId == 'Completion'){
 
     myconsole.log(`handle-rx-control-msg     ${aBuffer}`);
 
-    // Call the specific message handler for the command indicated by the
-    // completion record.
+    // Call the specific message handler for the command that the
+    // completion message corresponds to.
     if (tMessage.Command == 'Command1'){
       myconsole.log(`Command1 completion:      ${tMessage.Code}`);
       // Call the specific message handler.
       handleCommand1CompletionMsg(tMessage);
     }  
 
-    // Call the specific message handler for the command indicated by the
-    // completion record.
+    // Call the specific message handler for the command that the
+    // completion message corresponds to.
     else if (tMessage.Command == 'Command2'){
       myconsole.log(`Command2 completion:      ${tMessage.Code}`);
       // Call the specific message handler.

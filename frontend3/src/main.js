@@ -5,16 +5,17 @@
 // This frontend script and the backend program are an example message
 // architecture.
 //
-// Each udp message contains a single csv formatted string that encapsulates
-// an array of strings. 
+// Each udp message contains a single json formatted string. 
 //
-// The frontend sends command messages to the backend. The backend executes
+// The frontend sends control messages to the backend. The backend executes
 // the commands and sends command completion messages to the frontend. The
 // completion messages can ack or nak a command or can indicate when a 
 // command execution is done. Periodic progress messages are also sent
-// for some commands. 
+// for some commands. The backend periodically sends status messages to
+//  the frontend.
 //
-// The backend periodically sends status messages to the frontend.
+// The backend also periodically sends isochronous data to the frontend
+// via a separate udp datagram socket.
 // 
 // This script consists of a main window and a renderer. The main window
 // receives user input events from the renderer and then sends commands
@@ -92,9 +93,9 @@ ipc.on('send-control-msg', (event, aBuffer) => {
 });
 
 //****************************************************************************
-// Handle received command completion messages from the backend. This is
-// called by the backend when these messages are received.
-// It forwards the messages to the renderer via the ipc.
+// Handle received control messages from the backend. This is called by
+// the backend when these messages are received. It forwards the messages 
+// to the renderer via the ipc.
 
 function handleRxControlMsg(aBuffer) {
   // Forward the message buffer to the renderer via the ipc.
@@ -102,9 +103,9 @@ function handleRxControlMsg(aBuffer) {
 }
 
 //****************************************************************************
-// Handle received status messages from the backend. This is
-// called by the backend when these messages are received.
-// It forwards the messages to the renderer via the ipc.
+// Handle received isochronous messages from the backend. This is called by
+// the backend when these messages are received. It forwards the messages
+// to the renderer via the ipc.
 
 function handleRxIsochMsg(aBuffer) {
   // Forward the message buffer to the renderer via the ipc.

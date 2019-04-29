@@ -1,5 +1,6 @@
 //****************************************************************************
-// This contains the renderer processing. 
+// This module contains the renderer processing for the isochronous page
+// and isochronous messages. 
 
 "use strict"
 
