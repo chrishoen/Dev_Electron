@@ -204,17 +204,14 @@ function handleDataResponseMsg(aMsg) {
   }  
 
   // Test if the received message is a status message.
-  else if (tMessage.Command == 'Status'){
+  else if (tMessage.MsgId == 'Status'){
   
-    // Convert the receive message buffer to a status message.
-    let tStatusMsg = new StatusMsg(aBuffer);
-
     // Call the specific message handler.
     handleStatusMsg(tMessage);
   }
 
   // Test if the received message is a data response message.
-  else if (tMessage.Command == 'DataResponse'){
+  else if (tMessage.MsgId == 'DataResponse'){
 
     // Call the specific message handler.
     handleDataResponseMsg(tMessage);
