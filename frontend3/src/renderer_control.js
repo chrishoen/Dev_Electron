@@ -22,10 +22,10 @@ const status1Div = document.getElementById('status1Div');
 const status2Div = document.getElementById('status2Div');
 
 const command1Div = document.getElementById('command1Div');
-const message1Div = document.getElementById('message1Div');
+const info1Div = document.getElementById('info1Div');
 
 const command2Div = document.getElementById('command2Div');
-const message2Div = document.getElementById('message2Div');
+const info2Div = document.getElementById('info2Div');
 const progress2Div = document.getElementById('progress2Div');
 
 const dataBtn = document.getElementById('dataBtn');
@@ -46,7 +46,7 @@ myconsole.log(`start renderer_control`);
 command1Btn.addEventListener('click', () => {
   // Update the page.
   command1Div.innerHTML = 'none';
-  message1Div.innerHTML = 'none';
+  info1Div.innerHTML = 'none';
 
   // Send a command to the backend via the main window ipc.
   myconsole.log('command1 clicked');
@@ -63,7 +63,7 @@ command1Btn.addEventListener('click', () => {
 command2Btn.addEventListener('click', () => {
   // Update the page.
   command2Div.innerHTML = 'none';
-  message2Div.innerHTML = 'none';
+  info2Div.innerHTML = 'none';
   progress2Div.innerHTML = 'none';
 
   // Send a command to the backend via the main window ipc.
@@ -103,19 +103,19 @@ function handleCommand1CompletionMsg(aMsg) {
   // Show the completion record in the relevant page fields.
   if (aMsg.Code == 'Ack'){
     command1Div.innerHTML = aMsg.Code;
-    message1Div.innerHTML = aMsg.Message;
+    info1Div.innerHTML = aMsg.Info;
 
   } else if (aMsg.Code == 'Nak'){
     command1Div.innerHTML = aMsg.Code;
-    message1Div.innerHTML = aMsg.Message;
+    info1Div.innerHTML = aMsg.Info;
 
   } else if  (aMsg.Code == 'Done'){
     command1Div.innerHTML = aMsg.Code;
-    message1Div.innerHTML = aMsg.Message;
+    info1Div.innerHTML = aMsg.Info;
 
   } else {
     command1Div.innerHTML = 'bad completion code';
-    message1Div.innerHTML = 'none';
+    info1Div.innerHTML = 'none';
   }
 }
 
@@ -127,24 +127,24 @@ function handleCommand2CompletionMsg(aMsg) {
   // Show the completion record in the relevant page fields.
   if (aMsg.Code == 'Ack'){
     command2Div.innerHTML = aMsg.Code;
-    message2Div.innerHTML = aMsg.Message;
+    info2Div.innerHTML = aMsg.Info;
     progress2Div.innerHTML = 'none';
 
   } else if (aMsg.Code == 'Nak'){
     command2Div.innerHTML = aMsg.Code;
-    message2Div.innerHTML = aMsg.Message;
+    info2Div.innerHTML = aMsg.Info;
 
   } else if  (aMsg.Code == 'Done'){
     command2Div.innerHTML = aMsg.Code;
-    message2Div.innerHTML = aMsg.Message;
+    info2Div.innerHTML = aMsg.Info;
     progress2Div.innerHTML = 'none';
 
   } else if  (aMsg.Code == 'Progress'){
-    progress2Div.innerHTML = aMsg.Message;
+    progress2Div.innerHTML = aMsg.Info;
 
   } else {
     command2Div.innerHTML = 'bad completion code';
-    message2Div.innerHTML = 'none';
+    info2Div.innerHTML = 'none';
     progress2Div.innerHTML = 'none';
   }
 }
