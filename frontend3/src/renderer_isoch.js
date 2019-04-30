@@ -6,8 +6,8 @@
 
 const ipc = require('electron').ipcRenderer;
 
-const isoch1Div = document.getElementById('isoch1Div');
-const isoch2Div = document.getElementById('isoch2Div');
+const divIsoch1 = document.getElementById('divIsoch1');
+const divIsoch2 = document.getElementById('divIsoch2');
 
 const nodeConsole = require('console');
 const myconsole = new nodeConsole.Console(process.stdout, process.stderr);
@@ -32,7 +32,7 @@ myconsole.log(`start renderer_isoch`);
   let tCount = tArgs[1];
   
   // Show the isoch.
-  isoch1Div.innerHTML = tCount;
-  isoch2Div.innerHTML = tCount;
+  divIsoch1.innerHTML = tCount;
+  divIsoch2.innerHTML = tCount;
 });
 

@@ -15,24 +15,24 @@ const myconsole = new nodeConsole.Console(process.stdout, process.stderr);
 //****************************************************************************
 // Page elements. 
 
-const command1Btn = document.getElementById('command1Btn');
-const command2Btn = document.getElementById('command2Btn');
+const btnCommand1 = document.getElementById('btnCommand1');
+const btnCommand2 = document.getElementById('btnCommand2');
 
-const status1Div = document.getElementById('status1Div');
-const status2Div = document.getElementById('status2Div');
+const divStatus1 = document.getElementById('divStatus1');
+const divStatus2 = document.getElementById('divStatus2');
 
-const command1Div = document.getElementById('command1Div');
-const info1Div = document.getElementById('info1Div');
+const divCommand1 = document.getElementById('divCommand1');
+const divInfo1 = document.getElementById('divInfo1');
 
-const command2Div = document.getElementById('command2Div');
-const info2Div = document.getElementById('info2Div');
-const progress2Div = document.getElementById('progress2Div');
+const divCommand2 = document.getElementById('divCommand2');
+const divInfo2 = document.getElementById('divInfo2');
+const divProgress2 = document.getElementById('divProgress2');
 
-const dataBtn = document.getElementById('dataBtn');
-const dataItem0Div = document.getElementById('dataItem0Div');
-const dataItem1Div = document.getElementById('dataItem1Div');
-const dataItem2Div = document.getElementById('dataItem2Div');
-const dataItem3Div = document.getElementById('dataItem3Div');
+const btnData = document.getElementById('btnData');
+const divDataItem0 = document.getElementById('divDataItem0');
+const divDataItem1 = document.getElementById('divDataItem1');
+const divDataItem2 = document.getElementById('divDataItem2');
+const divDataItem3 = document.getElementById('divDataItem3');
 
 myconsole.log(`start renderer_control`);
 
@@ -43,10 +43,10 @@ myconsole.log(`start renderer_control`);
 // is sent to the main window is a buffer that contains a jason message
 // that is to be sent to the backend.
 
-command1Btn.addEventListener('click', () => {
+btnCommand1.addEventListener('click', () => {
   // Update the page.
-  command1Div.innerHTML = 'none';
-  info1Div.innerHTML = 'none';
+  divCommand1.innerHTML = 'none';
+  divInfo1.innerHTML = 'none';
 
   // Send a command to the backend via the main window ipc.
   myconsole.log('command1 clicked');
@@ -60,11 +60,11 @@ command1Btn.addEventListener('click', () => {
 //****************************************************************************
 // Handle another button user input event.
 
-command2Btn.addEventListener('click', () => {
+btnCommand2.addEventListener('click', () => {
   // Update the page.
-  command2Div.innerHTML = 'none';
-  info2Div.innerHTML = 'none';
-  progress2Div.innerHTML = 'none';
+  divCommand2.innerHTML = 'none';
+  divInfo2.innerHTML = 'none';
+  divProgress2.innerHTML = 'none';
 
   // Send a command to the backend via the main window ipc.
   myconsole.log('command2 clicked');
@@ -78,12 +78,12 @@ command2Btn.addEventListener('click', () => {
 //****************************************************************************
 // Handle another button user input event.
 
-dataBtn.addEventListener('click', () => {
+btnData.addEventListener('click', () => {
   // Update the page.
-  dataItem0Div.innerHTML = 'none';
-  dataItem1Div.innerHTML = 'none';
-  dataItem2Div.innerHTML = 'none';
-  dataItem3Div.innerHTML = 'none';
+  divDataItem0.innerHTML = 'none';
+  divDataItem1.innerHTML = 'none';
+  divDataItem2.innerHTML = 'none';
+  divDataItem3.innerHTML = 'none';
 
   // Send a command to the backend via the main window ipc.
   var tMessage = JSON.stringify({
@@ -102,20 +102,20 @@ function handleCommand1CompletionMsg(aMsg) {
 
   // Show the completion record in the relevant page fields.
   if (aMsg.Code == 'Ack'){
-    command1Div.innerHTML = aMsg.Code;
-    info1Div.innerHTML = aMsg.Info;
+    divCommand1.innerHTML = aMsg.Code;
+    divInfo1.innerHTML = aMsg.Info;
 
   } else if (aMsg.Code == 'Nak'){
-    command1Div.innerHTML = aMsg.Code;
-    info1Div.innerHTML = aMsg.Info;
+    divCommand1.innerHTML = aMsg.Code;
+    divInfo1.innerHTML = aMsg.Info;
 
   } else if  (aMsg.Code == 'Done'){
-    command1Div.innerHTML = aMsg.Code;
-    info1Div.innerHTML = aMsg.Info;
+    divCommand1.innerHTML = aMsg.Code;
+    divInfo1.innerHTML = aMsg.Info;
 
   } else {
-    command1Div.innerHTML = 'bad completion code';
-    info1Div.innerHTML = 'none';
+    divCommand1.innerHTML = 'bad completion code';
+    divInfo1.innerHTML = 'none';
   }
 }
 
@@ -126,26 +126,26 @@ function handleCommand2CompletionMsg(aMsg) {
 
   // Show the completion record in the relevant page fields.
   if (aMsg.Code == 'Ack'){
-    command2Div.innerHTML = aMsg.Code;
-    info2Div.innerHTML = aMsg.Info;
-    progress2Div.innerHTML = 'none';
+    divCommand2.innerHTML = aMsg.Code;
+    divInfo2.innerHTML = aMsg.Info;
+    divProgress2.innerHTML = 'none';
 
   } else if (aMsg.Code == 'Nak'){
-    command2Div.innerHTML = aMsg.Code;
-    info2Div.innerHTML = aMsg.Info;
+    divCommand2.innerHTML = aMsg.Code;
+    divInfo2.innerHTML = aMsg.Info;
 
   } else if  (aMsg.Code == 'Done'){
-    command2Div.innerHTML = aMsg.Code;
-    info2Div.innerHTML = aMsg.Info;
-    progress2Div.innerHTML = 'none';
+    divCommand2.innerHTML = aMsg.Code;
+    divInfo2.innerHTML = aMsg.Info;
+    divProgress2.innerHTML = 'none';
 
   } else if  (aMsg.Code == 'Progress'){
-    progress2Div.innerHTML = aMsg.Info;
+    divProgress2.innerHTML = aMsg.Info;
 
   } else {
-    command2Div.innerHTML = 'bad completion code';
-    info2Div.innerHTML = 'none';
-    progress2Div.innerHTML = 'none';
+    divCommand2.innerHTML = 'bad completion code';
+    divInfo2.innerHTML = 'none';
+    divProgress2.innerHTML = 'none';
   }
 }
 
@@ -155,8 +155,8 @@ function handleCommand2CompletionMsg(aMsg) {
 function handleStatusMsg(aMsg) {
 
   // Show the status.
-  status1Div.innerHTML = aMsg.Count;
-  status2Div.innerHTML = aMsg.Count;
+  divStatus1.innerHTML = aMsg.Count;
+  divStatus2.innerHTML = aMsg.Count;
 }
    
 //****************************************************************************
@@ -165,10 +165,10 @@ function handleStatusMsg(aMsg) {
 function handleDataResponseMsg(aMsg) {
 
   // Show the data.
-  dataItem0Div.innerHTML = aMsg.Item0;
-  dataItem1Div.innerHTML = aMsg.Item1;
-  dataItem2Div.innerHTML = aMsg.Item2;
-  dataItem3Div.innerHTML = aMsg.Item3;
+  divDataItem0.innerHTML = aMsg.Item0;
+  divDataItem1.innerHTML = aMsg.Item1;
+  divDataItem2.innerHTML = aMsg.Item2;
+  divDataItem3.innerHTML = aMsg.Item3;
 }
    
 //****************************************************************************

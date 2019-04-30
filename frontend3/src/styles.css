@@ -16,17 +16,17 @@
 
 /************************************************ buttons */
 
-#command1Btn {
+#btnCommand1 {
   font-size: 18px;
 }
 
-#command2Btn {
+#btnCommand2 {
   font-size: 18px;
 }
 
 /************************************************ info */
 
-#infoDiv {
+#divPlatformInfo {
   position:fixed;
   bottom:0px;
   left:10px;
